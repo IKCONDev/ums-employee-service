@@ -1,0 +1,23 @@
+server:
+  port: 9002
+
+spring:
+  application:
+    name: UMS-EMPLOYEE-SERVICE
+  zipkin:
+    base-url: http://127.0.0.1:9411/   
+#The below is added in git repository as part of UMS MS Config Server and not required here      
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#  instance:
+#    hostname: localhost
+
+#spring:
+#  application:
+#    name: USER-SERVICE
+#  zipkin:
+#    base-url: http://127.0.0.1:9411/
