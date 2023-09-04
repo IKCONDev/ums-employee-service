@@ -4,8 +4,21 @@ server:
 spring:
   application:
     name: UMS-EMPLOYEE-SERVICE
-  zipkin:
-    base-url: http://127.0.0.1:9411/   
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: root
+    url: jdbc:postgresql://localhost:5432/authentication
+    username: postgres
+  devtools:
+    restart:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  #zipkin:
+   # base-url: http://127.0.0.1:9411/   
 #The below is added in git repository as part of UMS MS Config Server and not required here      
 #eureka:
 #  client:

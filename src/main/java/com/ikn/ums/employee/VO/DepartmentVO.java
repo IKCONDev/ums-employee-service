@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Department {
+public class DepartmentVO {
 
 	private Long departmentId;
 	private String departmentName;

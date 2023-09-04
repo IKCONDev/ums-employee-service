@@ -1,5 +1,7 @@
 package com.ikn.ums.employee;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -13,6 +15,13 @@ public class UMSEmployeeServiceApplication {
 		SpringApplication.run(UMSEmployeeServiceApplication.class, args);
 		
 		System.out.println("UMSEmployeeServiceApplication.main() ENTERED");
+	}
+	
+	@Bean
+	public ModelMapper createModelMapper() {
+		ModelMapper mapper = new ModelMapper();
+		mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		return mapper;
 	}
 
 	@Bean
