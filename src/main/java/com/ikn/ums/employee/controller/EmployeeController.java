@@ -44,21 +44,19 @@ public class EmployeeController {
 	}
 	*/
 	
-	//used while user authenticates into UMS application
+	//used while Employee authenticates into UMS application
 	@GetMapping("/{email}")
-	public ResponseEntity<EmployeeVO> getUserDetailsWithDepartment(@PathVariable String email){
+	public ResponseEntity<EmployeeVO> getEmployeeDetailsWithDepartment(@PathVariable String email){
+		log.info("EmployeeController.getEmployeeDetailsWithDepartment() ENTERED ");
 		EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
-		System.out.println("EmployeeController.getUserDetailsWithDepartment() ENTERED ");
-		System.out.println("************ employeeDto :" + employeeDto);
-		
-		log.info("EmployeeController.getUserDetailsWithDepartment() ENTERED ");
-		
+		log.info("EmployeeController.getEmployeeDetailsWithDepartment() : employeeDto : " + employeeDto);
 		return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<?> saveAllUserProfiles(@RequestBody List<TeamsUserProfileVO> teamsUserProfilesList){
+	public ResponseEntity<?> saveAllEmployeeProfiles(@RequestBody List<TeamsUserProfileVO> teamsUserProfilesList){
 		try {
+			log.info("EmployeeController.saveAllEmployeeProfiles()");
 			int insertedUsersCount =  employeeService.saveAllEmployeesFromAzure(teamsUserProfilesList);
 			return new ResponseEntity<>(insertedUsersCount, HttpStatus.CREATED);
 		}catch (Exception e) {
