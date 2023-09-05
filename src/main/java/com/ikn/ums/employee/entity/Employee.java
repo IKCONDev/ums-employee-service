@@ -47,7 +47,7 @@ public class Employee {
 	//@Column(name = "department", nullable = false, unique = false)
 	//private String department;
 
-	@Column(name = "designation", nullable = false, unique = false)
+	@Column(name = "designation", nullable = true, unique = false)
 	private String designation;
 
 	@Column(name = "otp_code", nullable = true, unique = false)

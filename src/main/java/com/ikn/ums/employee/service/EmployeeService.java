@@ -11,9 +11,13 @@ public interface EmployeeService {
 	EmployeeVO fetchEmployeeDetailsWithDepartment(String email);
 	Employee saveEmployee(Employee employee);
 	EmployeeVO getUserWithDepartment(Integer employeeId);
-	EmployeeVO getAllEmployeesWithDepartment();
-	//saves users data by fetching user data from microsoft azure
-	Integer saveAllEmployeesFromAzure(List<TeamsUserProfileVO> teamsUserProfilesList);
+	//get all UMS employee profiles
 	List<Employee> findAllEmployees();
+	//save all users by fetching details from organization azure active directory
+	Integer saveAzureUsers();
+	//save single user from azure
+	String saveAzureUser(String azureUserPrincipalName);
+	//search employee count by their username
+	Integer searchEmployeeByEmail(String email);
 
 }

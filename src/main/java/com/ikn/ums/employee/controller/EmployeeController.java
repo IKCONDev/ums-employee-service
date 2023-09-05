@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ikn.ums.employee.VO.EmployeeListVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
-import com.ikn.ums.employee.VO.TeamsUserProfileVO;
-import com.ikn.ums.employee.dto.EmployeeDto;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.service.EmployeeService;
-import com.ikn.ums.employee.service.EmployeeServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +27,7 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@PostMapping("/")
+	@PostMapping("/save")
 	public Employee saveEmployee(@RequestBody Employee employee) {
 		log.info("EmployeeController.saveEmployee() ENTERED");
 		return employeeService.saveEmployee(employee);
@@ -52,10 +50,15 @@ public class EmployeeController {
 		return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 	}
 	
-	@PostMapping("/save")
-	public ResponseEntity<?> saveAllUserProfiles(@RequestBody List<TeamsUserProfileVO> teamsUserProfilesList){
+	/**
+	 * can use this method for first time when no user are present in DB.
+	 * @return
+	 */
+	@PostMapping("/save-all")
+	public ResponseEntity<?> saveAllAzureUserProfiles(){
+		log.info("Entered into saveAllUserProfiles()");
 		try {
-			int insertedUsersCount =  employeeService.saveAllEmployeesFromAzure(teamsUserProfilesList);
+			int insertedUsersCount =  employeeService.saveAzureUsers();
 			return new ResponseEntity<>(insertedUsersCount, HttpStatus.CREATED);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -63,10 +66,28 @@ public class EmployeeController {
 		}		
 	}
 	
-	@GetMapping("/")
-	public ResponseEntity<List<Employee>> getAllEmployees(){
+	@PostMapping("/save/{userPrincipalName}")
+	public ResponseEntity<?> saveAzureUserProfile(@PathVariable String userPrincipalName){
+		try {
+			Integer dbEmployeeCount = employeeService.searchEmployeeByEmail(userPrincipalName);
+			if(dbEmployeeCount == 0) {
+				String message = employeeService.saveAzureUser(userPrincipalName);
+				return new ResponseEntity<>(message, HttpStatus.CREATED);
+			}else {
+				return new ResponseEntity<>("User already exists in Database, duplicate users not allowed", HttpStatus.NOT_ACCEPTABLE);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("May be the user does not exist in your azure DB, please try again",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/get-all")
+	public ResponseEntity<?> getAllEmployees(){
 		List<Employee> employeesDbList = employeeService.findAllEmployees();
-		return new ResponseEntity<>(employeesDbList, HttpStatus.OK);
+		EmployeeListVO empListVO = new EmployeeListVO();
+		empListVO.setEmployee(employeesDbList);
+		return new ResponseEntity<>(empListVO, HttpStatus.OK);
 	}
 	
 }

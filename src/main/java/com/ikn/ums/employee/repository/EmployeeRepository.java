@@ -3,9 +3,12 @@ package com.ikn.ums.employee.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ikn.ums.employee.entity.Employee;
+import java.util.List;
+
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
@@ -14,5 +17,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	//find and employee by username (email)
 	Optional<Employee> findByEmail(String email);
+	
+	@Query("SELECT COUNT(*) FROM Employee WHERE email=:email")
+	Integer searchEmployeeDetailsByMail(String email);
 
 }
