@@ -48,7 +48,8 @@ public class EmployeeController {
 	@GetMapping("/{email}")
 	public ResponseEntity<EmployeeVO> getUserDetailsWithDepartment(@PathVariable String email){
 		EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
-		System.out.println(employeeDto);
+		System.out.println("EmployeeController.getUserDetailsWithDepartment() ENTERED ");
+		System.out.println("************ employeeDto :" + employeeDto);
 		return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 	}
 	
