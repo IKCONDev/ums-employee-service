@@ -50,6 +50,9 @@ public class EmployeeController {
 		EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
 		System.out.println("EmployeeController.getUserDetailsWithDepartment() ENTERED ");
 		System.out.println("************ employeeDto :" + employeeDto);
+		
+		log.info("EmployeeController.getUserDetailsWithDepartment() ENTERED ");
+		
 		return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 	}
 	
