@@ -27,6 +27,11 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
+	/**
+	 * save a manually created employee object into UMS DB
+	 * @param employee
+	 * @return
+	 */
 	@PostMapping("/save")
 	public Employee saveEmployee(@RequestBody Employee employee) {
 		log.info("EmployeeController.saveEmployee() ENTERED");
@@ -42,7 +47,11 @@ public class EmployeeController {
 	}
 	*/
 	
-	//used while user authenticates into UMS application
+	/**
+	 * used while user authenticates into UMS application
+	 * @param email
+	 * @return employee object.
+	 */
 	@GetMapping("/{email}")
 	public ResponseEntity<EmployeeVO> getUserDetailsWithDepartment(@PathVariable String email){
 		EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
@@ -66,6 +75,11 @@ public class EmployeeController {
 		}		
 	}
 	
+	/**
+	 * save single azure user profile based using this method
+	 * @param userPrincipalName
+	 * @return
+	 */
 	@PostMapping("/save/{userPrincipalName}")
 	public ResponseEntity<?> saveAzureUserProfile(@PathVariable String userPrincipalName){
 		try {
@@ -82,6 +96,11 @@ public class EmployeeController {
 		}
 	}
 	
+	/**
+	 * fetch all employees from UMS DB
+	 * this method is used by batch processing microservice
+	 * @return
+	 */
 	@GetMapping("/get-all")
 	public ResponseEntity<?> getAllEmployees(){
 		List<Employee> employeesDbList = employeeService.findAllEmployees();
