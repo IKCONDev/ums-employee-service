@@ -3,6 +3,7 @@ package com.ikn.ums.employee.service;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -20,8 +21,8 @@ import com.azure.core.credential.AccessToken;
 import com.ikn.ums.employee.VO.DepartmentVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.VO.TeamsUserProfileVO;
-import com.ikn.ums.employee.dto.EmployeeDto;
 import com.ikn.ums.employee.entity.Employee;
+import com.ikn.ums.employee.exception.UMSBusinessException;
 import com.ikn.ums.employee.model.UserProfilesResponseWrapper;
 import com.ikn.ums.employee.repository.EmployeeRepository;
 import com.ikn.ums.employee.utils.InitializeMicrosoftGraph;
@@ -53,12 +54,34 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 	}
 
+//	@Override
+//	public Employee saveEmployee(Employee employee) {
+//		log.info("EmployeeService.saveEmployee() ENTERED");
+//		return employeeRepository.save(employee);
+//	}
+
 	@Override
 	public Employee saveEmployee(Employee employee) {
 		log.info("EmployeeService.saveEmployee() ENTERED");
-		return employeeRepository.save(employee);
+		try {
+			if ( employee == null) {
+				throw new UMSBusinessException("1022", "Emplyee Object is Null or Empty");
+			}
+			/**
+			 * In case the the handling was not done properly from front end, we need to handle in the Service Layer
+			 */
+			if ( employee.getFirstName().isEmpty() || employee.getFirstName().length() != 0 ) {
+				throw new UMSBusinessException ("1001" , "Please send proper Employee First Name");
+			}
+			return employeeRepository.save(employee);
+		}catch ( IllegalArgumentException e ) {
+			throw new UMSBusinessException("1002","Given Employee is NULL" + e.getMessage()); //Handle exception when employee object is null
+		}catch (Exception e) {
+			throw new UMSBusinessException("1003", "Something went wrong in Service Layer");
+		}
+		//TODO: Need to cover all the Business Cases
 	}
-
+	
 	// fetch user details based on username (email)
 	@Override
 	public EmployeeVO fetchEmployeeDetailsWithDepartment(String email) {
@@ -81,41 +104,70 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeVO;
 	}
 
-	public EmployeeVO getUserWithDepartment(Integer employeeId) {
+	/**
+	 * Retrieve the Employee Details based on the Employee ID
+	 * @param Integer employeeId
+	 * @return EmployeeVO
+	 */
+	public EmployeeVO getEmployeeWithDepartment(Integer employeeId) {
 
 		System.out.println("EmployeeService.getUserWithDepartment() : employeeId : " + employeeId);
-
 		log.info("EmployeeService.getUserWithDepartment() ENTERED");
-		// ResponseTemplateVO responseTemplateVO = new ResponseTemplateVO();
-		EmployeeVO employeeVO = new EmployeeVO();
-		Optional<Employee> optEmployee = employeeRepository.findById(employeeId);
-		Employee employee = optEmployee.get();
-		System.out.println("EmployeeService.getUserWithDepartment() : employee.getDepartmentId() : 0 "
-				+ employee.getDepartmentId());
-//			Department department = restTemplate.getForObject("http://localhost:9001/departments/" + employee.getDepartmentId(), Department.class);
-		/**
-		 * There might be multiple instances running over multiple hosts and different
-		 * ports. To achieve this, we use the MS application name instead of hard code
-		 * as above. Let the Department Service running anywhere, based on the below
-		 * configuration, it get the service from the Service Registry.
-		 * 
-		 */
-		DepartmentVO department = restTemplate.getForObject(
-				"http://UMS-DEPARTMENT-SERVICE/departments/" + employee.getDepartmentId(), DepartmentVO.class);
-		System.out.println(employee);
-		// map entity to VO
-		mapper.map(employee, employeeVO);
-		// set department to employee
-		employeeVO.setDepartment(department);
-		System.out.println(employeeVO);
-		return employeeVO;
+		
+		try {
+
+			if ( employeeId != 0) {
+				throw new UMSBusinessException("1010","Employee ID is null");
+			}
+			// ResponseTemplateVO responseTemplateVO = new ResponseTemplateVO();
+			EmployeeVO employeeVO = new EmployeeVO();
+			Optional<Employee> optEmployee = employeeRepository.findById(employeeId);
+			Employee employee = optEmployee.get();
+			System.out.println("EmployeeService.getUserWithDepartment() : employee.getDepartmentId() : 0 "
+					+ employee.getDepartmentId());
+//				Department department = restTemplate.getForObject("http://localhost:9001/departments/" + employee.getDepartmentId(), Department.class);
+			/**
+			 * There might be multiple instances running over multiple hosts and different
+			 * ports. To achieve this, we use the MS application name instead of hard code
+			 * as above. Let the Department Service running anywhere, based on the below
+			 * configuration, it get the service from the Service Registry.
+			 * 
+			 */
+			DepartmentVO department = restTemplate.getForObject(
+					"http://UMS-DEPARTMENT-SERVICE/departments/" + employee.getDepartmentId(), DepartmentVO.class);
+			System.out.println(employee);
+			// map entity to VO
+			mapper.map(employee, employeeVO);
+			// set department to employee
+			employeeVO.setDepartment(department);
+			System.out.println(employeeVO);
+			return employeeVO;
+		}catch ( IllegalArgumentException e) {
+			throw new UMSBusinessException("1008","Employee is null" + e.getMessage());
+		}catch ( NoSuchElementException e ) {
+			throw new UMSBusinessException("1009","Employee is null" + e.getMessage());
+		}
+		
 	}
 
 	
+//	@Override
+//	public List<Employee> findAllEmployees() {
+//		List<Employee> employeeList = employeeRepository.findAll();
+//		return employeeList;
+//	}
+
 	@Override
 	public List<Employee> findAllEmployees() {
-		List<Employee> employeeList = employeeRepository.findAll();
-		return employeeList;
+		List<Employee> employeesList = null;
+		try {
+			employeesList = employeeRepository.findAll();
+		}catch (Exception e) {
+			throw new UMSBusinessException("1005","Issue in Service Layer when fetching employees");
+		}
+		if (employeesList.isEmpty()) 
+			throw new UMSBusinessException("1004" , "Employees List is Empty");
+		return employeesList;
 	}
 	
 	@Transactional
@@ -246,5 +298,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Integer searchEmployeeByEmail(String email) {
 		Integer count = employeeRepository.searchEmployeeDetailsByMail(email);
 		return count;
+	}
+	
+	@Override
+	public void deleteEmployee(Integer employeeId) {
+		try {
+			employeeRepository.deleteById(employeeId);	
+		}catch (IllegalArgumentException e) {
+			throw new UMSBusinessException("1020","Employee Id is null" + e.getMessage());
+		}
 	}
 }

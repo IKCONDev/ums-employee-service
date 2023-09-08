@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikn.ums.employee.VO.EmployeeListVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.entity.Employee;
+import com.ikn.ums.employee.exception.UMSBusinessException;
+import com.ikn.ums.employee.exception.UMSControllerException;
 import com.ikn.ums.employee.service.EmployeeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +34,33 @@ public class EmployeeController {
 	 * @param employee
 	 * @return
 	 */
-	@PostMapping("/save")
-	public Employee saveEmployee(@RequestBody Employee employee) {
+//	@PostMapping("/save")
+//	public Employee saveEmployee(@RequestBody Employee employee) {
+//		log.info("EmployeeController.saveEmployee() ENTERED");
+//		return employeeService.saveEmployee(employee);
+//	}
+
+	/**
+	 * save a manually created employee object into UMS DB
+	 * @param employee
+	 * @return
+	 */
+	@PostMapping("/saveEmployee")
+	public ResponseEntity<?> saveEmployee(@RequestBody Employee employee) {
 		log.info("EmployeeController.saveEmployee() ENTERED");
-		return employeeService.saveEmployee(employee);
+		try {
+			Employee employeeSaved = employeeService.saveEmployee(employee);
+			return new ResponseEntity<Employee> (employeeSaved , HttpStatus.CREATED);
+			//return employeeService.saveEmployee(employee);
+			//TODO: Check once the employee is save, the list need to be returned back for showing the employees on the screen
+		}catch(UMSBusinessException umsBusinessException) {
+			UMSControllerException umsCE = new UMSControllerException( umsBusinessException.getErrorCode() , umsBusinessException.getErrorMessage());
+			return new ResponseEntity<UMSControllerException> (umsCE , HttpStatus.BAD_REQUEST); 
+		}catch(Exception e) {
+			UMSControllerException umsCE = new UMSControllerException( "1021","Something went wrong in Controller");
+			return new ResponseEntity<UMSControllerException> (umsCE , HttpStatus.BAD_REQUEST); 
+		}
 	}
-	
 	/*
 	@GetMapping("/{id}")
 	public ResponseTemplateVO getUserWithDepartment (@PathVariable("id") Integer employeeId) {
