@@ -53,10 +53,16 @@ public class EmployeeController {
 	 * @return employee object.
 	 */
 	@GetMapping("/{email}")
-	public ResponseEntity<EmployeeVO> getUserDetailsWithDepartment(@PathVariable String email){
-		EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
-		System.out.println(employeeDto);
-		return new ResponseEntity<>(employeeDto, HttpStatus.OK);
+	public ResponseEntity<?> getUserDetailsWithDepartment(@PathVariable String email){
+		try {
+			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
+			System.out.println(employeeDto);
+			return new ResponseEntity<>(employeeDto, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>("No user found with provided email "+email, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
 	}
 	
 	/**
