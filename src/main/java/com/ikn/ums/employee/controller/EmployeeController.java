@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikn.ums.employee.VO.EmployeeListVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.entity.Employee;
-import com.ikn.ums.employee.exception.UMSBusinessException;
-import com.ikn.ums.employee.exception.UMSControllerException;
+import com.ikn.ums.employee.exception.BusinessException;
+import com.ikn.ums.employee.exception.ControllerException;
 import com.ikn.ums.employee.service.EmployeeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,31 +51,27 @@ public class EmployeeController {
 		try {
 			Employee employeeSaved = employeeService.saveEmployee(employee);
 			return new ResponseEntity<Employee> (employeeSaved , HttpStatus.CREATED);
-			//return employeeService.saveEmployee(employee);
 			//TODO: Check once the employee is save, the list need to be returned back for showing the employees on the screen
-		}catch(UMSBusinessException umsBusinessException) {
-			UMSControllerException umsCE = new UMSControllerException( umsBusinessException.getErrorCode() , umsBusinessException.getErrorMessage());
-			return new ResponseEntity<UMSControllerException> (umsCE , HttpStatus.BAD_REQUEST); 
 		}catch(Exception e) {
-			UMSControllerException umsCE = new UMSControllerException( "1021","Something went wrong in Controller");
-			return new ResponseEntity<UMSControllerException> (umsCE , HttpStatus.BAD_REQUEST); 
+			ControllerException umsCE = new ControllerException( "1021","Something went wrong in Controller");
+			return new ResponseEntity<ControllerException> (umsCE , HttpStatus.BAD_REQUEST); 
 		}
 	}
-	/*
+
 	@GetMapping("/{id}")
-	public ResponseTemplateVO getUserWithDepartment (@PathVariable("id") Integer employeeId) {
+	public EmployeeVO getEmployeeWithDepartment (@PathVariable("id") Integer employeeId) {
 		System.out.println("EmployeeController.getUserWithDepartment() : employeeId : " + employeeId);
 		log.info("EmployeeController.getUserWithDepartment() ENTERED");
-		return employeeService.getUserWithDepartment(employeeId);
+		return employeeService.getEmployeeWithDepartment(employeeId);
 	}
-	*/
+
 	
 	/**
 	 * used while user authenticates into UMS application
 	 * @param email
 	 * @return employee object.
 	 */
-	@GetMapping("/{email}")
+	@GetMapping("employee/{email}")
 	public ResponseEntity<?> getUserDetailsWithDepartment(@PathVariable String email){
 		try {
 			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
@@ -83,9 +79,8 @@ public class EmployeeController {
 			return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>("No user found with provided email "+email, HttpStatus.INTERNAL_SERVER_ERROR);
+			//TODO: Check the above
 		}
-		
-		
 	}
 	
 	/**
@@ -101,6 +96,7 @@ public class EmployeeController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("Users data could not be saved , Please try again",HttpStatus.INTERNAL_SERVER_ERROR);
+			//TODO: Check the above
 		}		
 	}
 	

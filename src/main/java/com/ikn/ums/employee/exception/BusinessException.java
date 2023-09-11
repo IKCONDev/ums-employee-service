@@ -1,6 +1,6 @@
 package com.ikn.ums.employee.exception;
 
-public class UMSControllerException extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
 	/**
 	 * 
@@ -21,13 +21,21 @@ public class UMSControllerException extends RuntimeException {
 		return errorMessage;
 	}
 
-	public UMSControllerException(String errorCode, String errorMessage) {
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public BusinessException(String errorCode, String errorMessage) {
 		super();
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
 	
-	public UMSControllerException() {
+	public BusinessException() {
 		
-	}	
+	}
 }
