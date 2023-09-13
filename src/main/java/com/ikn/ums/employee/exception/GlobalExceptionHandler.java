@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+
 	/**
 	 * EntityNotFoundException handles the exception when the Object is NUll
 	 * @param emptyInputException
