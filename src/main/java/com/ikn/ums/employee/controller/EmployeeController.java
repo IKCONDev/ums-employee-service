@@ -72,7 +72,8 @@ public class EmployeeController {
 	 * @return employee object.
 	 */
 	@GetMapping("/{email}")
-	public ResponseEntity<?> getUserDetailsWithDepartment(@PathVariable String email){
+	public ResponseEntity<?> getEmployeeDetailsWithDepartment(@PathVariable String email){
+		log.info("EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : " + email );
 		try {
 			System.out.println(email);
 			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
@@ -90,7 +91,7 @@ public class EmployeeController {
 	 */
 	@PostMapping("/save-all")
 	public ResponseEntity<?> saveAllAzureUserProfiles(){
-		log.info("Entered into saveAllUserProfiles()");
+		log.info("EmployeeController.saveAllAzureUserProfiles() ENTERED ");
 		try {
 			int insertedUsersCount =  employeeService.saveAzureUsers();
 			return new ResponseEntity<>(insertedUsersCount, HttpStatus.CREATED);
@@ -108,6 +109,7 @@ public class EmployeeController {
 	 */
 	@PostMapping("/save/{userPrincipalName}")
 	public ResponseEntity<?> saveAzureUserProfile(@PathVariable String userPrincipalName){
+		log.info("EmployeeController.saveAzureUserProfile() ENTERED : userPrincipalName : " + userPrincipalName );
 		try {
 			Integer dbEmployeeCount = employeeService.searchEmployeeByEmail(userPrincipalName);
 			if(dbEmployeeCount == 0) {
@@ -129,7 +131,8 @@ public class EmployeeController {
 	 */
 	@GetMapping("/get-all")
 	public ResponseEntity<?> getAllEmployees(){
-		List<Employee> employeesDbList = employeeService.findAllEmployees();
+		log.info("EmployeeController.getAllEmployees() ENTERED");
+		List<Employee> employeesDbList = employeeService.getAllEmployees();
 		EmployeeListVO empListVO = new EmployeeListVO();
 		empListVO.setEmployee(employeesDbList);
 		return new ResponseEntity<>(empListVO, HttpStatus.OK);

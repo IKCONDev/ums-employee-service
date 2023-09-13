@@ -111,12 +111,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 * @return EmployeeVO
 	 */
 	public EmployeeVO getEmployeeWithDepartment(Integer employeeId) {
-
-		System.out.println("EmployeeService.getEmployeeWithDepartment() : employeeId : " + employeeId);
 		log.info("EmployeeService.getEmployeeWithDepartment() ENTERED");
-
 		try {
-
 			if (employeeId < 0) {
 				System.out.println("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
 				log.info("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
@@ -133,9 +129,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 			Employee employee = optEmployee.get();
 			System.out.println("EmployeeService.getEmployeeWithDepartment() : employee.getDepartmentId() :  "
 					+ employee.getDepartmentId());
-			
-			
-			
 			
 //				Department department = restTemplate.getForObject("http://localhost:9001/departments/" + employee.getDepartmentId(), Department.class);
 			/**
@@ -170,7 +163,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 //	}
 
 	@Override
-	public List<Employee> findAllEmployees() {
+	public List<Employee> getAllEmployees() {
 		List<Employee> employeesList = null;
 		employeesList = employeeRepository.findAll();
 		if ( employeesList == null || employeesList.isEmpty())
@@ -307,7 +300,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Integer searchEmployeeByEmail(String email) {
-		
+		log.info("EmployeeServiceImpl.searchEmployeeByEmail() ENTERED : email : " + email);
 		if (email == null || email.isEmpty() )
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
@@ -317,6 +310,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void deleteEmployee(Integer employeeId) {
+		log.info("EmployeeServiceImpl.deleteEmployee() ENTERED : employeeId : " + employeeId);
 		if (employeeId ==0 )
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
