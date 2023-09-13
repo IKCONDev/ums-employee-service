@@ -19,15 +19,9 @@ public class EmployeeVO {
 
 		private String email;
 
-		private String encryptedPassword;
-
-		private String userRole;
+		//private String userRole;
 
 		private String designation;
-
-		private int otpCode;
-
-		private boolean twoFactorAuthentication;
 		
 		private Long departmentId;
 		

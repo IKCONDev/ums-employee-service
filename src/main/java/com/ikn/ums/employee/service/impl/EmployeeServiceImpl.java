@@ -1,4 +1,4 @@
-package com.ikn.ums.employee.service;
+package com.ikn.ums.employee.service.impl;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ import com.ikn.ums.employee.exception.EmptyListException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
 import com.ikn.ums.employee.model.UserProfilesResponseWrapper;
 import com.ikn.ums.employee.repository.EmployeeRepository;
+import com.ikn.ums.employee.service.EmployeeService;
 import com.ikn.ums.employee.utils.InitializeMicrosoftGraph;
 
 import lombok.extern.slf4j.Slf4j;
@@ -218,13 +219,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 			e.setTeamsUserId(profile.getUserId());
 			e.setEmail(profile.getUserPrincipalName());
 			e.setDesignation(profile.getJobTitle());
-			e.setTwoFactorAuthentication(false);
+			//e.setTwoFactorAuthentication(false);
 			// setting default password, //Test@123 in encrypted format
-			e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
-			e.setOtpCode(0);
+			//e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
+			//e.setOtpCode(0);
 			e.setDepartmentId(1L);
 			// set default role
-			e.setUserRole("Team Member");
+			//e.setUserRole("Team Member");
 			employeesList.add(e);
 		});
 		List<Employee> dbEmployees = employeeRepository.saveAll(employeesList);
@@ -249,13 +250,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 			e.setTeamsUserId(profile.getUserId());
 			e.setEmail(profile.getUserPrincipalName());
 			e.setDesignation(profile.getJobTitle());
-			e.setTwoFactorAuthentication(false);
+			//e.setTwoFactorAuthentication(false);
 			// setting default password, //Test@123 in encrypted format
-			e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
-			e.setOtpCode(0);
+			//e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
+			//e.setOtpCode(0);
 			e.setDepartmentId(1L);
 			// set default role
-			e.setUserRole("Team Member");
+			//e.setUserRole("Team Member");
 
 			// save user
 			insertedUser = employeeRepository.save(e);

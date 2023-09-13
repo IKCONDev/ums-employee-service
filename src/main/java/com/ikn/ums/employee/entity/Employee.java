@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "employee")
+@Table(name = "employee_master")
 public class Employee {
 
 	// user login properties
@@ -36,11 +36,11 @@ public class Employee {
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
-	@Column(name = "encrypted_password", nullable = false, unique = false)
-	private String encryptedPassword;
+//	@Column(name = "encrypted_password", nullable = false, unique = false)
+//	private String encryptedPassword;
 
-	@Column(name = "role", nullable = false, unique = false)
-	private String userRole;
+//	@Column(name = "role", nullable = false, unique = false)
+//	private String userRole;
 
 	// @Column(name = "UserId")
 	// private String userId;
@@ -50,11 +50,11 @@ public class Employee {
 	@Column(name = "designation", nullable = true, unique = false)
 	private String designation;
 
-	@Column(name = "otp_code", nullable = true, unique = false)
-	private int otpCode;
-
-	@Column(name = "two_factor_authentication", nullable = true, unique = false)
-	private boolean twoFactorAuthentication;
+//	@Column(name = "otp_code", nullable = true, unique = false)
+//	private int otpCode;
+//
+//	@Column(name = "two_factor_authentication", nullable = true, unique = false)
+//	private boolean twoFactorAuthentication;
 	
 	@Column(name = "department_id", nullable = false, unique = false)
 	private Long departmentId;

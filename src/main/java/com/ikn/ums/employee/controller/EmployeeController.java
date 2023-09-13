@@ -58,7 +58,7 @@ public class EmployeeController {
 		}
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/get/{id}")
 	public EmployeeVO getEmployeeWithDepartment (@PathVariable("id") Integer employeeId) {
 		System.out.println("EmployeeController.getUserWithDepartment() : employeeId : " + employeeId);
 		log.info("EmployeeController.getUserWithDepartment() ENTERED");
@@ -71,9 +71,10 @@ public class EmployeeController {
 	 * @param email
 	 * @return employee object.
 	 */
-	@GetMapping("employee/{email}")
+	@GetMapping("/{email}")
 	public ResponseEntity<?> getUserDetailsWithDepartment(@PathVariable String email){
 		try {
+			System.out.println(email);
 			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
 			System.out.println(employeeDto);
 			return new ResponseEntity<>(employeeDto, HttpStatus.OK);
