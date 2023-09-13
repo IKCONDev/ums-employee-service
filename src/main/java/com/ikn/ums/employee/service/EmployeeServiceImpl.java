@@ -19,15 +19,14 @@ import org.springframework.web.client.RestTemplate;
 
 import com.azure.core.credential.AccessToken;
 import com.ikn.ums.employee.VO.DepartmentVO;
-import com.ikn.ums.employee.VO.EmployeeListVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.VO.TeamsUserProfileVO;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.exception.BusinessException;
-import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EmptyListException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
+import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.model.UserProfilesResponseWrapper;
 import com.ikn.ums.employee.repository.EmployeeRepository;
 import com.ikn.ums.employee.utils.InitializeMicrosoftGraph;
@@ -68,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee saveEmployee(Employee employee) {
 		log.info("EmployeeService.saveEmployee() ENTERED");
-		
+
 		if (employee == null) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
@@ -110,21 +109,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 * @return EmployeeVO
 	 */
 	public EmployeeVO getEmployeeWithDepartment(Integer employeeId) {
-
-		System.out.println("EmployeeService.getEmployeeWithDepartment() : employeeId : " + employeeId);
-		log.info("EmployeeService.getEmployeeWithDepartment() ENTERED");
-
+		log.info("EmployeeService.getEmployeeWithDepartment() ENTERED : employeeId : " + employeeId );
 		try {
-
-			if (employeeId < 0) {
-				System.out.println("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
+			if (employeeId <= 0) {
 				log.info("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
-				throw new EmptyInputException ("1010", "Employee ID is null");
+				throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
+						ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
 			}
 			// ResponseTemplateVO responseTemplateVO = new ResponseTemplateVO();
 			EmployeeVO employeeVO = new EmployeeVO();
 			Optional<Employee> optEmployee = employeeRepository.findById(employeeId);
-			
+
 			if (optEmployee.isEmpty())
 				throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 						ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
@@ -132,10 +127,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			Employee employee = optEmployee.get();
 			System.out.println("EmployeeService.getEmployeeWithDepartment() : employee.getDepartmentId() :  "
 					+ employee.getDepartmentId());
-			
-			
-			
-			
+
 //				Department department = restTemplate.getForObject("http://localhost:9001/departments/" + employee.getDepartmentId(), Department.class);
 			/**
 			 * There might be multiple instances running over multiple hosts and different
@@ -169,10 +161,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 //	}
 
 	@Override
-	public List<Employee> findAllEmployees() {
+	public List<Employee> getAllEmployees() {
 		List<Employee> employeesList = null;
 		employeesList = employeeRepository.findAll();
-		if ( employeesList == null || employeesList.isEmpty())
+		if (employeesList == null || employeesList.isEmpty())
 			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_MSG);
 		return employeesList;
@@ -306,8 +298,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Integer searchEmployeeByEmail(String email) {
-		
-		if (email == null || email.isEmpty() )
+		log.info("EmployeeServiceImpl.searchEmployeeByEmail() ENTERED : email : " + email);
+		if (email == null || email.isEmpty())
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
 		Integer count = employeeRepository.searchEmployeeDetailsByMail(email);
@@ -316,7 +308,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void deleteEmployee(Integer employeeId) {
-		if (employeeId ==0 )
+		log.info("EmployeeServiceImpl.deleteEmployee() ENTERED : employeeId : " + employeeId);
+		if (employeeId == 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
 		employeeRepository.deleteById(employeeId);
