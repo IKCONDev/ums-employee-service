@@ -112,48 +112,41 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	public EmployeeVO getEmployeeWithDepartment(Integer employeeId) {
 		log.info("EmployeeService.getEmployeeWithDepartment() ENTERED");
-		try {
-			if (employeeId < 0) {
-				System.out.println("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
-				log.info("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
-				throw new EmptyInputException ("1010", "Employee ID is null");
-			}
-			// ResponseTemplateVO responseTemplateVO = new ResponseTemplateVO();
-			EmployeeVO employeeVO = new EmployeeVO();
-			Optional<Employee> optEmployee = employeeRepository.findById(employeeId);
-			
-			if (optEmployee.isEmpty())
-				throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
-						ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 
-			Employee employee = optEmployee.get();
-			System.out.println("EmployeeService.getEmployeeWithDepartment() : employee.getDepartmentId() :  "
-					+ employee.getDepartmentId());
-			
-//				Department department = restTemplate.getForObject("http://localhost:9001/departments/" + employee.getDepartmentId(), Department.class);
-			/**
-			 * There might be multiple instances running over multiple hosts and different
-			 * ports. To achieve this, we use the MS application name instead of hard code
-			 * as above. Let the Department Service running anywhere, based on the below
-			 * configuration, it get the service from the Service Registry.
-			 * 
-			 */
-			DepartmentVO department = restTemplate.getForObject(
-					"http://UMS-DEPARTMENT-SERVICE/departments/" + employee.getDepartmentId(), DepartmentVO.class);
-			System.out.println(employee);
-			// map entity to VO
-			mapper.map(employee, employeeVO);
-			// set department to employee
-			employeeVO.setDepartment(department);
-			System.out.println(employeeVO);
-			return employeeVO;
-		} catch (IllegalArgumentException e) {
-			throw new BusinessException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
-		} catch (NoSuchElementException e) {
-			throw new BusinessException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+		if (employeeId < 0) {
+			System.out.println("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
+			log.info("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
+			throw new EmptyInputException ("1010", "Employee ID is null");
 		}
+		// ResponseTemplateVO responseTemplateVO = new ResponseTemplateVO();
+		EmployeeVO employeeVO = new EmployeeVO();
+		Optional<Employee> optEmployee = employeeRepository.findById(employeeId);
+		
+		if (optEmployee.isEmpty())
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+
+		Employee employee = optEmployee.get();
+		System.out.println("EmployeeService.getEmployeeWithDepartment() : employee.getDepartmentId() :  "
+				+ employee.getDepartmentId());
+		
+//				Department department = restTemplate.getForObject("http://localhost:9001/departments/" + employee.getDepartmentId(), Department.class);
+		/**
+		 * There might be multiple instances running over multiple hosts and different
+		 * ports. To achieve this, we use the MS application name instead of hard code
+		 * as above. Let the Department Service running anywhere, based on the below
+		 * configuration, it get the service from the Service Registry.
+		 * 
+		 */
+		DepartmentVO department = restTemplate.getForObject(
+				"http://UMS-DEPARTMENT-SERVICE/departments/" + employee.getDepartmentId(), DepartmentVO.class);
+		System.out.println(employee);
+		// map entity to VO
+		mapper.map(employee, employeeVO);
+		// set department to employee
+		employeeVO.setDepartment(department);
+		System.out.println(employeeVO);
+		return employeeVO;
 	}
 
 //	@Override
