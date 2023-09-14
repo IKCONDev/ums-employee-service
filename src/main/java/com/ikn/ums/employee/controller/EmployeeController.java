@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikn.ums.employee.VO.EmployeeListVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.entity.Employee;
-import com.ikn.ums.employee.exception.BusinessException;
 import com.ikn.ums.employee.exception.ControllerException;
+import com.ikn.ums.employee.exception.EmptyInputException;
+import com.ikn.ums.employee.exception.EntityNotFoundException;
+import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.service.EmployeeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -136,6 +140,27 @@ public class EmployeeController {
 		EmployeeListVO empListVO = new EmployeeListVO();
 		empListVO.setEmployee(employeesDbList);
 		return new ResponseEntity<>(empListVO, HttpStatus.OK);
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+		log.info("EmployeeController.updateEmployee() ENTERED ");
+		Employee updatedEmployee = new Employee();
+		if (employee != null)
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+		updatedEmployee = employeeService.saveEmployee(employee);
+		return new ResponseEntity<Employee> (updatedEmployee , HttpStatus.CREATED);
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteEmployee(@PathVariable("id") Integer employeeId) {
+		log.info("EmployeeController.deleteEmployeet() ENTERED : employeeId : " + employeeId);
+		if (employeeId <= 0)
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
+		employeeService.deleteEmployee(employeeId);
+		return ResponseEntity.ok("Employee deleted successfully");
 	}
 	
 }
