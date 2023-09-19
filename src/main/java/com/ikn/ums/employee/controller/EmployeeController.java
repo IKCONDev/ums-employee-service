@@ -53,13 +53,18 @@ public class EmployeeController {
 	 */
 	@PostMapping("/saveEmployee")
 	public ResponseEntity<?> saveEmployee(@RequestBody Employee employee) {
-		log.info("EmployeeController.saveEmployee() ENTERED");
+		log.info("EmployeeController.saveEmployee() ENTERED" + employee);
+		if (employee == null) {
+			log.info("EmployeeController.saveEmployee() : employee Object is NULL !");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+		}
 		try {
 			Employee employeeSaved = employeeService.saveEmployee(employee);
+			log.info("EmployeeController.saveEmployee() : Post Employee method calling .... " + employeeSaved);
 			return new ResponseEntity<Employee>(employeeSaved, HttpStatus.CREATED);
-			// TODO: Check once the employee is save, the list need to be returned back for
-			// showing the employees on the screen
 		} catch (Exception e) {
+			log.info("EmployeeController.saveEmployee() : Exception Occured !" + e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
 		}

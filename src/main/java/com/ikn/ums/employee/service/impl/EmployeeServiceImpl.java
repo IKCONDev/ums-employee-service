@@ -74,10 +74,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
-		if (employee.getFirstName().isEmpty() || employee.getFirstName().length() != 0) {
-			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_FIRST_NAME_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_EMP_FIRST_NAME_IS_NULL_MSG);
-		}
 		Employee savedEmployee = employeeRepository.save(employee);
 		return savedEmployee;
 	}
