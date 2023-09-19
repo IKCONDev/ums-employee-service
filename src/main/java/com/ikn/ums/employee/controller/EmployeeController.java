@@ -26,15 +26,16 @@ import com.ikn.ums.employee.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/employees") 
+@RequestMapping("/employees")
 @Slf4j
 public class EmployeeController {
-	
+
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	/**
 	 * save a manually created employee object into UMS DB
+	 * 
 	 * @param employee
 	 * @return
 	 */
@@ -46,6 +47,7 @@ public class EmployeeController {
 
 	/**
 	 * save a manually created employee object into UMS DB
+	 * 
 	 * @param employee
 	 * @return
 	 */
@@ -54,94 +56,101 @@ public class EmployeeController {
 		log.info("EmployeeController.saveEmployee() ENTERED");
 		try {
 			Employee employeeSaved = employeeService.saveEmployee(employee);
-			return new ResponseEntity<Employee> (employeeSaved , HttpStatus.CREATED);
-			//TODO: Check once the employee is save, the list need to be returned back for showing the employees on the screen
-		}catch(Exception e) {
-			ControllerException umsCE = new ControllerException( "1021","Something went wrong in Controller");
-			return new ResponseEntity<ControllerException> (umsCE , HttpStatus.BAD_REQUEST); 
+			return new ResponseEntity<Employee>(employeeSaved, HttpStatus.CREATED);
+			// TODO: Check once the employee is save, the list need to be returned back for
+			// showing the employees on the screen
+		} catch (Exception e) {
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
 		}
 	}
 
 	@GetMapping("/get/{id}")
-	public EmployeeVO getEmployeeWithDepartment (@PathVariable("id") Integer employeeId) {
+	public EmployeeVO getEmployeeWithDepartment(@PathVariable("id") Integer employeeId) {
 		System.out.println("EmployeeController.getUserWithDepartment() : employeeId : " + employeeId);
 		log.info("EmployeeController.getUserWithDepartment() ENTERED");
 		return employeeService.getEmployeeWithDepartment(employeeId);
 	}
 
-	
 	/**
 	 * used while user authenticates into UMS application
+	 * 
 	 * @param email
 	 * @return employee object.
 	 */
 	@GetMapping("/{email}")
-	public ResponseEntity<?> getEmployeeDetailsWithDepartment(@PathVariable String email){
-		log.info("EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : " + email );
+	public ResponseEntity<?> getEmployeeDetailsWithDepartment(@PathVariable String email) {
+		log.info("EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : " + email);
 		try {
 			System.out.println(email);
 			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
 			System.out.println(employeeDto);
 			return new ResponseEntity<>(employeeDto, HttpStatus.OK);
-		}catch (Exception e) {
-			return new ResponseEntity<>("No user found with provided email "+email, HttpStatus.INTERNAL_SERVER_ERROR);
-			//TODO: Check the above
+		} catch (Exception e) {
+			return new ResponseEntity<>("No user found with provided email " + email, HttpStatus.INTERNAL_SERVER_ERROR);
+			// TODO: Check the above
 		}
 	}
-	
+
 	/**
 	 * can use this method for first time when no user are present in DB.
+	 * 
 	 * @return
 	 */
 	@PostMapping("/save-all")
-	public ResponseEntity<?> saveAllAzureUserProfiles(){
+	public ResponseEntity<?> saveAllAzureUserProfiles() {
 		log.info("EmployeeController.saveAllAzureUserProfiles() ENTERED ");
 		try {
-			int insertedUsersCount =  employeeService.saveAzureUsers();
+			int insertedUsersCount = employeeService.saveAzureUsers();
 			return new ResponseEntity<>(insertedUsersCount, HttpStatus.CREATED);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("Users data could not be saved , Please try again",HttpStatus.INTERNAL_SERVER_ERROR);
-			//TODO: Check the above
-		}		
+			return new ResponseEntity<>("Users data could not be saved , Please try again",
+					HttpStatus.INTERNAL_SERVER_ERROR);
+			// TODO: Check the above
+		}
 	}
-	
+
 	/**
 	 * save single azure user profile based using this method
+	 * 
 	 * @param userPrincipalName
 	 * @return
 	 */
 	@PostMapping("/save/{userPrincipalName}")
-	public ResponseEntity<?> saveAzureUserProfile(@PathVariable String userPrincipalName){
-		log.info("EmployeeController.saveAzureUserProfile() ENTERED : userPrincipalName : " + userPrincipalName );
+	public ResponseEntity<?> saveAzureUserProfile(@PathVariable String userPrincipalName) {
+		log.info("EmployeeController.saveAzureUserProfile() ENTERED : userPrincipalName : " + userPrincipalName);
 		try {
 			Integer dbEmployeeCount = employeeService.searchEmployeeByEmail(userPrincipalName);
-			if(dbEmployeeCount == 0) {
+			if (dbEmployeeCount == 0) {
 				String message = employeeService.saveAzureUser(userPrincipalName);
 				return new ResponseEntity<>(message, HttpStatus.CREATED);
-			}else {
-				return new ResponseEntity<>("User already exists in Database, duplicate users not allowed", HttpStatus.NOT_ACCEPTABLE);
+			} else {
+				return new ResponseEntity<>("User already exists in Database, duplicate users not allowed",
+						HttpStatus.NOT_ACCEPTABLE);
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("May be the user does not exist in your azure DB, please try again",HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("May be the user does not exist in your azure DB, please try again",
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	/**
-	 * fetch all employees from UMS DB
-	 * this method is used by batch processing microservice
+	 * fetch all employees from UMS DB this method is used by batch processing
+	 * microservice
+	 * 
 	 * @return
 	 */
 	@GetMapping("/get-all")
-	public ResponseEntity<?> getAllEmployees(){
+	public ResponseEntity<?> getAllEmployees() {
 		log.info("EmployeeController.getAllEmployees() ENTERED");
 		List<Employee> employeesDbList = employeeService.getAllEmployees();
 		EmployeeListVO empListVO = new EmployeeListVO();
 		empListVO.setEmployee(employeesDbList);
 		return new ResponseEntity<>(empListVO, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/update")
 	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
 		log.info("EmployeeController.updateEmployee() ENTERED ");
@@ -150,7 +159,7 @@ public class EmployeeController {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		updatedEmployee = employeeService.saveEmployee(employee);
-		return new ResponseEntity<Employee> (updatedEmployee , HttpStatus.CREATED);
+		return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/delete/{id}")
@@ -162,5 +171,5 @@ public class EmployeeController {
 		employeeService.deleteEmployee(employeeId);
 		return ResponseEntity.ok("Employee deleted successfully");
 	}
-	
+
 }

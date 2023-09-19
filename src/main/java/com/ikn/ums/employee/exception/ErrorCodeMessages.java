@@ -37,6 +37,11 @@ public class ErrorCodeMessages {
 
 	 public static final String ERR_EMP_EMAIL_ID_NOT_FOUND_CODE = "EMPLOYEE_EMAIL_ID_NOT_FOUND_CODE-1012";
 	 public static final String ERR_EMP_EMAIL_ID_NOT_FOUND_MSG = "Employee Email Id is not found."; 	
+	 
+	 
+	 public static final String ERR_EMP_SAVE_UNSUCCESS_CODE = "EMPLOYEE-SAVE-UNSUCCESS-1013";
+	 public static final String ERR_EMP_SAVE_UNSUCCESS_MSG = "Error Occured While Saving Employee."; 	 
+	 
 
 
 }
