@@ -10,6 +10,8 @@ public interface EmployeeService {
 	
 	EmployeeVO fetchEmployeeDetailsWithDepartment(String email);
 	Employee saveEmployee(Employee employee);
+	Employee updateEmployee(Employee employee);
+	void deleteEmployee(Integer employeeId);
 	EmployeeVO getEmployeeWithDepartment(Integer employeeId);
 	//get all UMS employee profiles
 	List<Employee> getAllEmployees();
@@ -19,6 +21,6 @@ public interface EmployeeService {
 	String saveAzureUser(String azureUserPrincipalName);
 	//search employee count by their username
 //	Integer searchEmployeeByEmail(String email);
-	void deleteEmployee(Integer employeeId);
 	boolean checkIfEmployeeExists(String employeeEmailId);
+	
 }

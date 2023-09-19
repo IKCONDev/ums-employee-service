@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -43,6 +44,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<String>(emptyInputException.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 
+	@ExceptionHandler(EmployeeExistsException.class)
+	public ResponseEntity<String> handleEmployeeExistsException(EmployeeExistsException employeeExistsException) {
+		log.info("GlobalExceptionHandler.handleEmployeeExistsException() ENTERED" + employeeExistsException.getMessage());
+		log.info("Employee already exists!" );
+		return new ResponseEntity<String>(employeeExistsException.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	
 	/**
 	 * The NoSuchElementException is a Pre-defined default handler for the
 	 * SpringBoot. No class required to be created for pre-defined.
@@ -56,7 +64,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("No Value is Present in DB." );
 		return new ResponseEntity<String>(noSuchElementException.getMessage(), HttpStatus.NOT_FOUND);
 	}
-
+	
 	/**
 	 * Handling the Business Exceptions global to reduce boiler plate code
 	 * @param noSuchElementException

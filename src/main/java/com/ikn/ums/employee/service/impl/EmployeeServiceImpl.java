@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.azure.core.credential.AccessToken;
@@ -21,6 +22,8 @@ import com.ikn.ums.employee.VO.DepartmentVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.VO.TeamsUserProfileVO;
 import com.ikn.ums.employee.entity.Employee;
+import com.ikn.ums.employee.exception.BusinessException;
+import com.ikn.ums.employee.exception.EmployeeExistsException;
 import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EmptyListException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
@@ -65,27 +68,59 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee saveEmployee(Employee employee) {
-		log.info("EmployeeService.saveEmployee() ENTERED");
+		log.info("EmployeeService.saveEmployee() ENTERED : " + employee);
 		if (employee == null) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
 		Employee savedEmployee = null;
-		if ( checkIfEmployeeExists(employee.getEmail()) == false ) {
+		if (checkIfEmployeeExists(employee.getEmail()) == false) {
+			log.info("EmployeeService.saveEmployee() Saving Employee....");
 			savedEmployee = employeeRepository.save(employee);
-		}else {
-			//TODO: Implement
+		} else {
+			log.info("EmployeeService.saveEmployee() Employee Already Exists !");
+			throw new EmployeeExistsException(ErrorCodeMessages.ERR_EMP_EXISTS_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_EMP_EXISTS_EXCEPTION_MSG);
 		}
 		return savedEmployee;
 	}
 
 	@Override
+	public Employee updateEmployee(Employee employee) {
+		log.info("EmployeeService.updateEmployee() ENTERED : " + employee);
+		if (employee == null) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+		}
+		Employee updatedEmployee = null;
+		if (checkIfEmployeeExists(employee.getEmail())) {
+			log.info("EmployeeService.updateEmployee() Updating Employee....");
+			updatedEmployee = employeeRepository.save(employee);
+		} else {
+			log.info("EmployeeService.updateEmployee() Employee Not Found To Update !");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+		}
+		return updatedEmployee;
+	}
+
+	@Override
 	public void deleteEmployee(Integer employeeId) {
 		log.info("EmployeeServiceImpl.deleteEmployee() ENTERED : employeeId : " + employeeId);
-		if (employeeId ==0 )
+		if (employeeId == 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
-		employeeRepository.deleteById(employeeId);
+
+		Optional<Employee> dbEmployee = null;
+		dbEmployee = employeeRepository.findById(employeeId);
+		if (dbEmployee.isPresent()) {
+			log.info("EmployeeService.saveEmployee() Saving Employee....");
+			employeeRepository.deleteById(employeeId);
+		} else {
+			log.info("EmployeeService.saveEmployee() Employee Already Exists !");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+		}
 	}
 
 	// fetch user details based on username (email)
@@ -117,25 +152,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 * @return EmployeeVO
 	 */
 	public EmployeeVO getEmployeeWithDepartment(Integer employeeId) {
-		log.info("EmployeeService.getEmployeeWithDepartment() ENTERED");
-
+		log.info("EmployeeService.getEmployeeWithDepartment() ENTERED : employeeId : " + employeeId);
 		if (employeeId < 0) {
-			System.out.println("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
 			log.info("EmployeeServiceImpl.getEmployeeWithDepartment() in employee id is null");
-			throw new EmptyInputException ("1010", "Employee ID is null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
 		}
 		// ResponseTemplateVO responseTemplateVO = new ResponseTemplateVO();
 		EmployeeVO employeeVO = new EmployeeVO();
 		Optional<Employee> optEmployee = employeeRepository.findById(employeeId);
-		
-		if (optEmployee.isEmpty())
+		if (optEmployee.isEmpty()) {
+			log.info("EmployeeServiceImpl.getEmployeeWithDepartment() in optEmployee :: employee id is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
-
+		}
 		Employee employee = optEmployee.get();
-		System.out.println("EmployeeService.getEmployeeWithDepartment() : employee.getDepartmentId() :  "
-				+ employee.getDepartmentId());
-		
+		log.info("EmployeeServiceImpl.getEmployeeWithDepartment() : employee.getDepartmentId() : " + employee.getDepartmentId());
+		log.info("Retrieved Employee Object. Passing the department id from employee to get the department details of the employee....");
+		DepartmentVO department = null;
 //				Department department = restTemplate.getForObject("http://localhost:9001/departments/" + employee.getDepartmentId(), Department.class);
 		/**
 		 * There might be multiple instances running over multiple hosts and different
@@ -144,14 +178,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 		 * configuration, it get the service from the Service Registry.
 		 * 
 		 */
-		DepartmentVO department = restTemplate.getForObject(
-				"http://UMS-DEPARTMENT-SERVICE/departments/" + employee.getDepartmentId(), DepartmentVO.class);
-		System.out.println(employee);
+		try {
+			log.info("Calling Department Microservice !");
+				department = restTemplate.getForObject(
+					"http://UMS-DEPARTMENT-SERVICE/departments/" + employee.getDepartmentId(), DepartmentVO.class);
+		} catch (RestClientException restClientException) {
+			log.info("Exception Occured while calling Department Microservice !");
+			throw new BusinessException(ErrorCodeMessages.ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_MSG);
+		}
+		//System.out.println(employee);
 		// map entity to VO
 		mapper.map(employee, employeeVO);
 		// set department to employee
 		employeeVO.setDepartment(department);
-		System.out.println(employeeVO);
+		//System.out.println(employeeVO);
 		return employeeVO;
 	}
 
@@ -165,7 +206,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<Employee> getAllEmployees() {
 		List<Employee> employeesList = null;
 		employeesList = employeeRepository.findAll();
-		if ( employeesList == null || employeesList.isEmpty())
+		if (employeesList == null || employeesList.isEmpty())
 			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_MSG);
 		return employeesList;
@@ -211,13 +252,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 			e.setTeamsUserId(profile.getUserId());
 			e.setEmail(profile.getUserPrincipalName());
 			e.setDesignation(profile.getJobTitle());
-			//e.setTwoFactorAuthentication(false);
+			// e.setTwoFactorAuthentication(false);
 			// setting default password, //Test@123 in encrypted format
-			//e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
-			//e.setOtpCode(0);
+			// e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
+			// e.setOtpCode(0);
 			e.setDepartmentId(1L);
 			// set default role
-			//e.setUserRole("Team Member");
+			// e.setUserRole("Team Member");
 			employeesList.add(e);
 		});
 		List<Employee> dbEmployees = employeeRepository.saveAll(employeesList);
@@ -242,13 +283,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 			e.setTeamsUserId(profile.getUserId());
 			e.setEmail(profile.getUserPrincipalName());
 			e.setDesignation(profile.getJobTitle());
-			//e.setTwoFactorAuthentication(false);
+			// e.setTwoFactorAuthentication(false);
 			// setting default password, //Test@123 in encrypted format
-			//e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
-			//e.setOtpCode(0);
+			// e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
+			// e.setOtpCode(0);
 			e.setDepartmentId(1L);
 			// set default role
-			//e.setUserRole("Team Member");
+			// e.setUserRole("Team Member");
 
 			// save user
 			insertedUser = employeeRepository.save(e);
@@ -310,15 +351,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public boolean checkIfEmployeeExists(String employeeEmailId) {
 		log.info("EmployeeServiceImpl.checkIfEmployeeExists() ENTERED : employeeEmailId : " + employeeEmailId);
 		boolean checkifEmployeeExists = false;
-		if (employeeEmailId == null || employeeEmailId.isEmpty() || employeeEmailId.length() == 0 )
+		if (employeeEmailId == null || employeeEmailId.isEmpty() || employeeEmailId.length() == 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
 		Integer count = employeeRepository.checkIfEmployeeExists(employeeEmailId);
-		if ( count > 0 )
+		if (count > 0)
 			checkifEmployeeExists = true;
 		return checkifEmployeeExists;
 	}
-	
-
 
 }

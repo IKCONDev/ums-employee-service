@@ -38,10 +38,22 @@ public class ErrorCodeMessages {
 	 public static final String ERR_EMP_EMAIL_ID_NOT_FOUND_CODE = "EMPLOYEE_EMAIL_ID_NOT_FOUND_CODE-1012";
 	 public static final String ERR_EMP_EMAIL_ID_NOT_FOUND_MSG = "Employee Email Id is not found."; 	
 	 
-	 
 	 public static final String ERR_EMP_SAVE_UNSUCCESS_CODE = "EMPLOYEE-SAVE-UNSUCCESS-1013";
 	 public static final String ERR_EMP_SAVE_UNSUCCESS_MSG = "Error Occured While Saving Employee."; 	 
+
+	 public static final String ERR_EMP_UPDATE_UNSUCCESS_CODE = "EMPLOYEE-UPDATE-UNSUCCESS-1014";
+	 public static final String ERR_EMP_UPDATE_UNSUCCESS_MSG = "Error Occured While Updating Employee."; 	
+
+	 public static final String ERR_EMP_DELETE_UNSUCCESS_CODE = "EMPLOYEE-DELETE-UNSUCCESS-1015";
+	 public static final String ERR_EMP_DELETE_UNSUCCESS_MSG = "Error Occured While Deleting Employee."; 	
 	 
+	 public static final String ERR_EMP_EXISTS_EXCEPTION_CODE = "EMPLOYEE-ALREADY-EXISTS-1016";
+	 public static final String ERR_EMP_EXISTS_EXCEPTION_MSG = "Employee Already Exists !"; 	
 
-
+	 public static final String ERR_EMP_DETAILS_GET_UNSUCESS_CODE = "EMPLOYEE-DETAILS-GET-UNSUCESS-1017";
+	 public static final String ERR_EMP_DETAILS_GET_UNSUCESS_MSG = "Error Occured While Retrieving Employee Details !"; 	
+	 
+	 public static final String ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_CODE = "DEPARTMENT-REST-CLIENT-EXCEPTION-1018";
+	 public static final String ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_MSG = "Error Occured While Calling Department Microservice !"; 
+	 
 }

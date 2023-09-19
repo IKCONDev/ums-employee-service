@@ -69,7 +69,7 @@ public class EmployeeController {
 					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
 		}
 	}
-	
+
 	@PutMapping("/update")
 	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
 		log.info("EmployeeController.updateEmployee() ENTERED ");
@@ -77,25 +77,50 @@ public class EmployeeController {
 		if (employee != null)
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
-		updatedEmployee = employeeService.saveEmployee(employee);
-		return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.CREATED);
+		try {
+			updatedEmployee = employeeService.saveEmployee(employee);
+			return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.CREATED);
+		} catch (Exception e) {
+			log.info("EmployeeController.updateEmployee() : Exception Occured !" + e.fillInStackTrace());
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_UPDATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_UPDATE_UNSUCCESS_MSG);
+		}
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteEmployee(@PathVariable("id") Integer employeeId) {
-		log.info("EmployeeController.deleteEmployeet() ENTERED : employeeId : " + employeeId);
+		log.info("EmployeeController.deleteEmployee() ENTERED : employeeId : " + employeeId);
 		if (employeeId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
-		employeeService.deleteEmployee(employeeId);
-		return ResponseEntity.ok("Employee deleted successfully");
+		try {
+			employeeService.deleteEmployee(employeeId);
+			return ResponseEntity.ok("Employee deleted successfully");
+		} catch (Exception e) {
+			log.info("EmployeeController.deleteEmployee() : Exception Occured while deleting employee !"
+					+ e.fillInStackTrace());
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DELETE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_DELETE_UNSUCCESS_MSG);
+		}
 	}
-	
+
 	@GetMapping("/get/{id}")
-	public EmployeeVO getEmployeeWithDepartment(@PathVariable("id") Integer employeeId) {
-		System.out.println("EmployeeController.getUserWithDepartment() : employeeId : " + employeeId);
-		log.info("EmployeeController.getUserWithDepartment() ENTERED");
-		return employeeService.getEmployeeWithDepartment(employeeId);
+	public ResponseEntity<?> getEmployeeWithDepartment(@PathVariable("id") Integer employeeId) {
+		log.info("EmployeeController.getEmployeeWithDepartment() ENTERED : employeeId : " + employeeId);
+		EmployeeVO employeeVO = null;
+		if (employeeId <= 0)
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
+		try {
+			employeeVO = employeeService.getEmployeeWithDepartment(employeeId);
+			return new ResponseEntity<>(employeeVO, HttpStatus.OK);
+		} catch (Exception e) {
+			log.info(
+					"EmployeeController.getEmployeeWithDepartment() : Exception Occured while getting Employee Details !"
+							+ e.fillInStackTrace());
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		}
 	}
 
 	/**
@@ -144,12 +169,13 @@ public class EmployeeController {
 	 * @return
 	 */
 	@PostMapping("/save/{userPrincipalName}")
-	public ResponseEntity<?> saveAzureUserProfile(@PathVariable ("userPrincipalName") String emailId ) {
+	public ResponseEntity<?> saveAzureUserProfile(@PathVariable("userPrincipalName") String emailId) {
 		log.info("EmployeeController.saveAzureUserProfile() ENTERED : userPrincipalName or emailId : " + emailId);
 		try {
-		//	Integer dbEmployeeCount = employeeService.searchEmployeeByEmail(userPrincipalName);
+			// Integer dbEmployeeCount =
+			// employeeService.searchEmployeeByEmail(userPrincipalName);
 			boolean checkIfAzureUserExists = employeeService.checkIfEmployeeExists(emailId);
-			if ( !checkIfAzureUserExists ) {
+			if (!checkIfAzureUserExists) {
 				String message = employeeService.saveAzureUser(emailId);
 				return new ResponseEntity<>(message, HttpStatus.CREATED);
 			} else {
@@ -177,7 +203,5 @@ public class EmployeeController {
 		empListVO.setEmployee(employeesDbList);
 		return new ResponseEntity<>(empListVO, HttpStatus.OK);
 	}
-
-
 
 }
