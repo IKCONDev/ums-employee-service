@@ -18,7 +18,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	//find and employee by username (email)
 	Optional<Employee> findByEmail(String email);
 	
-	@Query("SELECT COUNT(*) FROM Employee WHERE email=:email")
-	Integer searchEmployeeDetailsByMail(String email);
+//	@Query("SELECT COUNT(*) FROM Employee WHERE email=:email")
+//	Integer searchEmployeeDetailsByMail(String email);
+	
+	@Query("SELECT COUNT(*) FROM Employee WHERE email=:employeeEmailId")
+	Integer checkIfEmployeeExists ( String employeeEmailId);
 
 }

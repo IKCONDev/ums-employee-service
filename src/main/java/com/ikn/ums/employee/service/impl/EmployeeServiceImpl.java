@@ -3,7 +3,6 @@ package com.ikn.ums.employee.service.impl;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -19,15 +18,13 @@ import org.springframework.web.client.RestTemplate;
 
 import com.azure.core.credential.AccessToken;
 import com.ikn.ums.employee.VO.DepartmentVO;
-import com.ikn.ums.employee.VO.EmployeeListVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.VO.TeamsUserProfileVO;
 import com.ikn.ums.employee.entity.Employee;
-import com.ikn.ums.employee.exception.BusinessException;
-import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EmptyListException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
+import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.model.UserProfilesResponseWrapper;
 import com.ikn.ums.employee.repository.EmployeeRepository;
 import com.ikn.ums.employee.service.EmployeeService;
@@ -69,13 +66,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee saveEmployee(Employee employee) {
 		log.info("EmployeeService.saveEmployee() ENTERED");
-		
 		if (employee == null) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
-		Employee savedEmployee = employeeRepository.save(employee);
+		Employee savedEmployee = null;
+		if ( checkIfEmployeeExists(employee.getEmail()) == false ) {
+			savedEmployee = employeeRepository.save(employee);
+		}else {
+			//TODO: Implement
+		}
 		return savedEmployee;
+	}
+
+	@Override
+	public void deleteEmployee(Integer employeeId) {
+		log.info("EmployeeServiceImpl.deleteEmployee() ENTERED : employeeId : " + employeeId);
+		if (employeeId ==0 )
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
+		employeeRepository.deleteById(employeeId);
 	}
 
 	// fetch user details based on username (email)
@@ -287,22 +297,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	}
 
-	@Override
-	public Integer searchEmployeeByEmail(String email) {
-		log.info("EmployeeServiceImpl.searchEmployeeByEmail() ENTERED : email : " + email);
-		if (email == null || email.isEmpty() )
+//	@Override
+//	public Integer searchEmployeeByEmail(String email) {
+//		log.info("EmployeeServiceImpl.searchEmployeeByEmail() ENTERED : email : " + email);
+//		if (email == null || email.isEmpty() )
+//			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
+//					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
+//		Integer count = employeeRepository.searchEmployeeDetailsByMail(email);
+//		return count;
+//	}
+
+	public boolean checkIfEmployeeExists(String employeeEmailId) {
+		log.info("EmployeeServiceImpl.checkIfEmployeeExists() ENTERED : employeeEmailId : " + employeeEmailId);
+		boolean checkifEmployeeExists = false;
+		if (employeeEmailId == null || employeeEmailId.isEmpty() || employeeEmailId.length() == 0 )
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
-		Integer count = employeeRepository.searchEmployeeDetailsByMail(email);
-		return count;
+		Integer count = employeeRepository.checkIfEmployeeExists(employeeEmailId);
+		if ( count > 0 )
+			checkifEmployeeExists = true;
+		return checkifEmployeeExists;
 	}
+	
 
-	@Override
-	public void deleteEmployee(Integer employeeId) {
-		log.info("EmployeeServiceImpl.deleteEmployee() ENTERED : employeeId : " + employeeId);
-		if (employeeId ==0 )
-			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
-					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
-		employeeRepository.deleteById(employeeId);
-	}
+
 }

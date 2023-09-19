@@ -69,7 +69,28 @@ public class EmployeeController {
 					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
 		}
 	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+		log.info("EmployeeController.updateEmployee() ENTERED ");
+		Employee updatedEmployee = new Employee();
+		if (employee != null)
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+		updatedEmployee = employeeService.saveEmployee(employee);
+		return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.CREATED);
+	}
 
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteEmployee(@PathVariable("id") Integer employeeId) {
+		log.info("EmployeeController.deleteEmployeet() ENTERED : employeeId : " + employeeId);
+		if (employeeId <= 0)
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
+		employeeService.deleteEmployee(employeeId);
+		return ResponseEntity.ok("Employee deleted successfully");
+	}
+	
 	@GetMapping("/get/{id}")
 	public EmployeeVO getEmployeeWithDepartment(@PathVariable("id") Integer employeeId) {
 		System.out.println("EmployeeController.getUserWithDepartment() : employeeId : " + employeeId);
@@ -123,12 +144,13 @@ public class EmployeeController {
 	 * @return
 	 */
 	@PostMapping("/save/{userPrincipalName}")
-	public ResponseEntity<?> saveAzureUserProfile(@PathVariable String userPrincipalName) {
-		log.info("EmployeeController.saveAzureUserProfile() ENTERED : userPrincipalName : " + userPrincipalName);
+	public ResponseEntity<?> saveAzureUserProfile(@PathVariable ("userPrincipalName") String emailId ) {
+		log.info("EmployeeController.saveAzureUserProfile() ENTERED : userPrincipalName or emailId : " + emailId);
 		try {
-			Integer dbEmployeeCount = employeeService.searchEmployeeByEmail(userPrincipalName);
-			if (dbEmployeeCount == 0) {
-				String message = employeeService.saveAzureUser(userPrincipalName);
+		//	Integer dbEmployeeCount = employeeService.searchEmployeeByEmail(userPrincipalName);
+			boolean checkIfAzureUserExists = employeeService.checkIfEmployeeExists(emailId);
+			if ( !checkIfAzureUserExists ) {
+				String message = employeeService.saveAzureUser(emailId);
 				return new ResponseEntity<>(message, HttpStatus.CREATED);
 			} else {
 				return new ResponseEntity<>("User already exists in Database, duplicate users not allowed",
@@ -156,25 +178,6 @@ public class EmployeeController {
 		return new ResponseEntity<>(empListVO, HttpStatus.OK);
 	}
 
-	@PutMapping("/update")
-	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
-		log.info("EmployeeController.updateEmployee() ENTERED ");
-		Employee updatedEmployee = new Employee();
-		if (employee != null)
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
-		updatedEmployee = employeeService.saveEmployee(employee);
-		return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.CREATED);
-	}
 
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteEmployee(@PathVariable("id") Integer employeeId) {
-		log.info("EmployeeController.deleteEmployeet() ENTERED : employeeId : " + employeeId);
-		if (employeeId <= 0)
-			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
-					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
-		employeeService.deleteEmployee(employeeId);
-		return ResponseEntity.ok("Employee deleted successfully");
-	}
 
 }

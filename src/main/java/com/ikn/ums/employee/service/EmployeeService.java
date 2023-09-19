@@ -18,7 +18,7 @@ public interface EmployeeService {
 	//save single user from azure
 	String saveAzureUser(String azureUserPrincipalName);
 	//search employee count by their username
-	Integer searchEmployeeByEmail(String email);
+//	Integer searchEmployeeByEmail(String email);
 	void deleteEmployee(Integer employeeId);
-
+	boolean checkIfEmployeeExists(String employeeEmailId);
 }
