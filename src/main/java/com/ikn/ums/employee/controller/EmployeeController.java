@@ -25,9 +25,9 @@ import com.ikn.ums.employee.service.EmployeeService;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/employees")
-@Slf4j
 public class EmployeeController {
 
 	@Autowired
