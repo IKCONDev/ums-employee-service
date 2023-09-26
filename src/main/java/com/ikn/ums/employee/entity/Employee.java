@@ -58,4 +58,6 @@ public class Employee {
 	
 	@Column(name = "department_id", nullable = false, unique = false)
 	private Long departmentId;
+	
 }
+	

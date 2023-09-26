@@ -96,6 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if (checkIfEmployeeExists(employee.getEmail())) {
 			log.info("EmployeeService.updateEmployee() Updating Employee....");
 			updatedEmployee = employeeRepository.save(employee);
+			
 		} else {
 			log.info("EmployeeService.updateEmployee() Employee Not Found To Update !");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,

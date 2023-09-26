@@ -73,12 +73,13 @@ public class EmployeeController {
 	@PutMapping("/update")
 	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
 		log.info("EmployeeController.updateEmployee() ENTERED ");
+		log.info("the epmployee from front is"+" "+ employee);
 		Employee updatedEmployee = new Employee();
-		if (employee != null)
+		if (employee == null)
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		try {
-			updatedEmployee = employeeService.saveEmployee(employee);
+			updatedEmployee = employeeService.updateEmployee(employee);
 			return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.CREATED);
 		} catch (Exception e) {
 			log.info("EmployeeController.updateEmployee() : Exception Occured !" + e.fillInStackTrace());
