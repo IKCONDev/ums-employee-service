@@ -6,8 +6,9 @@ spring:
     name: UMS-EMPLOYEE-SERVICE
   datasource:
     driver-class-name: org.postgresql.Driver
-    password: root
+    password: manager
     url: jdbc:postgresql://localhost:5432/authentication
+    #url: jdbc:postgresql://10.10.1.224:5432/users
     username: postgres
   devtools:
     restart:
