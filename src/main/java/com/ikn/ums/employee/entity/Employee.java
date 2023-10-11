@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "employee_master")
+@Table(name = "employee_tab")
 public class Employee {
 
 	// user login properties

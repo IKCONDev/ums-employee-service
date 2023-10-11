@@ -127,6 +127,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	// fetch user details based on username (email)
 	@Override
 	public EmployeeVO fetchEmployeeDetailsWithDepartment(String email) {
+		
+		System.out.println("EmployeeServiceImpl.fetchEmployeeDetailsWithDepartment() ENTEREED : email :" + email);
 
 		EmployeeVO employeeVO = null;
 		Optional<Employee> optEmployee = employeeRepository.findByEmail(email);

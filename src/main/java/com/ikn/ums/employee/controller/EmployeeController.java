@@ -109,6 +109,9 @@ public class EmployeeController {
 	public ResponseEntity<?> getEmployeeWithDepartment(@PathVariable("id") Integer employeeId) {
 		log.info("EmployeeController.getEmployeeWithDepartment() ENTERED : employeeId : " + employeeId);
 		EmployeeVO employeeVO = null;
+		
+		System.out.println("EmployeeController.getEmployeeWithDepartment() ENTERED ");
+		
 		if (employeeId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
@@ -133,9 +136,15 @@ public class EmployeeController {
 	@GetMapping("/{email}")
 	public ResponseEntity<?> getEmployeeDetailsWithDepartment(@PathVariable String email) {
 		log.info("EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : " + email);
+		
+		System.out.println("EmployeeController.getEmployeeDetailsWithDepartment() : email : " + email);
+		
 		try {
 			System.out.println(email);
 			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
+			
+			System.out.println("EmployeeController.getEmployeeDetailsWithDepartment() post retrieval" + employeeDto.getEmail());
+			
 			System.out.println(employeeDto);
 			return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 		} catch (Exception e) {
