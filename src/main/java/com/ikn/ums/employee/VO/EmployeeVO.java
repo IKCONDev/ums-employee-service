@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class EmployeeVO {
 	
 		private Integer id;
+		
+		private String employeeOrgId;
 
 		private String teamsUserId;
 
