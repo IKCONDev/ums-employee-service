@@ -23,14 +23,17 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "Id")
 	private Integer id;
+	
+	@Column(name = "employeeOrgId", nullable = true)
+	private String employeeOrgId;
 
-	@Column(name = "teams_user_id", nullable = true)
+	@Column(name = "teamsUserId", nullable = true)
 	private String teamsUserId;
 
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column(name = "last_name", nullable = true)
+	@Column(name = "lastName", nullable = true)
 	private String lastName;
 
 	@Column(name = "email", nullable = false, unique = true)
@@ -56,7 +59,7 @@ public class Employee {
 //	@Column(name = "two_factor_authentication", nullable = true, unique = false)
 //	private boolean twoFactorAuthentication;
 	
-	@Column(name = "department_id", nullable = false, unique = false)
+	@Column(name = "departmentId", nullable = false, unique = false)
 	private Long departmentId;
 	
 }
