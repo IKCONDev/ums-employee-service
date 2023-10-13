@@ -213,5 +213,14 @@ public class EmployeeController {
 		empListVO.setEmployee(employeesDbList);
 		return new ResponseEntity<>(empListVO, HttpStatus.OK);
 	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<?> getAllEmployeesDetails() {
+		log.info("EmployeeController.getAllEmployees() ENTERED");
+		List<Employee> employeesDbList = employeeService.getAllEmployees();
+		return new ResponseEntity<>(employeesDbList, HttpStatus.OK);
+	}
+	
+	
 
 }
