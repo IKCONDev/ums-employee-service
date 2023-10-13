@@ -54,6 +54,14 @@ public class ErrorCodeMessages {
 	 public static final String ERR_EMP_DETAILS_GET_UNSUCESS_MSG = "Error Occured While Retrieving Employee Details !"; 	
 	 
 	 public static final String ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_CODE = "DEPARTMENT-REST-CLIENT-EXCEPTION-1018";
-	 public static final String ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_MSG = "Error Occured While Calling Department Microservice !"; 
+	 public static final String ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_MSG = "Error Occured While Calling Department Microservice !";
+	 
+	 //DESIGNATIONS
+	 public static final String ERR_DESG_IDS_LIST_IS_EMPTY_CODE = "ERR_DESG_IDS_LIST_IS_EMPTY_CODE-1001";
+	 public static final String ERR_DESG_IDS_LIST_IS_EMPTY_MSG = "Designation ids list is empty";
+	 
+	 public static final String ERR_DESG_LIST_DELETE_UNSUCCESS_CODE = "ERR_DESG_LIST_DELETE_UNSUCCESS_CODE-1002";
+	 public static final String ERR_DESG_LIST_DELETE_UNSUCCESS_MSG = "Error while deleting designations";
+	 
 	 
 }
