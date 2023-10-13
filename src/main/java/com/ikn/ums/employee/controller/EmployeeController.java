@@ -217,8 +217,8 @@ public class EmployeeController {
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllEmployeesDetails() {
 		log.info("EmployeeController.getAllEmployees() ENTERED");
-		List<Employee> employeesDbList = employeeService.getAllEmployees();
-		return new ResponseEntity<>(employeesDbList, HttpStatus.OK);
+		List<Employee> employeesList = employeeService.getAllEmployees();
+		return new ResponseEntity<>(employeesList, HttpStatus.OK);
 	}
 	
 	
