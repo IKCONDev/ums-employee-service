@@ -1,6 +1,8 @@
 package com.ikn.ums.employee.controller;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -220,6 +222,32 @@ public class EmployeeController {
 		List<Employee> employeesList = employeeService.getAllEmployees();
 		return new ResponseEntity<>(employeesList, HttpStatus.OK);
 	}
+	
+	@DeleteMapping("/deleteAll/{ids}")
+	public ResponseEntity<?> deleteAllEmployeesById(@PathVariable("ids") String employeeIds ){
+		log.info("EmployeeController.deleteAllEmployeesById() ENTERED with employeeIds");
+		List<Integer> idList = null;
+		if(employeeIds !="") {
+				String[] idFromUI = employeeIds.split(",");
+				List<String> list = Arrays.asList(idFromUI);
+				idList = list.stream()
+						.map(s-> Integer.parseInt(s))
+						.collect(Collectors.toList());
+		}
+		try {
+			log.info("EmployeeController.deleteAllEmployeesById()is under execution...");
+			boolean isDeleted = employeeService.deleteAllEmployeesById(idList);
+			log.info("EmployeeController.deleteAllEmployeesById() executed successfully");
+			return  new ResponseEntity<>(isDeleted,HttpStatus.OK);
+			 
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.getMessage();
+			return new ResponseEntity<>("Exception occured while deleting the employees", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	
+	}
+		
 	
 	
 

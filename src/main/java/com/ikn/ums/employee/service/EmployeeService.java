@@ -22,5 +22,6 @@ public interface EmployeeService {
 	//search employee count by their username
 //	Integer searchEmployeeByEmail(String email);
 	boolean checkIfEmployeeExists(String employeeEmailId);
+	boolean deleteAllEmployeesById(List<Integer> employeeIds);
 	
 }

@@ -363,4 +363,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return checkifEmployeeExists;
 	}
 
+	@Override
+	public boolean deleteAllEmployeesById(List<Integer> employeeIds) {
+		log.info("EmployeeServiceImpl.deleteAllEmployeesById() ENTERED : employeeIds : ");
+		boolean isDeleted = false;
+	    employeeRepository.deleteAllById(employeeIds);
+		// TODO Auto-generated method stub
+		isDeleted = true;
+		return isDeleted;
+	}
+	
+	
+
 }
