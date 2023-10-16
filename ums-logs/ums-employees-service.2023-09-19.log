@@ -1,0 +1,233 @@
+10:39:35.683 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+10:39:37.326 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:9296
+10:39:38.701 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=UMS-EMPLOYEE-SERVICE, profiles=[default], label=null, version=abc948351d8765c2e5a2691c8f7f75664420de7d, state=null
+10:39:38.702 [restartedMain] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/IKCONDev/ums-config-server/application.yaml'}]
+10:39:38.713 [restartedMain] INFO  c.i.u.e.UMSEmployeeServiceApplication - No active profile set, falling back to 1 default profile: "default"
+10:39:40.454 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+10:39:41.011 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 536 ms. Found 1 JPA repository interfaces.
+10:39:41.506 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=2615fba1-6132-35e5-95f3-750289286465
+10:39:43.622 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9002 (http)
+10:39:43.637 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9002"]
+10:39:43.639 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+10:39:43.640 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.78]
+10:39:44.649 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+10:39:44.649 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5915 ms
+10:39:44.922 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+10:39:46.002 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+10:39:46.022 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/authentication'
+10:39:47.021 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+10:39:47.813 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+10:39:48.780 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+10:39:49.251 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+10:39:51.414 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+10:39:51.435 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+10:39:53.445 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+10:39:54.079 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+10:39:54.766 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+10:39:55.752 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+10:39:55.908 [restartedMain] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+10:39:55.998 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+10:39:56.011 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+10:39:56.065 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+10:39:56.065 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+10:39:56.065 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+10:39:56.066 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+10:39:56.066 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+10:39:56.066 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+10:39:56.066 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+10:39:56.482 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+10:39:56.488 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+10:39:56.493 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+10:39:56.503 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1695100196501 with initial instances count: 4
+10:39:56.507 [restartedMain] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application UMS-EMPLOYEE-SERVICE with eureka with status UP
+10:39:56.508 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695100196508, current=UP, previous=STARTING]
+10:39:56.512 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-EMPLOYEE-SERVICE/IKCON1049:UMS-EMPLOYEE-SERVICE:9002: registering service...
+10:39:56.513 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9002"]
+10:39:56.562 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9002 (http) with context path ''
+10:39:56.563 [restartedMain] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 9002
+10:39:56.606 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-EMPLOYEE-SERVICE/IKCON1049:UMS-EMPLOYEE-SERVICE:9002 - registration status: 204
+10:39:57.177 [restartedMain] INFO  c.i.u.e.UMSEmployeeServiceApplication - Started UMSEmployeeServiceApplication in 24.251 seconds (JVM running for 29.701)
+10:41:03.298 [http-nio-9002-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+10:41:03.300 [http-nio-9002-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+10:41:03.316 [http-nio-9002-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 16 ms
+10:41:03.354 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:43:58.323 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:44:00.034 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:44:03.028 [http-nio-9002-exec-5] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:44:10.478 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:44:56.084 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+10:45:00.023 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:46:00.026 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:46:16.568 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:46:30.229 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:47:00.032 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:47:07.517 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:48:00.036 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:49:00.021 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:49:19.920 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:49:56.093 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+10:50:00.025 [http-nio-9002-exec-8] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:51:00.020 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:52:00.019 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:53:00.028 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:54:00.022 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:54:56.108 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+10:55:00.027 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:55:23.873 [http-nio-9002-exec-5] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:55:27.398 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:55:34.279 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:55:35.481 [http-nio-9002-exec-8] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:55:40.996 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:56:00.016 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:56:14.259 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:56:21.559 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:56:26.547 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:56:40.200 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:56:45.695 [http-nio-9002-exec-5] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:56:47.667 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:56:48.494 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:56:48.910 [http-nio-9002-exec-8] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:56:51.511 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:57:00.030 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:57:02.549 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:57:04.066 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:57:05.909 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:57:18.989 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:57:23.559 [http-nio-9002-exec-5] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:57:25.860 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:57:46.706 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:58:00.044 [http-nio-9002-exec-8] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:59:00.022 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+10:59:09.078 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:59:36.352 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:59:36.492 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:59:50.640 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+10:59:56.138 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:00:00.024 [http-nio-9002-exec-5] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:00:10.109 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:00:25.683 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:00:25.787 [http-nio-9002-exec-8] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:01:00.023 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:01:12.864 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:01:13.006 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:02:00.032 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:03:00.021 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:04:00.021 [http-nio-9002-exec-5] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:04:56.143 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:05:00.030 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:06:00.025 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:07:00.020 [http-nio-9002-exec-8] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:08:00.013 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:09:00.012 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:09:56.166 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:10:00.066 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:11:00.036 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:12:00.020 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:13:00.017 [http-nio-9002-exec-5] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:14:00.020 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:14:56.173 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:15:00.023 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:16:00.020 [http-nio-9002-exec-8] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:17:00.015 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:18:00.032 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:19:00.028 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:19:56.200 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:20:00.017 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:21:00.021 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:22:00.033 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:22:52.439 [http-nio-9002-exec-5] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:22:52.711 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:23:00.012 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:24:00.027 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:24:56.220 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:25:00.032 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:26:00.045 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:27:00.042 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:28:00.026 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:28:31.505 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:28:48.186 [http-nio-9002-exec-5] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:29:00.023 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:29:56.254 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:30:00.017 [http-nio-9002-exec-8] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:31:00.028 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:32:00.020 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:33:00.028 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:34:00.024 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:34:56.270 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:35:00.022 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:36:00.014 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:37:00.098 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:38:00.024 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getAllEmployees() ENTERED
+11:39:56.292 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:44:56.324 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:49:45.606 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:49:46.405 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:49:56.352 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:52:42.366 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:54:56.358 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+11:59:36.921 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+11:59:56.378 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:01:19.116 [http-nio-9002-exec-6] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+12:02:00.389 [http-nio-9002-exec-7] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+12:02:39.853 [http-nio-9002-exec-8] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+12:03:11.924 [http-nio-9002-exec-9] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+12:03:25.565 [http-nio-9002-exec-10] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+12:03:42.074 [http-nio-9002-exec-1] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+12:04:14.751 [http-nio-9002-exec-2] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+12:04:56.388 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:04:57.108 [http-nio-9002-exec-4] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+12:05:11.532 [http-nio-9002-exec-3] INFO  c.i.u.e.c.EmployeeController - EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : Vaishnav.P@ikcontech.com
+12:09:56.395 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:14:56.400 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:19:56.417 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:24:56.439 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:29:56.459 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:34:56.466 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:39:56.489 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:44:56.513 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:49:56.543 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:54:56.588 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+12:59:56.610 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+13:04:56.640 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+13:09:56.668 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+13:14:56.707 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+13:16:22.571 [RMI TCP Connection(161)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+13:16:22.571 [RMI TCP Connection(162)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+13:16:22.607 [RMI TCP Connection(163)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+13:16:22.657 [RMI TCP Connection(162)-127.0.0.1] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application UMS-EMPLOYEE-SERVICE with eureka with status DOWN
+13:16:22.661 [RMI TCP Connection(162)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695109582661, current=DOWN, previous=UP]
+13:16:22.665 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-EMPLOYEE-SERVICE/IKCON1049:UMS-EMPLOYEE-SERVICE:9002: registering service...
+13:16:22.782 [RMI TCP Connection(164)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+13:16:22.782 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-EMPLOYEE-SERVICE/IKCON1049:UMS-EMPLOYEE-SERVICE:9002 - registration status: 204
+13:16:22.953 [RMI TCP Connection(165)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+13:16:23.044 [RMI TCP Connection(162)-127.0.0.1] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9002"]
+13:16:23.045 [RMI TCP Connection(162)-127.0.0.1] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+13:16:23.087 [RMI TCP Connection(162)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+13:16:23.102 [RMI TCP Connection(166)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+13:16:23.177 [RMI TCP Connection(162)-127.0.0.1] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [boundedElastic-evictor-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@11.0.18/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@11.0.18/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:234)
+ java.base@11.0.18/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2123)
+ java.base@11.0.18/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@11.0.18/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@11.0.18/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1054)
+ java.base@11.0.18/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1114)
+ java.base@11.0.18/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+ java.base@11.0.18/java.lang.Thread.run(Thread.java:834)
+13:16:23.180 [RMI TCP Connection(162)-127.0.0.1] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [pool-10-thread-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@11.0.18/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@11.0.18/java.util.concurrent.locks.LockSupport.park(LockSupport.java:194)
+ java.base@11.0.18/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2081)
+ java.base@11.0.18/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1170)
+ java.base@11.0.18/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@11.0.18/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1054)
+ java.base@11.0.18/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1114)
+ java.base@11.0.18/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+ java.base@11.0.18/java.lang.Thread.run(Thread.java:834)
+13:16:23.204 [RMI TCP Connection(162)-127.0.0.1] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9002"]
+13:16:23.226 [RMI TCP Connection(162)-127.0.0.1] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9002"]
+13:16:23.245 [RMI TCP Connection(167)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+13:16:23.284 [RMI TCP Connection(162)-127.0.0.1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+13:16:23.361 [RMI TCP Connection(162)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+13:16:23.428 [RMI TCP Connection(162)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+13:16:23.433 [RMI TCP Connection(162)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
