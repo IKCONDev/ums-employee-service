@@ -1,5 +1,7 @@
 package com.ikn.ums.employee.VO;
 
+import com.ikn.ums.employee.entity.Designation;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,8 @@ public class EmployeeVO {
 		//private String userRole;
 
 		private String designation;
+		
+		private Designation empDesignation;
 		
 		private Long departmentId;
 		
