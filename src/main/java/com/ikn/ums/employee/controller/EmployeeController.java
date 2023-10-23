@@ -91,14 +91,14 @@ public class EmployeeController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteEmployee(@PathVariable("id") Integer employeeId) {
+	public ResponseEntity<?> deleteEmployee(@PathVariable("id") Integer employeeId) {
 		log.info("EmployeeController.deleteEmployee() ENTERED : employeeId : " + employeeId);
 		if (employeeId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
 		try {
 			employeeService.deleteEmployee(employeeId);
-			return ResponseEntity.ok("Employee deleted successfully");
+			return ResponseEntity.ok(true);
 		} catch (Exception e) {
 			log.info("EmployeeController.deleteEmployee() : Exception Occured while deleting employee !"
 					+ e.fillInStackTrace());
