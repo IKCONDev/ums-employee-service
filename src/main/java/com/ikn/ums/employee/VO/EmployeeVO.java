@@ -22,6 +22,8 @@ public class EmployeeVO {
 		private String lastName;
 
 		private String email;
+		
+		private String reportingManager;
 
 		//private String userRole;
 

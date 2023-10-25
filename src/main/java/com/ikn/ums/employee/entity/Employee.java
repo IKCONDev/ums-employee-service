@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,6 +44,9 @@ public class Employee {
 
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
+	
+	@Column(name = "reportingManager", nullable = true)
+	private String reportingManager;
 
 //	@Column(name = "encrypted_password", nullable = false, unique = false)
 //	private String encryptedPassword;
@@ -58,7 +62,7 @@ public class Employee {
 	@Column(name = "designation", nullable = true)
 	private String designation;
 	
-	@OneToOne(orphanRemoval = false,optional = true)
+	@OneToOne(orphanRemoval = false,optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "designationId",referencedColumnName = "id")
 	private Designation empDesignation;
 
