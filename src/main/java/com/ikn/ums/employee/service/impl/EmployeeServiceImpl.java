@@ -115,7 +115,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Optional<Employee> dbEmployee = null;
 		dbEmployee = employeeRepository.findById(employeeId);
 		if (dbEmployee.isPresent()) {
-			log.info("EmployeeService.saveEmployee() Saving Employee....");
+			log.info("EmployeeService.deleteEmployee() under execution....");
 			employeeRepository.deleteById(employeeId);
 		} else {
 			log.info("EmployeeService.saveEmployee() Employee Already Exists !");
