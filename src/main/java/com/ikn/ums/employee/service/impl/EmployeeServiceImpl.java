@@ -1,5 +1,6 @@
 package com.ikn.ums.employee.service.impl;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee savedEmployee = null;
 		if (checkIfEmployeeExists(employee.getEmail()) == false) {
 			log.info("EmployeeService.saveEmployee() Saving Employee....");
+			LocalDateTime date = LocalDateTime.now();
+			employee.setCreatedDateTime(date);
 			savedEmployee = employeeRepository.save(employee);
 		} else {
 			log.info("EmployeeService.saveEmployee() Employee Already Exists !");
@@ -93,16 +96,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
 		Employee updatedEmployee = null;
-		if (checkIfEmployeeExists(employee.getEmail())) {
-			log.info("EmployeeService.updateEmployee() Updating Employee....");
-			updatedEmployee = employeeRepository.save(employee);
-			
-		} else {
-			log.info("EmployeeService.updateEmployee() Employee Not Found To Update !");
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+		Employee dbEmployee = null;
+		Optional<Employee> optEmployee = employeeRepository.findById(employee.getId());
+		if(optEmployee.isPresent()) {
+				dbEmployee = optEmployee.get();	
 		}
-		return updatedEmployee;
+		log.info("EmployeeService.updateEmployee() Updating Employee....");
+		dbEmployee.setEmail(employee.getEmail());
+		dbEmployee.setFirstName(employee.getFirstName());
+		dbEmployee.setLastName(employee.getLastName());
+		dbEmployee.setReportingManager(employee.getReportingManager());
+		dbEmployee.setDepartmentId(employee.getDepartmentId());
+		dbEmployee.setEmpDesignation(employee.getEmpDesignation());
+		dbEmployee.setModifiedDateTime(LocalDateTime.now());
+		dbEmployee.setModifiedByEmailId(employee.getEmail());
+		dbEmployee.setModifiedBy(employee.getFirstName());
+		updatedEmployee = employeeRepository.save(dbEmployee);
+		return updatedEmployee; 
 	}
 
 	@Override
