@@ -111,6 +111,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		dbEmployee.setModifiedDateTime(LocalDateTime.now());
 		dbEmployee.setModifiedByEmailId(employee.getEmail());
 		dbEmployee.setModifiedBy(employee.getFirstName());
+		dbEmployee.setTeamsUserId(employee.getTeamsUserId());
 		updatedEmployee = employeeRepository.save(dbEmployee);
 		return updatedEmployee; 
 	}
