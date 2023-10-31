@@ -10,12 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikn.ums.employee.entity.Designation;
+import com.ikn.ums.employee.exception.DesignationNameExistsException;
 import com.ikn.ums.employee.exception.EmptyListException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
 import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.repository.DesignationRepository;
 import com.ikn.ums.employee.service.DesignationService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class DesignationServiceImpl implements DesignationService {
 	
@@ -24,6 +28,14 @@ public class DesignationServiceImpl implements DesignationService {
 
 	@Override
 	public Designation createDesignation(Designation designation) {
+		if (designation == null) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_MSG);
+		}
+		if(isDesignationNameExists(designation)) {
+			throw new DesignationNameExistsException(ErrorCodeMessages.ERR_DESG_NAME_EXISTS_CODE,
+					ErrorCodeMessages.ERR_DESG_NAME_EXISTS_MSG);
+		}
 		designation.setCreatedDateTime(LocalDateTime.now());
 		Designation createdDesignation = designationRepository.save(designation);
 		return createdDesignation;
@@ -81,7 +93,23 @@ public class DesignationServiceImpl implements DesignationService {
 		if(designationList.size() > 0) {
 			designationRepository.deleteAll(designationList);
 		}
+	}
+	
+	private boolean isDesignationNameExists(Designation designation) {
+		log.info("DepartmentServiceImpl.isDesignationNameExists() ENTERED : role : " );
+		boolean isDesgNameExists = false;
 		
+		if (designation == null) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_MSG);
+		} else {
+			log.info("DesignationServiceImpl  : Dept Id : " + designation.getId() + " Dept Name : " + designation.getDesignationName());
+			Optional<Designation> optRole = designationRepository.findByDesignationName( designation.getDesignationName() );
+		//	isRoleNameExists = optRole.get().getRoleName().equalsIgnoreCase(role.getRoleName());
+			isDesgNameExists = optRole.isPresent();
+			log.info("DesignationServiceImpl  : isDesgNameExists : " + isDesgNameExists);
+		}
+		return isDesgNameExists;
 	}
 
 }

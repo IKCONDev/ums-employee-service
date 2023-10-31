@@ -88,6 +88,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("Controller Exception Occurred" + controllerException.getMessage());
 		return new ResponseEntity<String>(controllerException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@ExceptionHandler(DesignationNameExistsException.class)
+	public ResponseEntity<String> handleDesignationNameExistsException(DesignationNameExistsException designationNameExistsException) {
+		log.info("GlobalExceptionHandler.handleDesignationNameExistsException() ENTERED" + designationNameExistsException.getMessage());
+		log.info("DesignationNameExistsException Occurred" + designationNameExistsException.getMessage());
+		return new ResponseEntity<String>(designationNameExistsException.getMessage(), HttpStatus.FOUND);
+	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
@@ -95,5 +102,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED" + ex.getMessage());
 		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.NOT_FOUND);
 	}
+	
 
 }

@@ -13,12 +13,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.ikn.ums.employee.entity.Designation;
 import com.ikn.ums.employee.exception.ControllerException;
+import com.ikn.ums.employee.exception.DesignationNameExistsException;
 import com.ikn.ums.employee.exception.EmptyInputException;
+import com.ikn.ums.employee.exception.EntityNotFoundException;
 import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.service.DesignationService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/designations")
 public class DesignationController {
@@ -28,8 +34,22 @@ public class DesignationController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> createDesignation(@RequestBody Designation designation){
-		Designation savedDesignation =  designationService.createDesignation(designation);
-		return new ResponseEntity<>(savedDesignation, HttpStatus.CREATED);
+		if (designation == null) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_MSG);
+		}
+		try {
+			Designation savedDesignation =  designationService.createDesignation(designation);
+			return new ResponseEntity<>(savedDesignation, HttpStatus.CREATED);
+		}
+		catch (DesignationNameExistsException | EntityNotFoundException businessException) {
+			throw businessException;
+		}
+		catch (Exception e) {
+			log.info("DepartmentController.saveDepartment() : Exception Occured !" + e.fillInStackTrace());
+			throw new ControllerException(ErrorCodeMessages.DESG_CREATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.DESG_CREATE_UNSUCCESS_MSG);
+		}
 	}
 	@PutMapping("/update")
 	public ResponseEntity<?> updateDesignation(@RequestBody Designation designation){

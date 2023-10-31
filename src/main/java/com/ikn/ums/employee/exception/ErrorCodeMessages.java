@@ -63,5 +63,13 @@ public class ErrorCodeMessages {
 	 public static final String ERR_DESG_LIST_DELETE_UNSUCCESS_CODE = "ERR_DESG_LIST_DELETE_UNSUCCESS_CODE-1002";
 	 public static final String ERR_DESG_LIST_DELETE_UNSUCCESS_MSG = "Error while deleting designations";
 	 
+	 public static final String ERR_DESG_ENTITY_IS_NULL_CODE = "DESIGNATION-ENTITY-IS-NULL-1003";
+	 public static final String ERR_DESG_ENTITY_IS_NULL_MSG = "Designation Entity is Null."; 
+	 
+	 public static final String ERR_DESG_NAME_EXISTS_CODE = "ERR_DESG_NAME_EXISTS_CODE-1004";
+	 public static final String ERR_DESG_NAME_EXISTS_MSG = "Designation name already exists"; 
+	 
+	 public static final String DESG_CREATE_UNSUCCESS_CODE = "DESG_SAVE_UNSUCCESS_CODE-1005";
+	 public static final String DESG_CREATE_UNSUCCESS_MSG = "Exceeption while creating designation";
 	 
 }
