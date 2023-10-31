@@ -20,6 +20,7 @@ import com.ikn.ums.employee.VO.EmployeeListVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.exception.ControllerException;
+import com.ikn.ums.employee.exception.EmployeeExistsException;
 import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
 import com.ikn.ums.employee.exception.ErrorCodeMessages;
@@ -65,7 +66,10 @@ public class EmployeeController {
 			Employee employeeSaved = employeeService.saveEmployee(employee);
 			log.info("EmployeeController.saveEmployee() : Post Employee method calling .... " + employeeSaved);
 			return new ResponseEntity<Employee>(employeeSaved, HttpStatus.CREATED);
-		} catch (Exception e) {
+		}catch (EntityNotFoundException | EmployeeExistsException businessException) {
+			throw businessException;
+		} 
+		catch (Exception e) {
 			log.info("EmployeeController.saveEmployee() : Exception Occured !" + e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);

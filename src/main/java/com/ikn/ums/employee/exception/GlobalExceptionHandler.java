@@ -48,7 +48,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<String> handleEmployeeExistsException(EmployeeExistsException employeeExistsException) {
 		log.info("GlobalExceptionHandler.handleEmployeeExistsException() ENTERED" + employeeExistsException.getMessage());
 		log.info("Employee already exists!" );
-		return new ResponseEntity<String>(employeeExistsException.getMessage(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<String>(employeeExistsException.getMessage(), HttpStatus.FOUND);
 	}
 	
 	/**
