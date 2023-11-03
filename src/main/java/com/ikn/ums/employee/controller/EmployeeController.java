@@ -78,7 +78,7 @@ public class EmployeeController {
 
 	@PutMapping("/update")
 	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
-		log.info("EmployeeController.updateEmployee() ENTERED ");
+		log.info("EmployeeController.updateEmployee() ENTERED "+employee);
 		log.info("the epmployee from front is"+" "+ employee);
 		Employee updatedEmployee = new Employee();
 		if (employee == null)

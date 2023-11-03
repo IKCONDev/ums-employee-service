@@ -75,6 +75,9 @@ public class Employee {
 	@Column(name = "departmentId", nullable = false, unique = false)
 	private Long departmentId;
 	
+	@Column(name = "gender", nullable = false, unique = false)
+	private String gender;
+	
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
 	
