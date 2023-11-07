@@ -252,7 +252,11 @@ public class EmployeeController {
 	
 	}
 		
-	
+	@GetMapping("/{emailId}/reportees")
+	public ResponseEntity<?> getEmployeeReportees(@PathVariable String emailId){
+		List<Employee> reporteesList = employeeService.getEmployeeReporteesData(emailId);
+		return new ResponseEntity<>(reporteesList, HttpStatus.OK);
+	}
 	
 
 }
