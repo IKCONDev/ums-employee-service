@@ -24,5 +24,7 @@ public interface EmployeeService {
 	boolean checkIfEmployeeExists(String employeeEmailId);
 	boolean deleteAllEmployeesById(List<Integer> employeeIds);
 	List<Employee> getEmployeeReporteesData(String emailId);
+	List<Employee> getAllEmployeesWithUserStatus();
+	
 	
 }

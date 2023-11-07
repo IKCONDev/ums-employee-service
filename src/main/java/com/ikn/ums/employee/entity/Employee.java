@@ -79,5 +79,8 @@ public class Employee {
 	@Column(name = "modifiedByEmailId")
 	private String modifiedByEmailId;
 	
+	@Column(name ="isUser")
+	private boolean isUser;
+	
 }
 	
