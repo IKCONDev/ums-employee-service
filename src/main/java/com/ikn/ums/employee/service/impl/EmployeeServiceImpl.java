@@ -407,6 +407,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeesList;
 	}
 	
+	@Override
+	public void updateEmployeeStatus(String email) {
+		
+		Employee dbUser = null;
+		Optional<Employee> optEmployee = employeeRepository.findByEmail(email);
+		if(optEmployee.isPresent()) {
+			dbUser = optEmployee.get();
+		}
+		dbUser.setUser(true);
+		
+	}
+	
 	
 
 }

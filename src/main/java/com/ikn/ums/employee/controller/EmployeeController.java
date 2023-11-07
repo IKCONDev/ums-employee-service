@@ -257,9 +257,13 @@ public class EmployeeController {
 		List<Employee> employeeList = employeeService.getAllEmployeesWithUserStatus();
 		return new ResponseEntity<>(employeeList,HttpStatus.OK);
 		
-	}
+	}	
+	@PutMapping("/employeestatus-update/{email}")
+	public ResponseEntity<?> updateEmployeeStatus(@PathVariable("email") String email){
+		employeeService.updateEmployeeStatus(email);
+		return null;
 		
-	
+	}
 	
 
 }
