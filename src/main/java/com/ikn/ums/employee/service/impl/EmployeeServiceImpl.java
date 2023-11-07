@@ -79,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			log.info("EmployeeService.saveEmployee() Saving Employee....");
 			LocalDateTime date = LocalDateTime.now();
 			employee.setCreatedDateTime(date);
-			employee.setUser(true);
+			employee.setUser(false);
 			savedEmployee = employeeRepository.save(employee);
 		} else {
 			log.info("EmployeeService.saveEmployee() Employee Already Exists !");
@@ -407,16 +407,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeesList;
 	}
 	
+	@Transactional
 	@Override
 	public void updateEmployeeStatus(String email) {
-		
+		System.out.println("updateEmployeeStatus() is entered");
 		Employee dbUser = null;
 		Optional<Employee> optEmployee = employeeRepository.findByEmail(email);
 		if(optEmployee.isPresent()) {
 			dbUser = optEmployee.get();
 		}
 		dbUser.setUser(true);
-		
 	}
 	
 	

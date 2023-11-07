@@ -260,8 +260,9 @@ public class EmployeeController {
 	}	
 	@PutMapping("/employeestatus-update/{email}")
 	public ResponseEntity<?> updateEmployeeStatus(@PathVariable("email") String email){
+		System.out.println("updateEmployeeStatus() is entered");
 		employeeService.updateEmployeeStatus(email);
-		return null;
+		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping("/{emailId}/reportees")
 	public ResponseEntity<?> getEmployeeReportees(@PathVariable String emailId){
