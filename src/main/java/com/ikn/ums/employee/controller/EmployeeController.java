@@ -251,6 +251,13 @@ public class EmployeeController {
 		}
 	
 	}
+	
+	@GetMapping("/getemployee-status")
+	public ResponseEntity<?> getAllEmployeeWithUserStatus(){
+		List<Employee> employeeList = employeeService.getAllEmployeesWithUserStatus();
+		return new ResponseEntity<>(employeeList,HttpStatus.OK);
+		
+	}
 		
 	
 	

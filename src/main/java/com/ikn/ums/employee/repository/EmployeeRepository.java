@@ -26,5 +26,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	@Query("FROM Employee WHERE reportingManager=:emailId")
 	List<Employee> findEmployeeReportees(String emailId);
+	
+	@Query("FROM Employee WHERE isUser=:userStatus")
+	List<Employee> findAllEmployeesWithUserStatus(boolean userStatus);
 
 }

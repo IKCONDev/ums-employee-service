@@ -79,6 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			log.info("EmployeeService.saveEmployee() Saving Employee....");
 			LocalDateTime date = LocalDateTime.now();
 			employee.setCreatedDateTime(date);
+			employee.setUser(true);
 			savedEmployee = employeeRepository.save(employee);
 		} else {
 			log.info("EmployeeService.saveEmployee() Employee Already Exists !");
@@ -393,6 +394,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		List<Employee> employeeReporteesList = employeeRepository.findEmployeeReportees(emailId);
 		return employeeReporteesList;
+	}
+	
+	@Override
+	public List<Employee> getAllEmployeesWithUserStatus() {
+		List<Employee> employeesList = null;
+		boolean userStatus = false;
+		employeesList = employeeRepository.findAllEmployeesWithUserStatus(userStatus);
+		if (employeesList == null || employeesList.isEmpty())
+			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_MSG);
+		return employeesList;
 	}
 	
 	
