@@ -384,6 +384,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		isDeleted = true;
 		return isDeleted;
 	}
+
+	@Override
+	public List<Employee> getEmployeeReporteesData(String emailId) {
+		if(emailId == "" || emailId == "null" || emailId == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE, 
+					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
+		}
+		List<Employee> employeeReporteesList = employeeRepository.findEmployeeReportees(emailId);
+		return employeeReporteesList;
+	}
 	
 	
 

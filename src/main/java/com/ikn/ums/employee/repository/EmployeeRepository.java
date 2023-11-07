@@ -23,5 +23,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	@Query("SELECT COUNT(*) FROM Employee WHERE email=:employeeEmailId")
 	Integer checkIfEmployeeExists ( String employeeEmailId);
+	
+	@Query("FROM Employee WHERE reportingManager=:emailId")
+	List<Employee> findEmployeeReportees(String emailId);
 
 }

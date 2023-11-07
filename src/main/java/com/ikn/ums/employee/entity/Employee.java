@@ -48,29 +48,12 @@ public class Employee {
 	@Column(name = "reportingManager", nullable = true)
 	private String reportingManager;
 
-//	@Column(name = "encrypted_password", nullable = false, unique = false)
-//	private String encryptedPassword;
-
-//	@Column(name = "role", nullable = false, unique = false)
-//	private String userRole;
-
-	// @Column(name = "UserId")
-	// private String userId;
-	//@Column(name = "department", nullable = false, unique = false)
-	//private String department;
-
 	@Column(name = "designation", nullable = true)
 	private String designation;
 	
 	@OneToOne(orphanRemoval = false,optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "designationId",referencedColumnName = "id")
 	private Designation empDesignation;
-
-//	@Column(name = "otp_code", nullable = true, unique = false)
-//	private int otpCode;
-//
-//	@Column(name = "two_factor_authentication", nullable = true, unique = false)
-//	private boolean twoFactorAuthentication;
 	
 	@Column(name = "departmentId", nullable = false, unique = false)
 	private Long departmentId;

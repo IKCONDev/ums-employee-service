@@ -23,5 +23,6 @@ public interface EmployeeService {
 //	Integer searchEmployeeByEmail(String email);
 	boolean checkIfEmployeeExists(String employeeEmailId);
 	boolean deleteAllEmployeesById(List<Integer> employeeIds);
+	List<Employee> getEmployeeReporteesData(String emailId);
 	
 }
