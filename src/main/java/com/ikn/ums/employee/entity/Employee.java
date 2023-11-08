@@ -82,5 +82,8 @@ public class Employee {
 	@Column(name ="isUser")
 	private boolean isUser;
 	
+	@Column(name="dateOfJoining")
+	private String dateOfJoining;
+	
 }
 	
