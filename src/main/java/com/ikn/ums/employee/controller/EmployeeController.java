@@ -260,7 +260,7 @@ public class EmployeeController {
 	}	
 	@PutMapping("/employeestatus-update/{email}")
 	public ResponseEntity<?> updateEmployeeStatus(@PathVariable("email") String email){
-		System.out.println("updateEmployeeStatus() is entered");
+		System.out.println("updateEmployeeStatus() to true is entered");
 		employeeService.updateEmployeeStatus(email);
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
@@ -269,6 +269,12 @@ public class EmployeeController {
 		List<Employee> reporteesList = employeeService.getEmployeeReporteesData(emailId);
 		return new ResponseEntity<>(reporteesList, HttpStatus.OK);
 
+	}
+	@PutMapping("/status-update/{email}")
+	public ResponseEntity<?> updateEmployeeStatustoFalse(@PathVariable("email") String email){
+		System.out.println("updateEmployeeStatus() for false is entered");
+		employeeService.updateEmployeeStatustoFalse(email);
+		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	
 

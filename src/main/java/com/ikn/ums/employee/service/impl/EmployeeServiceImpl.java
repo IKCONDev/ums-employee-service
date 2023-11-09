@@ -421,6 +421,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 		dbUser.setUser(true);
 	}
 	
+	@Transactional
+	@Override
+	public void updateEmployeeStatustoFalse(String email) {
+		System.out.println("updateEmployeeStatus() is entered");
+		Employee dbUser = null;
+		Optional<Employee> optEmployee = employeeRepository.findByEmail(email);
+		if(optEmployee.isPresent()) {
+			dbUser = optEmployee.get();
+		}
+		dbUser.setUser(false);
+	}
+	
+	
 	
 
 }
