@@ -252,9 +252,9 @@ public class EmployeeController {
 	
 	}
 	
-	@GetMapping("/getemployee-status")
-	public ResponseEntity<?> getAllEmployeeWithUserStatus(){
-		List<Employee> employeeList = employeeService.getAllEmployeesWithUserStatus();
+	@GetMapping("/getemployee-status/{isUser}")
+	public ResponseEntity<?> getAllEmployeeWithUserStatus(@PathVariable boolean isUser){
+		List<Employee> employeeList = employeeService.getAllEmployeesWithUserStatus(isUser);
 		return new ResponseEntity<>(employeeList,HttpStatus.OK);
 		
 	}	

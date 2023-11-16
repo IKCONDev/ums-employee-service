@@ -399,13 +399,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	@Override
-	public List<Employee> getAllEmployeesWithUserStatus() {
+	public List<Employee> getAllEmployeesWithUserStatus(boolean isUser) {
 		List<Employee> employeesList = null;
-		boolean userStatus = false;
-		employeesList = employeeRepository.findAllEmployeesWithUserStatus(userStatus);
-		if (employeesList == null || employeesList.isEmpty())
-			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_MSG);
+		//boolean userStatus = false;
+		employeesList = employeeRepository.findAllEmployeesWithUserStatus(isUser);
+//		if (employeesList == null || employeesList.isEmpty())
+//			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
+//					ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_MSG);
 		return employeesList;
 	}
 	
