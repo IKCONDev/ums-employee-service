@@ -29,5 +29,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	@Query("FROM Employee WHERE isUser=:userStatus")
 	List<Employee> findAllEmployeesWithUserStatus(boolean userStatus);
-
+	
+	@Query("FROM Employee e WHERE e.email IN :emailList")
+    List<Employee> findAllEmployeesByEmailList( List<String> emailList);
 }

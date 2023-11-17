@@ -432,6 +432,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		dbUser.setUser(false);
 	}
+
+	@Override
+	public List<Employee> getAllEmployeesByEmailIds(List<String> emailIds) {
+		// TODO Auto-generated method stub
+		emailIds.forEach(email ->{
+			email = email.replaceAll("[^\\p{Print}]", ""); 
+			System.out.println(email);
+		});
+		System.out.println("EmployeeServiceImpl.getAllEmployeesByEmailIds() is entered");
+		return  employeeRepository.findAllEmployeesByEmailList(emailIds);
+	}
 	
 	
 	

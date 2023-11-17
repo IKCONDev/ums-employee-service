@@ -1,5 +1,6 @@
 package com.ikn.ums.employee.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -275,6 +276,28 @@ public class EmployeeController {
 		System.out.println("updateEmployeeStatus() for false is entered");
 		employeeService.updateEmployeeStatustoFalse(email);
 		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@GetMapping("/attendees/{emailIds}")
+	public ResponseEntity<?> getAllEmployeeByEmailIds(@PathVariable("emailIds") String emailIds){
+		System.out.println("email"+emailIds);
+		List<String> emailList = null;
+		System.out.println("EmployeeController.getAllEmployeeByEmailIds() is entered");
+		if (!emailIds.isEmpty() && emailIds.contains(",")) {
+			System.out.println("EmployeeController.getAllEmployeeByEmailIds() is under exxecution...");
+		    String[] idFromUI = emailIds.split(",");
+		    emailList = Arrays.asList(idFromUI);
+		    // idList now contains strings without converting to integers
+		}
+		else {
+			emailList = Arrays.asList(emailIds);
+		}
+		emailList.forEach(email ->{
+			//email = email.replaceAll("[^\\p{Print}]", ""); 
+			System.out.println(email);
+		});
+		List<Employee> employeeList = employeeService.getAllEmployeesByEmailIds(emailList);
+		return new ResponseEntity<>(employeeList,HttpStatus.OK);
+		
 	}
 	
 
