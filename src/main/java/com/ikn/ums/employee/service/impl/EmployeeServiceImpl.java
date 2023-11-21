@@ -436,13 +436,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<Employee> getAllEmployeesByEmailIds(List<String> emailIds) {
 		// TODO Auto-generated method stub
-		emailIds.forEach(email ->{
+		/*emailIds.forEach(email ->{
 			email = email.replaceAll("[^\\p{Print}]", ""); 
 			System.out.println(email);
-		});
+		});*/
+		System.out.println("get All Employees emailIds:"+emailIds);
 		System.out.println("EmployeeServiceImpl.getAllEmployeesByEmailIds() is entered");
-		return  employeeRepository.findAllEmployeesByEmailList(emailIds);
+		List<Employee> employeeList = employeeRepository.findAllEmployeesByEmailList(emailIds);
+		System.out.println("EmployeeServiceImpl.getAllEmployeesByEmailIds() executed successfully");
+		System.out.println(employeeList);
+		return  employeeList;
+		
 	}
+	
 	
 	
 	
