@@ -30,7 +30,7 @@ public class Employee {
 	@Column(name = "Id")
 	private Integer id;
 	
-	@Column(name = "employeeOrgId", nullable = true)
+	@Column(name = "employeeOrgId", nullable = true, unique = true)
 	private String employeeOrgId;
 
 	@Column(name = "teamsUserId", nullable = true)

@@ -32,4 +32,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	@Query("FROM Employee e WHERE e.email IN :emailList")
     List<Employee> findAllEmployeesByEmailList( List<String> emailList);
+
+	List<Employee> findByEmployeeOrgId (String employeeOrgId);
 }

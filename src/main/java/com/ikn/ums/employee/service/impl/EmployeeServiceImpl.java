@@ -448,6 +448,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return  employeeList;
 		
 	}
+
+	@Override
+	public boolean getEmployeesByEmployeeOrgId(String employeeOrgId) {
+		boolean employeeOrgIdstatus=false;
+		List<Employee> employeeOrgIdList=employeeRepository.findByEmployeeOrgId(employeeOrgId);
+		if(employeeOrgIdList.isEmpty()) {
+			 employeeOrgIdstatus = true;
+		}
+		return employeeOrgIdstatus;
+	}
 	
 	
 	

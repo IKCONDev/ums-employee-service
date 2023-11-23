@@ -26,6 +26,7 @@ import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
 import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.service.EmployeeService;
+import com.ikn.ums.employee.service.impl.EmployeeServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,9 +65,14 @@ public class EmployeeController {
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
 		try {
+			Employee newEmp= new Employee();
+			newEmp=employee;
+			String employeeOrgId=newEmp.getEmployeeOrgId();
+			if(employeeService.getEmployeesByEmployeeOrgId(employeeOrgId)) {
 			Employee employeeSaved = employeeService.saveEmployee(employee);
 			log.info("EmployeeController.saveEmployee() : Post Employee method calling .... " + employeeSaved);
 			return new ResponseEntity<Employee>(employeeSaved, HttpStatus.CREATED);
+			}else return new ResponseEntity<Employee>(HttpStatus.NOT_ACCEPTABLE);
 		}catch (EntityNotFoundException | EmployeeExistsException businessException) {
 			throw businessException;
 		} 
