@@ -34,44 +34,88 @@ public class DesignationController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> createDesignation(@RequestBody Designation designation){
+		log.info("DesignationController.createDesignation() is enetered with args - designation");
 		if (designation == null) {
+			log.info("DesignationController.createDesignation() : designation Object is NULL !");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_MSG);
 		}
 		try {
+			log.info("DesignationController.createDesignation() is under execution...");
 			Designation savedDesignation =  designationService.createDesignation(designation);
+			log.info("DesignationController.createDesignation() executed successfully");
 			return new ResponseEntity<>(savedDesignation, HttpStatus.CREATED);
 		}
 		catch (DesignationNameExistsException | EntityNotFoundException businessException) {
 			throw businessException;
 		}
 		catch (Exception e) {
-			log.info("DepartmentController.saveDepartment() : Exception Occured !" + e.fillInStackTrace());
+			log.error("DepartmentController.saveDepartment() : Exception Occured !" + e.fillInStackTrace(),e);
 			throw new ControllerException(ErrorCodeMessages.DESG_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.DESG_CREATE_UNSUCCESS_MSG);
 		}
 	}
 	@PutMapping("/update")
 	public ResponseEntity<?> updateDesignation(@RequestBody Designation designation){
-		Designation updatedDesignation = designationService.updateDesignation(designation);
-		return new ResponseEntity<>(updatedDesignation, HttpStatus.PARTIAL_CONTENT);
+		log.info("DesignationController.updateDesignation() is enetered with args - designation");
+		try {
+			log.info("DesignationController.updateDesignation() is under execution...");
+			Designation updatedDesignation = designationService.updateDesignation(designation);
+			log.info("DesignationController.updateDesignation() is executed  successfully");
+			return new ResponseEntity<>(updatedDesignation, HttpStatus.PARTIAL_CONTENT);
+		}catch (Exception e) {
+			log.error("DesignationController.updateDesignation() is exited with exception :"+ e.getMessage(),e);
+			throw new ControllerException(ErrorCodeMessages.ERR_DESG_UPDATE_UNSUCCESS_CODE,
+					 ErrorCodeMessages.ERR_DESG_UPDATE_UNSUCCESS_MSG);
+		}
+	
 	}
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteDesignation(@PathVariable Long id){
+		log.info("DesignationController.deleteDesignation() is enetered with departmentId:"+ id);
+		log.info("DesignationController.deleteDesignation() is under execution...");
 		boolean isdeleted = false;
-		designationService.deleteDesignationById(id);
-		isdeleted = true;
-		return new ResponseEntity<>(isdeleted, HttpStatus.OK);
+		try {
+			designationService.deleteDesignationById(id);
+			isdeleted = true;
+			log.info("DesignationController.deleteDesignation() executed successfully");
+			return new ResponseEntity<>(isdeleted, HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("DesignationController.deleteDesignationById() is exited with exception :"+ e.getMessage(),e);
+			throw new ControllerException(ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_MSG);
+		}
+		
 	}
 	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getDesignation(@PathVariable Long id){
-		Designation designation = designationService.getDesignationById(id);
-		return new ResponseEntity<>(designation, HttpStatus.OK);
+		log.info("DesignationController.getDesignation() is enetered with departmentId:"+ id);
+		log.info("DesignationController.getDesignation() is under execution...");
+		try {
+			Designation designation = designationService.getDesignationById(id);
+			log.info("DesignationController.getDesignation() executed successfully");
+			return new ResponseEntity<>(designation, HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("DesignationController.getDesignation() is exited with exception :"+ e.getMessage(),e);
+			throw new ControllerException(ErrorCodeMessages.ERR_DESG_DETAILS_GET_UNSUCESS_CODE,
+					ErrorCodeMessages.ERR_DESG_DETAILS_GET_UNSUCESS_MSG);
+		}
+		
 	}
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllDesignations(){
-	    List<Designation> deisgnationList = designationService.getAllDesignations();
-	    return new ResponseEntity<>(deisgnationList, HttpStatus.OK);
+		log.info("DesignationController.getAllDesignations() is enetered");
+		log.info("DesignationController.getAllDesignations() is under execution...");
+		try {
+			 List<Designation> deisgnationList = designationService.getAllDesignations();
+			 log.info("DesignationController.getDesignation() executed successfully");
+			 return new ResponseEntity<>(deisgnationList, HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("DesignationController.getAllDesignations() is exited with exception :"+ e.getMessage(),e);
+			throw new ControllerException(ErrorCodeMessages.ERR_DESG_DETAILS_GET_UNSUCESS_CODE,
+					ErrorCodeMessages.ERR_DESG_DETAILS_GET_UNSUCESS_MSG);
+		}
+	   
 	}
 	
 	/**
@@ -81,14 +125,18 @@ public class DesignationController {
 	 */
 	@DeleteMapping("/delete/all/{ids}")
 	public ResponseEntity<?> deleteAllDepartmentsByIds(@PathVariable List<Long> ids){
+		log.info("DesignationController.deleteAllDepartmentsByIds() is enetered");
+		log.info("DesignationController.deleteAllDepartmentsByIds() is under execution...");
 		if(ids == null || ids.size() == 0 || ids.equals((null))){
 			throw new EmptyInputException(ErrorCodeMessages.ERR_DESG_IDS_LIST_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_DESG_IDS_LIST_IS_EMPTY_MSG);
 		}
 		try {
 			designationService.deleteSelectedDesignationsByIds(ids);
+			log.info("DesignationController.deleteAllDepartmentsByIds() executed successfully");
 			return new ResponseEntity<>(true, HttpStatus.OK);
 		}catch (Exception e) {
+			log.error("DesignationController.deleteAllDepartmentsByIds() is exited with exception :"+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_MSG);
 		}
