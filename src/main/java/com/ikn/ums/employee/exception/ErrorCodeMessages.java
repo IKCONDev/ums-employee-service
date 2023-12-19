@@ -72,4 +72,10 @@ public class ErrorCodeMessages {
 	 public static final String DESG_CREATE_UNSUCCESS_CODE = "DESG_SAVE_UNSUCCESS_CODE-1005";
 	 public static final String DESG_CREATE_UNSUCCESS_MSG = "Exceeption while creating designation";
 	 
+	 public static final String ERR_DESG_UPDATE_UNSUCCESS_CODE = "DESIGNATION_UPDATE_UNSUCCESS-1006";
+	 public static final String ERR_DESG_UPDATE_UNSUCCESS_MSG = "Error Occured While Updating designation.";
+	 
+	 public static final String ERR_DESG_DETAILS_GET_UNSUCESS_CODE = "DESIGNATION_DETAILS_GET-UNSUCESS-1007";
+	 public static final String ERR_DESG_DETAILS_GET_UNSUCESS_MSG = "Error Occured While Retrieving Designation Details !"; 	
+	 
 }

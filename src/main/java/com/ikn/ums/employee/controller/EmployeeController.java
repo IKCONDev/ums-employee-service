@@ -58,26 +58,29 @@ public class EmployeeController {
 	 */
 	@PostMapping("/saveEmployee")
 	public ResponseEntity<?> saveEmployee(@RequestBody Employee employee) {
-		log.info("EmployeeController.saveEmployee() ENTERED" + employee);
+		log.info("saveEmployee() ENTERED" + employee);
 		if (employee == null) {
-			log.info("EmployeeController.saveEmployee() : employee Object is NULL !");
+			log.info("saveEmployee() : employee Object is NULL !");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
 		try {
+			log.info("saveEmployee() is under execution...");
 			Employee newEmp= new Employee();
 			newEmp=employee;
 			String employeeOrgId=newEmp.getEmployeeOrgId();
 			if(employeeService.getEmployeesByEmployeeOrgId(employeeOrgId)) {
 			Employee employeeSaved = employeeService.saveEmployee(employee);
-			log.info("EmployeeController.saveEmployee() : Post Employee method calling .... " + employeeSaved);
+			log.info("saveEmployee() : Post Employee method calling .... " + employeeSaved);
+			log.info("saveEmployee() executed successfully");
 			return new ResponseEntity<Employee>(employeeSaved, HttpStatus.CREATED);
 			}else return new ResponseEntity<Employee>(HttpStatus.NOT_ACCEPTABLE);
 		}catch (EntityNotFoundException | EmployeeExistsException businessException) {
+			log.error("saveEmployee() : Exception Occured !" + businessException.getMessage(), businessException);
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.info("EmployeeController.saveEmployee() : Exception Occured !" + e.fillInStackTrace());
+			log.error("saveEmployee() : Exception Occured !" + e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
 		}
@@ -85,17 +88,18 @@ public class EmployeeController {
 
 	@PutMapping("/update")
 	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
-		log.info("EmployeeController.updateEmployee() ENTERED "+employee);
+		log.info("updateEmployee() ENTERED "+employee);
 		log.info("the epmployee from front is"+" "+ employee);
 		Employee updatedEmployee = new Employee();
 		if (employee == null)
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		try {
+			log.info("updateEmployee() is under execition...");
 			updatedEmployee = employeeService.updateEmployee(employee);
 			return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.CREATED);
 		} catch (Exception e) {
-			log.info("EmployeeController.updateEmployee() : Exception Occured !" + e.fillInStackTrace());
+			log.error("updateEmployee() : Exception Occured !" + e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_UPDATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_UPDATE_UNSUCCESS_MSG);
 		}
@@ -103,15 +107,16 @@ public class EmployeeController {
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteEmployee(@PathVariable("id") Integer employeeId) {
-		log.info("EmployeeController.deleteEmployee() ENTERED : employeeId : " + employeeId);
+		log.info("deleteEmployee() ENTERED : employeeId : " + employeeId);
 		if (employeeId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
 		try {
+			log.info("deleteEmployee() is under execution...");
 			employeeService.deleteEmployee(employeeId);
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
-			log.info("EmployeeController.deleteEmployee() : Exception Occured while deleting employee !"
+			log.error("deleteEmployee() : Exception Occured while deleting employee !"
 					+ e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_DELETE_UNSUCCESS_MSG);
@@ -120,20 +125,19 @@ public class EmployeeController {
 
 	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getEmployeeWithDepartment(@PathVariable("id") Integer employeeId) {
-		log.info("EmployeeController.getEmployeeWithDepartment() ENTERED : employeeId : " + employeeId);
+		log.info("getEmployeeWithDepartment() ENTERED : employeeId : " + employeeId);
 		EmployeeVO employeeVO = null;
-		
-		System.out.println("EmployeeController.getEmployeeWithDepartment() ENTERED ");
-		
+		System.out.println("getEmployeeWithDepartment() ENTERED ");
 		if (employeeId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
 		try {
+			log.info("getEmployeeWithDepartment() is under execution...");
 			employeeVO = employeeService.getEmployeeWithDepartment(employeeId);
+			log.info("getEmployeeWithDepartment() executed successfully");
 			return new ResponseEntity<>(employeeVO, HttpStatus.OK);
 		} catch (Exception e) {
-			log.info(
-					"EmployeeController.getEmployeeWithDepartment() : Exception Occured while getting Employee Details !"
+			log.error("getEmployeeWithDepartment() : Exception Occured while getting Employee Details !"
 							+ e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
@@ -148,21 +152,21 @@ public class EmployeeController {
 	 */
 	@GetMapping("/{email}")
 	public ResponseEntity<?> getEmployeeDetailsWithDepartment(@PathVariable String email) {
-		log.info("EmployeeController.getEmployeeDetailsWithDepartment() ENTERED : email : " + email);
-		
-		System.out.println("EmployeeController.getEmployeeDetailsWithDepartment() : email : " + email);
-		
+		log.info("getEmployeeDetailsWithDepartment() ENTERED : email : " + email);
+		System.out.println("getEmployeeDetailsWithDepartment() : email : " + email);
 		try {
+			log.info("getEmployeeDetailsWithDepartment() is under execution...");
 			System.out.println(email);
 			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
-			
-			System.out.println("EmployeeController.getEmployeeDetailsWithDepartment() post retrieval" + employeeDto.getEmail());
-			
+			System.out.println("getEmployeeDetailsWithDepartment() post retrieval" + employeeDto.getEmail());
 			System.out.println(employeeDto);
+			log.info("getEmployeeDetailsWithDepartment() executed successfully");
 			return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>("No user found with provided email " + email, HttpStatus.INTERNAL_SERVER_ERROR);
-			// TODO: Check the above
+			log.error("getEmployeeDetailsWithDepartment() : Exception Occured while getting Employee Details !"
+					+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
 		}
 	}
 
@@ -175,12 +179,15 @@ public class EmployeeController {
 	public ResponseEntity<?> saveAllAzureUserProfiles() {
 		log.info("EmployeeController.saveAllAzureUserProfiles() ENTERED ");
 		try {
+			log.info("saveAllAzureUserProfiles() is under execution...");
 			int insertedUsersCount = employeeService.saveAzureUsers();
+			log.info("saveAllAzureUserProfiles() executed successfully");
 			return new ResponseEntity<>(insertedUsersCount, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("Users data could not be saved , Please try again",
-					HttpStatus.INTERNAL_SERVER_ERROR);
+			log.info("saveAllAzureUserProfiles() is exited with Exception"+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
 			// TODO: Check the above
 		}
 	}
@@ -193,10 +200,11 @@ public class EmployeeController {
 	 */
 	@PostMapping("/save/{userPrincipalName}")
 	public ResponseEntity<?> saveAzureUserProfile(@PathVariable("userPrincipalName") String emailId) {
-		log.info("EmployeeController.saveAzureUserProfile() ENTERED : userPrincipalName or emailId : " + emailId);
+		log.info("saveAzureUserProfile() ENTERED : userPrincipalName or emailId : " + emailId);
 		try {
 			// Integer dbEmployeeCount =
 			// employeeService.searchEmployeeByEmail(userPrincipalName);
+			log.info("saveAzureUserProfile() ENTERED : userPrincipalName or emailId : ");
 			boolean checkIfAzureUserExists = employeeService.checkIfEmployeeExists(emailId);
 			if (!checkIfAzureUserExists) {
 				String message = employeeService.saveAzureUser(emailId);
@@ -207,8 +215,9 @@ public class EmployeeController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("May be the user does not exist in your azure DB, please try again",
-					HttpStatus.INTERNAL_SERVER_ERROR);
+			log.error("saveAzureUserProfile() is exited with exception:"+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
 		}
 	}
 
@@ -218,25 +227,42 @@ public class EmployeeController {
 	 * 
 	 * @return
 	 */
-	@GetMapping("/get-all")
-	public ResponseEntity<?> getAllEmployeesWithDepartment() {
-		log.info("EmployeeController.getAllEmployees() ENTERED");
-		List<Employee> employeesDbList = employeeService.getAllEmployees();
-		EmployeeListVO empListVO = new EmployeeListVO();
-		empListVO.setEmployee(employeesDbList);
-		return new ResponseEntity<>(empListVO, HttpStatus.OK);
+	public ResponseEntity<?> getAllEmployees() {
+		log.info("getAllEmployees() is  ENTERED");
+		log.info("getAllEmployees()  is under execution...");
+		try {
+			List<Employee> employeesDbList = employeeService.getAllEmployees();
+			EmployeeListVO empListVO = new EmployeeListVO();
+			empListVO.setEmployee(employeesDbList);
+			log.info("getAllEmployees() executed successfully");
+			return new ResponseEntity<>(empListVO, HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("getAllEmployees() exited with exception:"+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		}
+	
 	}
 	
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllEmployeesDetails() {
-		log.info("EmployeeController.getAllEmployees() ENTERED");
-		List<Employee> employeesList = employeeService.getAllEmployees();
-		return new ResponseEntity<>(employeesList, HttpStatus.OK);
+		log.info("getAllEmployeesDetails() ENTERED");
+		log.info("getAllEmployeesDetails()  is under execution...");
+		try {
+			List<Employee> employeesList = employeeService.getAllEmployees();
+			log.info("getAllEmployeesDetails() executed successfully");
+			return new ResponseEntity<>(employeesList, HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("getAllEmployeesDetails() is exited with Exception"+ e.getMessage(), e);
+		    throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
+		    		ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		}
+		
 	}
 	
 	@DeleteMapping("/deleteAll/{ids}")
 	public ResponseEntity<?> deleteAllEmployeesById(@PathVariable("ids") String employeeIds ){
-		log.info("EmployeeController.deleteAllEmployeesById() ENTERED with employeeIds");
+		log.info("deleteAllEmployeesById() ENTERED with employeeIds");
 		List<Integer> idList = null;
 		if(employeeIds !="") {
 				String[] idFromUI = employeeIds.split(",");
@@ -246,50 +272,96 @@ public class EmployeeController {
 						.collect(Collectors.toList());
 		}
 		try {
-			log.info("EmployeeController.deleteAllEmployeesById()is under execution...");
+			log.info("deleteAllEmployeesById()is under execution...");
 			boolean isDeleted = employeeService.deleteAllEmployeesById(idList);
-			log.info("EmployeeController.deleteAllEmployeesById() executed successfully");
+			log.info("deleteAllEmployeesById() executed successfully");
 			return  new ResponseEntity<>(isDeleted,HttpStatus.OK);
 			 
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.getMessage();
-			return new ResponseEntity<>("Exception occured while deleting the employees", HttpStatus.INTERNAL_SERVER_ERROR);
+			//return new ResponseEntity<>("Exception occured while deleting the employees", HttpStatus.INTERNAL_SERVER_ERROR);
+			log.error("deleteAllEmployeesById() is exited with exception"+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DELETE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_DELETE_UNSUCCESS_MSG);
 		}
 	
 	}
 	
 	@GetMapping("/getemployee-status/{isUser}")
 	public ResponseEntity<?> getAllEmployeeWithUserStatus(@PathVariable boolean isUser){
-		List<Employee> employeeList = employeeService.getAllEmployeesWithUserStatus(isUser);
-		return new ResponseEntity<>(employeeList,HttpStatus.OK);
-		
+		log.info("getAllEmployeeWithUserStatus() ENTERED" + isUser);
+		log.info("getAllEmployeeWithUserStatus() is under execution...");
+		try {
+			List<Employee> employeeList = employeeService.getAllEmployeesWithUserStatus(isUser);
+			log.info("getAllEmployeeWithUserStatus() is executed successfully");
+			return new ResponseEntity<>(employeeList,HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.error("getAllEmployeeWithUserStatus() is exited with exception"+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		}
+			
 	}	
 	@PutMapping("/employeestatus-update/{email}")
 	public ResponseEntity<?> updateEmployeeStatus(@PathVariable("email") String email){
+		log.info("updateEmployeeStatus() ENTERED with args-"+ email);
+		log.info("updateEmployeeStatus() is under execution...");
 		System.out.println("updateEmployeeStatus() to true is entered");
-		employeeService.updateEmployeeStatus(email);
-		return new ResponseEntity<>(true,HttpStatus.OK);
+		try {
+			employeeService.updateEmployeeStatus(email);
+			log.info("EmployeeController.updateEmployeeStatus() executed successfully");
+			return new ResponseEntity<>(true,HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("updateEmployeeStatus() is exited with exception"+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_UPDATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_UPDATE_UNSUCCESS_MSG);
+		}
+		
 	}
 	@GetMapping("/{emailId}/reportees")
 	public ResponseEntity<?> getEmployeeReportees(@PathVariable String emailId){
-		List<Employee> reporteesList = employeeService.getEmployeeReporteesData(emailId);
-		return new ResponseEntity<>(reporteesList, HttpStatus.OK);
+		log.info("getEmployeeReportees() ENTERED with args :"+ emailId);
+		log.info("getEmployeeReportees() is under execution...");
+		try {
+			List<Employee> reporteesList = employeeService.getEmployeeReporteesData(emailId);
+			log.info("getEmployeeReportees() executed successfully");
+			return new ResponseEntity<>(reporteesList, HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.error("getEmployeeReportees() is exited with exception"+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		}
+		
 
 	}
 	@PutMapping("/status-update/{email}")
 	public ResponseEntity<?> updateEmployeeStatustoFalse(@PathVariable("email") String email){
-		System.out.println("updateEmployeeStatus() for false is entered");
-		employeeService.updateEmployeeStatustoFalse(email);
-		return new ResponseEntity<>(true,HttpStatus.OK);
+		log.info("updateEmployeeStatustoFalse() ENTERED with args :"+ email);
+		log.info("updateEmployeeStatustoFalse() is under execution...");
+		try {
+			employeeService.updateEmployeeStatustoFalse(email);
+			log.info("EmployeeController.updateEmployeeStatustoFalse() executed successfully");
+			return new ResponseEntity<>(true,HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.error("updateEmployeeStatustoFalse() is exited with exception:"+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_UPDATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_UPDATE_UNSUCCESS_MSG);
+		}
+		
 	}
 	@GetMapping("/attendees/{emailIds}")
 	public ResponseEntity<?> getAllEmployeeByEmailIds(@PathVariable("emailIds") String emailIds){
+		log.info("getAllEmployeeByEmailIds() ENTERED with args:"+ emailIds);
+		log.info("getAllEmployeeByEmailIds() is under execution...");
 		System.out.println("email"+emailIds);
 		List<String> emailList = null;
-		System.out.println("EmployeeController.getAllEmployeeByEmailIds() is entered");
+		System.out.println("getAllEmployeeByEmailIds() is entered");
 		if (!emailIds.isEmpty() && emailIds.contains(",")) {
-			System.out.println("EmployeeController.getAllEmployeeByEmailIds() is under exxecution...");
+			System.out.println("getAllEmployeeByEmailIds() is under exxecution...");
 		    String[] idFromUI = emailIds.split(",");
 		    emailList = Arrays.asList(idFromUI);
 		    // idList now contains strings without converting to integers
@@ -301,8 +373,16 @@ public class EmployeeController {
 			//email = email.replaceAll("[^\\p{Print}]", ""); 
 			System.out.println(email);
 		});
-		List<Employee> employeeList = employeeService.getAllEmployeesByEmailIds(emailList);
-		return new ResponseEntity<>(employeeList,HttpStatus.OK);
+		try {
+			List<Employee> employeeList = employeeService.getAllEmployeesByEmailIds(emailList);
+			log.info("EmployeeController.getAllEmployeeByEmailIds() executed successfully");
+			return new ResponseEntity<>(employeeList,HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("getAllEmployeeByEmailIds is exited wit exception:" + e.getMessage(), e);
+		    throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE, 
+		    		ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		    
+		}
 		
 	}
 	
