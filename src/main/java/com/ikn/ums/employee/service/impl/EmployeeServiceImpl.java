@@ -406,6 +406,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 //		if (employeesList == null || employeesList.isEmpty())
 //			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
 //					ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_MSG);
+		//List<DepartmentVO> departmentList = new ArrayList<>();
+		employeesList.forEach(employee -> {
+			try {
+				log.info("Calling Department Microservice !");
+					DepartmentVO department = restTemplate.getForObject(
+						"http://UMS-DEPARTMENT-SERVICE/departments/" + employee.getDepartmentId(), DepartmentVO.class);
+					
+			} catch (RestClientException restClientException) {
+				log.info("Exception Occured while calling Department Microservice !");
+				throw new BusinessException(ErrorCodeMessages.ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_CODE,
+						ErrorCodeMessages.ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_MSG);
+			}
+		});
 		return employeesList;
 	}
 	

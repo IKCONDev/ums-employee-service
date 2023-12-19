@@ -24,7 +24,14 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Query("SELECT COUNT(*) FROM Employee WHERE email=:employeeEmailId")
 	Integer checkIfEmployeeExists ( String employeeEmailId);
 	
-	@Query("FROM Employee WHERE reportingManager=:emailId")
+	//@Query("FROM Employee WHERE reportingManager=:emailId")
+	@Query(value = "WITH RECURSIVE RecursiveReportees AS (\r\n"
+			+ "    SELECT * FROM employee_tab WHERE reporting_manager = :emailId \r\n"
+			+ "    UNION\r\n"
+			+ "    SELECT e.* FROM employee_tab e\r\n"
+			+ "    JOIN RecursiveReportees r ON  e.reporting_manager = r.email\r\n"
+			+ ")\r\n"
+			+ "SELECT * FROM RecursiveReportees;", nativeQuery = true)
 	List<Employee> findEmployeeReportees(String emailId);
 	
 	@Query("FROM Employee WHERE isUser=:userStatus")

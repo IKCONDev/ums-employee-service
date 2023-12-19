@@ -213,13 +213,13 @@ public class EmployeeController {
 	}
 
 	/**
-	 * fetch all employees from UMS DB this method is used by batch processing
+	 * fetch all employees from UMS DB -  this method is used by batch processing
 	 * microservice
 	 * 
 	 * @return
 	 */
 	@GetMapping("/get-all")
-	public ResponseEntity<?> getAllEmployees() {
+	public ResponseEntity<?> getAllEmployeesWithDepartment() {
 		log.info("EmployeeController.getAllEmployees() ENTERED");
 		List<Employee> employeesDbList = employeeService.getAllEmployees();
 		EmployeeListVO empListVO = new EmployeeListVO();
