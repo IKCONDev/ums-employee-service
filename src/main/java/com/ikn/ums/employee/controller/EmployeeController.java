@@ -227,6 +227,7 @@ public class EmployeeController {
 	 * 
 	 * @return
 	 */
+	@GetMapping("/get-all")
 	public ResponseEntity<?> getAllEmployees() {
 		log.info("getAllEmployees() is  ENTERED");
 		log.info("getAllEmployees()  is under execution...");
