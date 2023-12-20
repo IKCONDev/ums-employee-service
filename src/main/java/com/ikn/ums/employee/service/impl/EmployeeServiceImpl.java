@@ -267,7 +267,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			// id will be auto generated
 			e.setFirstName(profile.getDisplayName());
 			e.setLastName(profile.getSurname());
-			e.setTeamsUserId(profile.getUserId());
+			String lowerCaseEmail = profile.getUserId().toLowerCase();
+			e.setTeamsUserId(lowerCaseEmail);
 			e.setEmail(profile.getUserPrincipalName());
 			e.setDesignation(profile.getJobTitle());
 			// e.setTwoFactorAuthentication(false);
