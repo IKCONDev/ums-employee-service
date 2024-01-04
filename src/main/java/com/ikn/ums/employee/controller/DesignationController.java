@@ -33,7 +33,7 @@ public class DesignationController {
 	private DesignationService designationService;
 	
 	@PostMapping("/create")
-	public ResponseEntity<?> createDesignation(@RequestBody Designation designation){
+	public ResponseEntity<Designation> createDesignation(@RequestBody Designation designation){
 		log.info("DesignationController.createDesignation() is enetered with args - designation");
 		if (designation == null) {
 			log.info("DesignationController.createDesignation() : designation Object is NULL !");
@@ -56,7 +56,7 @@ public class DesignationController {
 		}
 	}
 	@PutMapping("/update")
-	public ResponseEntity<?> updateDesignation(@RequestBody Designation designation){
+	public ResponseEntity<Designation> updateDesignation(@RequestBody Designation designation){
 		log.info("DesignationController.updateDesignation() is enetered with args - designation");
 		try {
 			log.info("DesignationController.updateDesignation() is under execution...");
@@ -71,7 +71,7 @@ public class DesignationController {
 	
 	}
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteDesignation(@PathVariable Long id){
+	public ResponseEntity<Boolean> deleteDesignation(@PathVariable Long id){
 		log.info("DesignationController.deleteDesignation() is enetered with departmentId:"+ id);
 		log.info("DesignationController.deleteDesignation() is under execution...");
 		boolean isdeleted = false;
@@ -88,7 +88,7 @@ public class DesignationController {
 		
 	}
 	@GetMapping("/get/{id}")
-	public ResponseEntity<?> getDesignation(@PathVariable Long id){
+	public ResponseEntity<Designation> getDesignation(@PathVariable Long id){
 		log.info("DesignationController.getDesignation() is enetered with departmentId:"+ id);
 		log.info("DesignationController.getDesignation() is under execution...");
 		try {
@@ -103,7 +103,7 @@ public class DesignationController {
 		
 	}
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllDesignations(){
+	public ResponseEntity<List<Designation>> getAllDesignations(){
 		log.info("DesignationController.getAllDesignations() is enetered");
 		log.info("DesignationController.getAllDesignations() is under execution...");
 		try {
@@ -124,7 +124,7 @@ public class DesignationController {
 	 * @return
 	 */
 	@DeleteMapping("/delete/all/{ids}")
-	public ResponseEntity<?> deleteAllDepartmentsByIds(@PathVariable List<Long> ids){
+	public ResponseEntity<Boolean> deleteAllDepartmentsByIds(@PathVariable List<Long> ids){
 		log.info("DesignationController.deleteAllDepartmentsByIds() is enetered");
 		log.info("DesignationController.deleteAllDepartmentsByIds() is under execution...");
 		if(ids == null || ids.size() == 0 || ids.equals((null))){

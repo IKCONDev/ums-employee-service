@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.employee.VO.EmployeeListVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
+import com.ikn.ums.employee.dto.EmployeeDto;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.exception.ControllerException;
 import com.ikn.ums.employee.exception.EmployeeExistsException;
@@ -57,7 +58,7 @@ public class EmployeeController {
 	 * @return
 	 */
 	@PostMapping("/saveEmployee")
-	public ResponseEntity<?> saveEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
 		log.info("saveEmployee() ENTERED" + employee);
 		if (employee == null) {
 			log.info("saveEmployee() : employee Object is NULL !");
@@ -106,7 +107,7 @@ public class EmployeeController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteEmployee(@PathVariable("id") Integer employeeId) {
+	public ResponseEntity<Boolean> deleteEmployee(@PathVariable("id") Integer employeeId) {
 		log.info("deleteEmployee() ENTERED : employeeId : " + employeeId);
 		if (employeeId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
@@ -124,7 +125,7 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/get/{id}")
-	public ResponseEntity<?> getEmployeeWithDepartment(@PathVariable("id") Integer employeeId) {
+	public ResponseEntity<EmployeeVO> getEmployeeWithDepartment(@PathVariable("id") Integer employeeId) {
 		log.info("getEmployeeWithDepartment() ENTERED : employeeId : " + employeeId);
 		EmployeeVO employeeVO = null;
 		System.out.println("getEmployeeWithDepartment() ENTERED ");
@@ -151,7 +152,7 @@ public class EmployeeController {
 	 * @return employee object.
 	 */
 	@GetMapping("/{email}")
-	public ResponseEntity<?> getEmployeeDetailsWithDepartment(@PathVariable String email) {
+	public ResponseEntity<EmployeeVO> getEmployeeDetailsWithDepartment(@PathVariable String email) {
 		log.info("getEmployeeDetailsWithDepartment() ENTERED : email : " + email);
 		System.out.println("getEmployeeDetailsWithDepartment() : email : " + email);
 		try {
@@ -176,7 +177,7 @@ public class EmployeeController {
 	 * @return
 	 */
 	@PostMapping("/save-all")
-	public ResponseEntity<?> saveAllAzureUserProfiles() {
+	public ResponseEntity<Integer> saveAllAzureUserProfiles() {
 		log.info("EmployeeController.saveAllAzureUserProfiles() ENTERED ");
 		try {
 			log.info("saveAllAzureUserProfiles() is under execution...");
@@ -199,7 +200,7 @@ public class EmployeeController {
 	 * @return
 	 */
 	@PostMapping("/save/{userPrincipalName}")
-	public ResponseEntity<?> saveAzureUserProfile(@PathVariable("userPrincipalName") String emailId) {
+	public ResponseEntity<String> saveAzureUserProfile(@PathVariable("userPrincipalName") String emailId) {
 		log.info("saveAzureUserProfile() ENTERED : userPrincipalName or emailId : " + emailId);
 		try {
 			// Integer dbEmployeeCount =
@@ -228,7 +229,7 @@ public class EmployeeController {
 	 * @return
 	 */
 	@GetMapping("/get-all")
-	public ResponseEntity<?> getAllEmployees() {
+	public ResponseEntity<EmployeeListVO> getAllEmployees() {
 		log.info("getAllEmployees() is  ENTERED");
 		log.info("getAllEmployees()  is under execution...");
 		try {
@@ -246,7 +247,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllEmployeesDetails() {
+	public ResponseEntity<List<Employee>> getAllEmployeesDetails() {
 		log.info("getAllEmployeesDetails() ENTERED");
 		log.info("getAllEmployeesDetails()  is under execution...");
 		try {
@@ -262,7 +263,7 @@ public class EmployeeController {
 	}
 	
 	@DeleteMapping("/deleteAll/{ids}")
-	public ResponseEntity<?> deleteAllEmployeesById(@PathVariable("ids") String employeeIds ){
+	public ResponseEntity<Boolean> deleteAllEmployeesById(@PathVariable("ids") String employeeIds ){
 		log.info("deleteAllEmployeesById() ENTERED with employeeIds");
 		List<Integer> idList = null;
 		if(employeeIds !="") {
@@ -290,7 +291,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/getemployee-status/{isUser}")
-	public ResponseEntity<?> getAllEmployeeWithUserStatus(@PathVariable boolean isUser){
+	public ResponseEntity<List<Employee>> getAllEmployeeWithUserStatus(@PathVariable boolean isUser){
 		log.info("getAllEmployeeWithUserStatus() ENTERED" + isUser);
 		log.info("getAllEmployeeWithUserStatus() is under execution...");
 		try {
@@ -306,7 +307,7 @@ public class EmployeeController {
 			
 	}	
 	@PutMapping("/employeestatus-update/{email}")
-	public ResponseEntity<?> updateEmployeeStatus(@PathVariable("email") String email){
+	public ResponseEntity<Boolean> updateEmployeeStatus(@PathVariable("email") String email){
 		log.info("updateEmployeeStatus() ENTERED with args-"+ email);
 		log.info("updateEmployeeStatus() is under execution...");
 		System.out.println("updateEmployeeStatus() to true is entered");
@@ -322,7 +323,7 @@ public class EmployeeController {
 		
 	}
 	@GetMapping("/{emailId}/reportees")
-	public ResponseEntity<?> getEmployeeReportees(@PathVariable String emailId){
+	public ResponseEntity<List<Employee>> getEmployeeReportees(@PathVariable String emailId){
 		log.info("getEmployeeReportees() ENTERED with args :"+ emailId);
 		log.info("getEmployeeReportees() is under execution...");
 		try {
@@ -339,7 +340,7 @@ public class EmployeeController {
 
 	}
 	@PutMapping("/status-update/{email}")
-	public ResponseEntity<?> updateEmployeeStatustoFalse(@PathVariable("email") String email){
+	public ResponseEntity<Boolean> updateEmployeeStatustoFalse(@PathVariable("email") String email){
 		log.info("updateEmployeeStatustoFalse() ENTERED with args :"+ email);
 		log.info("updateEmployeeStatustoFalse() is under execution...");
 		try {
@@ -355,7 +356,7 @@ public class EmployeeController {
 		
 	}
 	@GetMapping("/attendees/{emailIds}")
-	public ResponseEntity<?> getAllEmployeeByEmailIds(@PathVariable("emailIds") String emailIds){
+	public ResponseEntity<List<Employee>> getAllEmployeeByEmailIds(@PathVariable("emailIds") String emailIds){
 		log.info("getAllEmployeeByEmailIds() ENTERED with args:"+ emailIds);
 		log.info("getAllEmployeeByEmailIds() is under execution...");
 		System.out.println("email"+emailIds);
