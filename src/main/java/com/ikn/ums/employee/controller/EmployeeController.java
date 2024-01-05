@@ -98,6 +98,7 @@ public class EmployeeController {
 		try {
 			log.info("updateEmployee() is under execition...");
 			updatedEmployee = employeeService.updateEmployee(employee);
+			log.info("updateEmployee() executed successfully");
 			return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.CREATED);
 		} catch (Exception e) {
 			log.error("updateEmployee() : Exception Occured !" + e.fillInStackTrace());
@@ -115,6 +116,7 @@ public class EmployeeController {
 		try {
 			log.info("deleteEmployee() is under execution...");
 			employeeService.deleteEmployee(employeeId);
+			log.info("deleteEmployee() executed successfully");
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
 			log.error("deleteEmployee() : Exception Occured while deleting employee !"
@@ -128,7 +130,6 @@ public class EmployeeController {
 	public ResponseEntity<EmployeeVO> getEmployeeWithDepartment(@PathVariable("id") Integer employeeId) {
 		log.info("getEmployeeWithDepartment() ENTERED : employeeId : " + employeeId);
 		EmployeeVO employeeVO = null;
-		System.out.println("getEmployeeWithDepartment() ENTERED ");
 		if (employeeId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
@@ -157,10 +158,9 @@ public class EmployeeController {
 		System.out.println("getEmployeeDetailsWithDepartment() : email : " + email);
 		try {
 			log.info("getEmployeeDetailsWithDepartment() is under execution...");
-			System.out.println(email);
 			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
-			System.out.println("getEmployeeDetailsWithDepartment() post retrieval" + employeeDto.getEmail());
-			System.out.println(employeeDto);
+			//System.out.println("getEmployeeDetailsWithDepartment() post retrieval" + employeeDto.getEmail());
+			//System.out.println(employeeDto);
 			log.info("getEmployeeDetailsWithDepartment() executed successfully");
 			return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 		} catch (Exception e) {
@@ -249,8 +249,8 @@ public class EmployeeController {
 	@GetMapping("/all")
 	public ResponseEntity<List<Employee>> getAllEmployeesDetails() {
 		log.info("getAllEmployeesDetails() ENTERED");
-		log.info("getAllEmployeesDetails()  is under execution...");
 		try {
+			log.info("getAllEmployeesDetails()  is under execution...");
 			List<Employee> employeesList = employeeService.getAllEmployees();
 			log.info("getAllEmployeesDetails() executed successfully");
 			return new ResponseEntity<>(employeesList, HttpStatus.OK);
@@ -359,11 +359,11 @@ public class EmployeeController {
 	public ResponseEntity<List<Employee>> getAllEmployeeByEmailIds(@PathVariable("emailIds") String emailIds){
 		log.info("getAllEmployeeByEmailIds() ENTERED with args:"+ emailIds);
 		log.info("getAllEmployeeByEmailIds() is under execution...");
-		System.out.println("email"+emailIds);
+		//System.out.println("email"+emailIds);
 		List<String> emailList = null;
-		System.out.println("getAllEmployeeByEmailIds() is entered");
+		//System.out.println("getAllEmployeeByEmailIds() is entered");
 		if (!emailIds.isEmpty() && emailIds.contains(",")) {
-			System.out.println("getAllEmployeeByEmailIds() is under exxecution...");
+			//System.out.println("getAllEmployeeByEmailIds() is under exxecution...");
 		    String[] idFromUI = emailIds.split(",");
 		    emailList = Arrays.asList(idFromUI);
 		    // idList now contains strings without converting to integers

@@ -69,23 +69,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee saveEmployee(Employee employee) {
-		log.info("EmployeeService.saveEmployee() ENTERED : " + employee);
+		log.info("saveEmployee() ENTERED : " + employee);
 		if (employee == null) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
 		Employee savedEmployee = null;
+		log.info("saveEmployee() is under execution...");
 		if (checkIfEmployeeExists(employee.getEmail()) == false) {
-			log.info("EmployeeService.saveEmployee() Saving Employee....");
+			log.info("saveEmployee() Saving Employee....");
 			LocalDateTime date = LocalDateTime.now();
 			employee.setCreatedDateTime(date);
 			employee.setUser(false);
 			savedEmployee = employeeRepository.save(employee);
 		} else {
-			log.info("EmployeeService.saveEmployee() Employee Already Exists !");
+			log.info("saveEmployee() Employee Already Exists !");
 			throw new EmployeeExistsException(ErrorCodeMessages.ERR_EMP_EXISTS_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_EMP_EXISTS_EXCEPTION_MSG);
 		}
+		log.info("saveEmployee() executed successfully");
 		return savedEmployee;
 	}
 
@@ -102,7 +104,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if(optEmployee.isPresent()) {
 				dbEmployee = optEmployee.get();	
 		}
-		log.info("EmployeeService.updateEmployee() Updating Employee....");
+		log.info("updateEmployee() is under execution...");
 		dbEmployee.setEmail(employee.getEmail());
 		dbEmployee.setFirstName(employee.getFirstName());
 		dbEmployee.setLastName(employee.getLastName());
@@ -117,6 +119,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		dbEmployee.setDateOfJoining(employee.getDateOfJoining());
 		dbEmployee.setEmployeeOrgId(employee.getEmployeeOrgId());
 		updatedEmployee = employeeRepository.save(dbEmployee);
+		log.info("updateEmployee() executed successfully");
 		return updatedEmployee; 
 	}
 
@@ -130,10 +133,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Optional<Employee> dbEmployee = null;
 		dbEmployee = employeeRepository.findById(employeeId);
 		if (dbEmployee.isPresent()) {
-			log.info("EmployeeService.deleteEmployee() under execution....");
+			log.info("deleteEmployee() under execution....");
 			employeeRepository.deleteById(employeeId);
 		} else {
-			log.info("EmployeeService.saveEmployee() Employee Already Exists !");
+			log.info("An Exception occured while fetching the employee :");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
@@ -142,16 +145,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 	// fetch user details based on username (email)
 	@Override
 	public EmployeeVO fetchEmployeeDetailsWithDepartment(String email) {
-		
-		System.out.println("EmployeeServiceImpl.fetchEmployeeDetailsWithDepartment() ENTEREED : email :" + email);
-
+		log.info("fetchEmployeeDetailsWithDepartment() entered with args email Id - "+ email);
+		//System.out.println("EmployeeServiceImpl.fetchEmployeeDetailsWithDepartment() ENTEREED : email :" + email);
 		EmployeeVO employeeVO = null;
+		log.info("fetchEmployeeDetailsWithDepartment() is under execution...");
 		Optional<Employee> optEmployee = employeeRepository.findByEmail(email);
 		if (optEmployee.isPresent()) {
 			employeeVO = new EmployeeVO();
 			Employee employee = optEmployee.get();
 
 			// get department details of employee from departments microservice
+			log.info("calling to Department Microservice");
 			DepartmentVO department = restTemplate.getForObject(
 					"http://UMS-DEPARTMENT-SERVICE/departments/" + employee.getDepartmentId(), DepartmentVO.class);
 			// set department to employee
@@ -160,6 +164,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			// set department to employee
 			employeeVO.setDepartment(department);
 		}
+		log.info("fetchEmployeeDetailsWithDepartment() executed successfully");
 		return employeeVO;
 	}
 
@@ -178,6 +183,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		// ResponseTemplateVO responseTemplateVO = new ResponseTemplateVO();
 		EmployeeVO employeeVO = new EmployeeVO();
+		log.info("getEmployeeWithDepartment() is under execution...");
 		Optional<Employee> optEmployee = employeeRepository.findById(employeeId);
 		if (optEmployee.isEmpty()) {
 			log.info("EmployeeServiceImpl.getEmployeeWithDepartment() in optEmployee :: employee id is null");
@@ -211,6 +217,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// set department to employee
 		employeeVO.setDepartment(department);
 		//System.out.println(employeeVO);
+		log.info("getEmployeeWithDepartment() executed successfully");
 		return employeeVO;
 	}
 
@@ -222,11 +229,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> getAllEmployees() {
+		log.info("getAllEmployees() entered");
 		List<Employee> employeesList = null;
+		log.info("getAllEmployees() is under execution...");
 		employeesList = employeeRepository.findAll();
 		if (employeesList == null || employeesList.isEmpty())
 			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_MSG);
+		log.info("getAllEmployees() executed successfully");
 		return employeesList;
 	}
 
@@ -235,13 +245,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Integer saveAzureUsers() {
 		// get access token from MS teams server , only if it is already null
+		log.info("saveAzureUsers() is entered");
 		if (this.acToken.isExpired()) {
 			log.info("Access Token expired");
 			this.acToken = this.microsoftGraph.initializeMicrosoftGraph();
 			log.info("Access Token Refreshed");
 			this.accessToken = this.acToken.getToken();
 		}
-
+        log.info("saveAzureUsers() is under execution...");
 		// get users from azure active directory
 		String userProfileUrl = "https://graph.microsoft.com/v1.0/users?$filter=accountEnabled eq true and userType eq 'Member'";
 
@@ -281,6 +292,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employeesList.add(e);
 		});
 		List<Employee> dbEmployees = employeeRepository.saveAll(employeesList);
+		log.info("saveAzureUsers() executed successfully");
 		return dbEmployees.size();
 	}
 
@@ -289,7 +301,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public String saveAzureUser(String azureUserPrincipalName) {
+		log.info("saveAzureUser() is entered");
 		Employee e = null;
+		log.info("saveAzureUser() is under execution...");
 		TeamsUserProfileVO profile = getAzureUser(azureUserPrincipalName);
 		Employee insertedUser = null;
 
@@ -313,6 +327,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			// save user
 			insertedUser = employeeRepository.save(e);
 		}
+		log.info("saveAzureUser() executed successfully");
 		return "User " + insertedUser.getEmail() + " saved successfully";
 	}
 
@@ -325,7 +340,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@SuppressWarnings("rawtypes")
 	private TeamsUserProfileVO getAzureUser(String userPrincipalName) {
-
+        log.info("getAzureUser() is entered with args : userPrincipalName - "+ userPrincipalName);
 		// get access token from MS teams server , only if it is already null
 		if (this.acToken.isExpired()) {
 			log.info("Access Token expired");
@@ -333,7 +348,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			log.info("Access Token Refreshed");
 			this.accessToken = this.acToken.getToken();
 		}
-
+        log.info("getAzureUser() is under execution...");
+        log.info("calling to microsoft Azure to fetch the user  profile");
 		// get users
 		String userProfileUrl = "https://graph.microsoft.com/v1.0/users/" + userPrincipalName;
 
@@ -352,7 +368,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		// get all user profiles from reponse object
 		TeamsUserProfileVO userDto = userProfileResponse.getBody();
-
+        log.info("getAzureUser() executed successfully");
 		return userDto;
 
 	}
@@ -368,14 +384,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 //	}
 
 	public boolean checkIfEmployeeExists(String employeeEmailId) {
-		log.info("EmployeeServiceImpl.checkIfEmployeeExists() ENTERED : employeeEmailId : " + employeeEmailId);
+		log.info("checkIfEmployeeExists() ENTERED : employeeEmailId : " + employeeEmailId);
 		boolean checkifEmployeeExists = false;
+		log.info("checkIfEmployeeExists() is under execution...");
 		if (employeeEmailId == null || employeeEmailId.isEmpty() || employeeEmailId.length() == 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
 		Integer count = employeeRepository.checkIfEmployeeExists(employeeEmailId);
 		if (count > 0)
 			checkifEmployeeExists = true;
+		log.info("checkIfEmployeeExists() executed successfully");
 		return checkifEmployeeExists;
 	}
 
@@ -383,26 +401,33 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public boolean deleteAllEmployeesById(List<Integer> employeeIds) {
 		log.info("EmployeeServiceImpl.deleteAllEmployeesById() ENTERED : employeeIds : ");
 		boolean isDeleted = false;
+		log.info("deleteAllEmployeesById() is under execution...");
 	    employeeRepository.deleteAllById(employeeIds);
 		// TODO Auto-generated method stub
 		isDeleted = true;
+		log.info("deleteAllEmployeesById() executed successfully");
 		return isDeleted;
 	}
 
 	@Override
 	public List<Employee> getEmployeeReporteesData(String emailId) {
+		log.info("getEmployeeReporteesData() is entered with args: emailId - "+emailId);
 		if(emailId == "" || emailId == "null" || emailId == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE, 
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
 		}
+		log.info("getEmployeeReporteesData() is under execution...");
 		List<Employee> employeeReporteesList = employeeRepository.findEmployeeReportees(emailId);
+		log.info("getEmployeeReporteesData() executed successfully");
 		return employeeReporteesList;
 	}
 	
 	@Override
 	public List<Employee> getAllEmployeesWithUserStatus(boolean isUser) {
+		log.info("getAllEmployeesWithUserStatus() is entered");
 		List<Employee> employeesList = null;
 		//boolean userStatus = false;
+		log.info("getAllEmployeesWithUserStatus() is under execution...");
 		employeesList = employeeRepository.findAllEmployeesWithUserStatus(isUser);
 //		if (employeesList == null || employeesList.isEmpty())
 //			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
@@ -420,31 +445,38 @@ public class EmployeeServiceImpl implements EmployeeService {
 						ErrorCodeMessages.ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_MSG);
 			}
 		});
+		log.info("getAllEmployeesWithUserStatus() executed successfully");
 		return employeesList;
 	}
 	
 	@Transactional
 	@Override
 	public void updateEmployeeStatus(String email) {
-		System.out.println("updateEmployeeStatus() is entered");
+		log.info("updateEmployeeStatus() is entered");
+		//System.out.println("updateEmployeeStatus() is entered");
 		Employee dbUser = null;
+		log.info("updateEmployeeStatus() is under execution...");
 		Optional<Employee> optEmployee = employeeRepository.findByEmail(email);
 		if(optEmployee.isPresent()) {
 			dbUser = optEmployee.get();
 		}
 		dbUser.setUser(true);
+		log.info("updateEmployeeStatus() executed successfully");
 	}
 	
 	@Transactional
 	@Override
 	public void updateEmployeeStatustoFalse(String email) {
-		System.out.println("updateEmployeeStatus() is entered");
+		log.info("updateEmployeeStatustoFalse() is entered");
+		//System.out.println("updateEmployeeStatus() is entered");
 		Employee dbUser = null;
+		log.info("updateEmployeeStatustoFalse() is under execution...");
 		Optional<Employee> optEmployee = employeeRepository.findByEmail(email);
 		if(optEmployee.isPresent()) {
 			dbUser = optEmployee.get();
 		}
 		dbUser.setUser(false);
+		log.info("updateEmployeeStatustoFalse() executed successfully");
 	}
 
 	@Override
@@ -454,27 +486,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 			email = email.replaceAll("[^\\p{Print}]", ""); 
 			System.out.println(email);
 		});*/
-		System.out.println("get All Employees emailIds:"+emailIds);
-		System.out.println("EmployeeServiceImpl.getAllEmployeesByEmailIds() is entered");
+		log.info("getAllEmployeesByEmailIds() is entered");
+		/*System.out.println("get All Employees emailIds:"+emailIds);
+		System.out.println("EmployeeServiceImpl.getAllEmployeesByEmailIds() is entered");*/
+		log.info("getAllEmployeesByEmailIds() is under execution...");
 		List<Employee> employeeList = employeeRepository.findAllEmployeesByEmailList(emailIds);
-		System.out.println("EmployeeServiceImpl.getAllEmployeesByEmailIds() executed successfully");
-		System.out.println(employeeList);
+		/*System.out.println("EmployeeServiceImpl.getAllEmployeesByEmailIds() executed successfully");
+		System.out.println(employeeList);*/
+		log.info("getAllEmployeesByEmailIds() executed successfully");
 		return  employeeList;
 		
 	}
 
 	@Override
 	public boolean getEmployeesByEmployeeOrgId(String employeeOrgId) {
+		log.info("getEmployeesByEmployeeOrgId() is entered with args : employeeOrgId - "+ employeeOrgId);
 		boolean employeeOrgIdstatus=false;
+		log.info("getEmployeesByEmployeeOrgId() is under execution...");
 		List<Employee> employeeOrgIdList=employeeRepository.findByEmployeeOrgId(employeeOrgId);
 		if(employeeOrgIdList.isEmpty()) {
 			 employeeOrgIdstatus = true;
 		}
+		log.info("getEmployeesByEmployeeOrgId() executed successfully");
 		return employeeOrgIdstatus;
 	}
 	
-	
-	
-	
-
 }
