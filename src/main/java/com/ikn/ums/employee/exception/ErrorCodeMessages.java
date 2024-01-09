@@ -56,6 +56,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_CODE = "DEPARTMENT-REST-CLIENT-EXCEPTION-1018";
 	 public static final String ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_MSG = "Error Occured While Calling Department Microservice !";
 	 
+	 public static final String ERR_EMP_IDS_LIST_IS_EMPTY_CODE = "ERR_EMP_IDS_LIST_IS_EMPTY_CODE-1019";
+	 public static final String ERR_EMP_IDS_LIST_IS_EMPTY_MSG = "Employee ids list is empty !";
+	 
 	 //DESIGNATIONS
 	 public static final String ERR_DESG_IDS_LIST_IS_EMPTY_CODE = "ERR_DESG_IDS_LIST_IS_EMPTY_CODE-1001";
 	 public static final String ERR_DESG_IDS_LIST_IS_EMPTY_MSG = "Designation ids list is empty";
@@ -76,6 +79,11 @@ public class ErrorCodeMessages {
 	 public static final String ERR_DESG_UPDATE_UNSUCCESS_MSG = "Error Occured While Updating designation.";
 	 
 	 public static final String ERR_DESG_DETAILS_GET_UNSUCESS_CODE = "DESIGNATION_DETAILS_GET-UNSUCESS-1007";
-	 public static final String ERR_DESG_DETAILS_GET_UNSUCESS_MSG = "Error Occured While Retrieving Designation Details !"; 	
+	 public static final String ERR_DESG_DETAILS_GET_UNSUCESS_MSG = "Error Occured While Retrieving Designation Details !";
+	 
+	 public static final String ERR_DESG_ID_IS_EMPTY_CODE = "ERR_DESG_ID_IS_EMPTY_CODE-1008";
+	 public static final String ERR_DESG_ID_IS_EMPTY_MSG = "Designation id is empty";
+	 
+
 	 
 }
