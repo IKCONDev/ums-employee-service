@@ -52,8 +52,8 @@ public class DesignationController {
 		}
 		catch (Exception e) {
 			log.error("DepartmentController.saveDepartment() : Exception Occured !" + e.fillInStackTrace(),e);
-			throw new ControllerException(ErrorCodeMessages.DESG_CREATE_UNSUCCESS_CODE,
-					ErrorCodeMessages.DESG_CREATE_UNSUCCESS_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_DESG_CREATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_DESG_CREATE_UNSUCCESS_MSG);
 		}
 	}
 	@PutMapping("/update")

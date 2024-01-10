@@ -22,9 +22,7 @@ import com.azure.core.credential.AccessToken;
 import com.ikn.ums.employee.VO.DepartmentVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.VO.TeamsUserProfileVO;
-import com.ikn.ums.employee.dto.DesignationDto;
 import com.ikn.ums.employee.dto.EmployeeDto;
-import com.ikn.ums.employee.entity.Designation;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.exception.BusinessException;
 import com.ikn.ums.employee.exception.EmployeeExistsException;
@@ -105,34 +103,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
 		Employee updatedEmployee = null;
-		Employee dbEmployee = null;
 		Optional<Employee> optEmployee = employeeRepository.findById(employee.getId());
 		if(!optEmployee.isPresent()) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_NOT_FOUND_MSG);
 		}
-		if(optEmployee.isPresent()) {
-				dbEmployee = optEmployee.get();	
+		if(optEmployee.isEmpty()) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_DBENTITY_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_DBENTITY_NOT_FOUND_MSG);
 		}
 		log.info("updateEmployee() is under execution...");
-		mapper.map(employee,dbEmployee);
-		dbEmployee.setEmail(employee.getEmail());
-		dbEmployee.setFirstName(employee.getFirstName());
-		dbEmployee.setLastName(employee.getLastName());
-		dbEmployee.setReportingManager(employee.getReportingManager());
-		dbEmployee.setDepartmentId(employee.getDepartmentId());
-		dbEmployee.setModifiedDateTime(LocalDateTime.now());
-		dbEmployee.setModifiedByEmailId(employee.getEmail());
-		dbEmployee.setModifiedBy(employee.getFirstName());
-		dbEmployee.setTeamsUserId(employee.getTeamsUserId());
-		dbEmployee.setGender(employee.getGender());
-		dbEmployee.setDateOfJoining(employee.getDateOfJoining());
-		dbEmployee.setEmployeeOrgId(employee.getEmployeeOrgId());
-		DesignationDto designationDto = employee.getEmpDesignation();
-		Designation designation = new Designation();
-		mapper.map(designationDto,designation);
-	    dbEmployee.setEmpDesignation(designation);
-		updatedEmployee = employeeRepository.save(dbEmployee);
+		Employee e  = new Employee();
+		mapper.map(employee, e);
+		updatedEmployee = employeeRepository.save(e);
 		EmployeeDto employeeDto = new EmployeeDto();
 		mapper.map(updatedEmployee,employeeDto);
 		log.info("updateEmployee() executed successfully");
@@ -290,20 +273,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<Employee> employeesList = new ArrayList<>();
 		teamsUserProfilesList.forEach(profile -> {
 			Employee e = new Employee();
-			// id will be auto generated
 			e.setFirstName(profile.getDisplayName());
 			e.setLastName(profile.getSurname());
 			String lowerCaseEmail = profile.getUserId().toLowerCase();
 			e.setTeamsUserId(lowerCaseEmail);
 			e.setEmail(profile.getUserPrincipalName());
 			e.setDesignation(profile.getJobTitle());
-			// e.setTwoFactorAuthentication(false);
-			// setting default password, //Test@123 in encrypted format
-			// e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
-			// e.setOtpCode(0);
 			e.setDepartmentId(1L);
-			// set default role
-			// e.setUserRole("Team Member");
 			employeesList.add(e);
 		});
 		List<Employee> dbEmployees = employeeRepository.saveAll(employeesList);
@@ -388,16 +364,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	}
 
-//	@Override
-//	public Integer searchEmployeeByEmail(String email) {
-//		log.info("EmployeeServiceImpl.searchEmployeeByEmail() ENTERED : email : " + email);
-//		if (email == null || email.isEmpty() )
-//			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
-//					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
-//		Integer count = employeeRepository.searchEmployeeDetailsByMail(email);
-//		return count;
-//	}
-
 	public boolean checkIfEmployeeExists(String employeeEmailId) {
 		log.info("checkIfEmployeeExists() ENTERED : employeeEmailId : " + employeeEmailId);
 		boolean checkifEmployeeExists = false;
@@ -446,13 +412,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<Employee> getAllEmployeesWithUserStatus(boolean isUser) {
 		log.info("getAllEmployeesWithUserStatus() is entered");
 		List<Employee> employeesList = null;
-		//boolean userStatus = false;
 		log.info("getAllEmployeesWithUserStatus() is under execution...");
 		employeesList = employeeRepository.findAllEmployeesWithUserStatus(isUser);
-//		if (employeesList == null || employeesList.isEmpty())
-//			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
-//					ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_MSG);
-		//List<DepartmentVO> departmentList = new ArrayList<>();
 		employeesList.forEach(employee -> {
 			try {
 				log.info("Calling Department Microservice !");
@@ -478,7 +439,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
 		}
 		log.info("updateEmployeeStatus() is entered");
-		//System.out.println("updateEmployeeStatus() is entered");
 		Employee dbUser = null;
 		log.info("updateEmployeeStatus() is under execution...");
 		Optional<Employee> optEmployee = employeeRepository.findByEmail(email);
