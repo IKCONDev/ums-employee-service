@@ -98,10 +98,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeDto updateEmployee(EmployeeDto employee) {
 		log.info("EmployeeService.updateEmployee() ENTERED : " + employee);
 		if (employee == null) {
-			log.info("updateEmployee(): employee object is null");
+			log.info("updateEmployee() EntityNotFoundException : employee object is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
+		log.info("updateEmployee() is under execution...");
 		Employee updatedEmployee = null;
 		Optional<Employee> optEmployee = employeeRepository.findById(employee.getId());
 		if(!optEmployee.isPresent()) {
@@ -112,7 +113,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_DBENTITY_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_DBENTITY_NOT_FOUND_MSG);
 		}
-		log.info("updateEmployee() is under execution...");
 		Employee e  = new Employee();
 		mapper.map(employee, e);
 		updatedEmployee = employeeRepository.save(e);
