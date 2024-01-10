@@ -107,6 +107,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee updatedEmployee = null;
 		Employee dbEmployee = null;
 		Optional<Employee> optEmployee = employeeRepository.findById(employee.getId());
+		if(!optEmployee.isPresent()) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_ENTITY_NOT_FOUND_MSG);
+		}
 		if(optEmployee.isPresent()) {
 				dbEmployee = optEmployee.get();	
 		}
