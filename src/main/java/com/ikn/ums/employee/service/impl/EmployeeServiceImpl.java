@@ -307,15 +307,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			e.setTeamsUserId(profile.getUserId());
 			e.setEmail(profile.getUserPrincipalName());
 			e.setDesignation(profile.getJobTitle());
-			// e.setTwoFactorAuthentication(false);
-			// setting default password, //Test@123 in encrypted format
-			// e.setEncryptedPassword("$2a$10$054UvQ85YjjEMnb2Okh9r.qJNDOE9trkRhEjeNE6tdPeeBJNEHZpa");
-			// e.setOtpCode(0);
 			e.setDepartmentId(1L);
-			// set default role
-			// e.setUserRole("Team Member");
-
-			// save user
 			insertedUser = employeeRepository.save(e);
 		}
 		log.info("saveAzureUser() executed successfully");
