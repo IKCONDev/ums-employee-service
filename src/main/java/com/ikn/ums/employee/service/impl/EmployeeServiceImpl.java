@@ -34,6 +34,7 @@ import com.ikn.ums.employee.model.UserProfilesResponseWrapper;
 import com.ikn.ums.employee.repository.EmployeeRepository;
 import com.ikn.ums.employee.service.EmployeeService;
 import com.ikn.ums.employee.utils.InitializeMicrosoftGraph;
+import com.netflix.servo.util.Strings;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -275,7 +276,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			Employee e = new Employee();
 			e.setFirstName(profile.getDisplayName());
 			e.setLastName(profile.getSurname());
-			String lowerCaseEmail = profile.getUserId().toLowerCase();
+			var lowerCaseEmail = profile.getUserId().toLowerCase();
 			e.setTeamsUserId(lowerCaseEmail);
 			e.setEmail(profile.getUserPrincipalName());
 			e.setDesignation(profile.getJobTitle());
@@ -334,7 +335,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.info("getAzureUser() is under execution...");
         log.info("calling to microsoft Azure to fetch the user  profile");
 		// get users
-		String userProfileUrl = "https://graph.microsoft.com/v1.0/users/" + userPrincipalName;
+		var userProfileUrl = "https://graph.microsoft.com/v1.0/users/" + userPrincipalName;
 
 		// prepare headers
 		HttpHeaders httpHeaders = new HttpHeaders();
@@ -372,16 +373,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public boolean deleteAllEmployeesById(List<Integer> employeeIds) {
-		if(employeeIds.size() <= 0) {
+		if(employeeIds.isEmpty()) {
 			log.info("deleteAllEmployeesById(): employee Ids is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_DESG_IDS_LIST_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_DESG_IDS_LIST_IS_EMPTY_MSG);
 		}
 		log.info("EmployeeServiceImpl.deleteAllEmployeesById() ENTERED : employeeIds : ");
-		boolean isDeleted = false;
+		boolean isDeleted = Boolean.FALSE;
 		log.info("deleteAllEmployeesById() is under execution...");
 	    employeeRepository.deleteAllById(employeeIds);
-		isDeleted = true;
+		isDeleted = Boolean.TRUE;
 		log.info("deleteAllEmployeesById() executed successfully");
 		return isDeleted;
 	}
@@ -389,13 +390,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<Employee> getEmployeeReporteesData(String emailId) {
 		log.info("getEmployeeReporteesData() is entered with args: emailId - "+emailId);
-		if(emailId == "" || emailId == "null" || emailId == null) {
+		if(Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
 			log.info("getEmployeeReporteesData(): employee email Id is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE, 
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
 		}
 		log.info("getEmployeeReporteesData() is under execution...");
-		List<Employee> employeeReporteesList = employeeRepository.findEmployeeReportees(emailId);
+		var employeeReporteesList = employeeRepository.findEmployeeReportees(emailId);
 		log.info("getEmployeeReporteesData() executed successfully");
 		return employeeReporteesList;
 	}
@@ -425,7 +426,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Transactional
 	@Override
 	public void updateEmployeeStatus(String email) {
-		if(email == null || email.equals("")) {
+		if(Strings.isNullOrEmpty(email) || email.isEmpty()) {
 			log.info("updateEmployeeStatus(): employee email Id is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
@@ -444,7 +445,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Transactional
 	@Override
 	public void updateEmployeeStatustoFalse(String email) {
-		if(email == null || email.equals("")) {
+		if(Strings.isNullOrEmpty(email) || email.isEmpty()) {
 			log.info("updateEmployeeStatustoFalse(): employee email Id is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
@@ -467,7 +468,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			System.out.println(email);
 		});*/
 		log.info("getAllEmployeesByEmailIds() is entered");
-		if(emailIds == null) {
+		if(emailIds == null || emailIds.isEmpty() ) {
 			log.info("getAllEmployeesByEmailIds(): employee emailIds is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
@@ -482,11 +483,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public boolean getEmployeesByEmployeeOrgId(String employeeOrgId) {
 		log.info("getEmployeesByEmployeeOrgId() is entered with args : employeeOrgId - "+ employeeOrgId);
-		boolean employeeOrgIdstatus=false;
+		if(Strings.isNullOrEmpty(employeeOrgId) || employeeOrgId.isEmpty()) {
+			log.info("getEmployeesByEmployeeOrgId() EmptyInputException : employee orgId is empty or null.");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMPORGID_NOT_FOUND_CODE, 
+					ErrorCodeMessages.ERR_EMP_EMPORGID_NOT_FOUND_MSG);
+		}
+		boolean employeeOrgIdstatus= Boolean.FALSE;
 		log.info("getEmployeesByEmployeeOrgId() is under execution...");
 		List<Employee> employeeOrgIdList=employeeRepository.findByEmployeeOrgId(employeeOrgId);
 		if(employeeOrgIdList.isEmpty()) {
-			 employeeOrgIdstatus = true;
+			 employeeOrgIdstatus = Boolean.TRUE;
 		}
 		log.info("getEmployeesByEmployeeOrgId() executed successfully");
 		return employeeOrgIdstatus;

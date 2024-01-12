@@ -26,7 +26,6 @@ import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
 import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.service.EmployeeService;
-import com.ikn.ums.employee.service.impl.EmployeeServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,18 +43,6 @@ public class EmployeeController {
 	 * @param employee
 	 * @return
 	 */
-//	@PostMapping("/save")
-//	public Employee saveEmployee(@RequestBody Employee employee) {
-//		log.info("EmployeeController.saveEmployee() ENTERED");
-//		return employeeService.saveEmployee(employee);
-//	}
-
-	/**
-	 * save a manually created employee object into UMS DB
-	 * 
-	 * @param employee
-	 * @return
-	 */
 	@PostMapping("/saveEmployee")
 	public ResponseEntity<EmployeeDto> saveEmployee(@RequestBody EmployeeDto employee) {
 		log.info("saveEmployee() is entered with args: employee - " + employee);
@@ -66,15 +53,10 @@ public class EmployeeController {
 		}
 		try {
 			log.info("saveEmployee() is under execution...");
-			EmployeeDto newEmp= new EmployeeDto();
-			newEmp=employee;
-			String employeeOrgId=newEmp.getEmployeeOrgId();
-			if(employeeService.getEmployeesByEmployeeOrgId(employeeOrgId)) {
 			EmployeeDto employeeSaved = employeeService.saveEmployee(employee);
 			log.info("saveEmployee() : Post Employee method calling .... " + employeeSaved);
 			log.info("saveEmployee() executed successfully");
 			return new ResponseEntity<EmployeeDto>(employeeSaved, HttpStatus.CREATED);
-			}else return new ResponseEntity<EmployeeDto>(HttpStatus.NOT_ACCEPTABLE);
 		}catch (EntityNotFoundException | EmployeeExistsException businessException) {
 			log.error("saveEmployee() : Exception Occured !" + businessException.getMessage(), businessException);
 			throw businessException;

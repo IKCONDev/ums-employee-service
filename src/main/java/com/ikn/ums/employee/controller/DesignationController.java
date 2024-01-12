@@ -43,7 +43,7 @@ public class DesignationController {
 		}
 		try {
 			log.info("createDesignation() is under execution...");
-			DesignationDto savedDesignationDto =  designationService.createDesignation(designation);
+			var savedDesignationDto =  designationService.createDesignation(designation);
 			log.info("createDesignation() executed successfully");
 			return new ResponseEntity<>(savedDesignationDto, HttpStatus.CREATED);
 		}
@@ -66,7 +66,7 @@ public class DesignationController {
 		}
 		try {
 			log.info("updateDesignation() is under execution...");
-			DesignationDto updatedDesignation = designationService.updateDesignation(designation);
+			var updatedDesignation = designationService.updateDesignation(designation);
 			log.info("updateDesignation() is executed  successfully");
 			return new ResponseEntity<>(updatedDesignation, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException businesException) {
@@ -90,12 +90,10 @@ public class DesignationController {
 		
 		}
 		log.info("deleteDesignation() is under execution...");
-		boolean isdeleted = false;
 		try {
 			designationService.deleteDesignationById(id);
-			isdeleted = true;
 			log.info("deleteDesignation() executed successfully");
-			return new ResponseEntity<>(isdeleted, HttpStatus.OK);
+			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (Exception e) {
 			log.error("deleteDesignationById() is exited with exception :"+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_CODE,
@@ -113,7 +111,7 @@ public class DesignationController {
 		}
 		log.info("getDesignation() is under execution...");
 		try {
-			Designation designation = designationService.getDesignationById(id);
+			var designation = designationService.getDesignationById(id);
 			log.info("getDesignation() executed successfully");
 			return new ResponseEntity<>(designation, HttpStatus.OK);
 		}catch (Exception e) {
@@ -128,7 +126,7 @@ public class DesignationController {
 		log.info("getAllDesignations() is enetered");
 		log.info("getAllDesignations() is under execution...");
 		try {
-			 List<Designation> deisgnationList = designationService.getAllDesignations();
+			 var deisgnationList = designationService.getAllDesignations();
 			 log.info("getDesignation() executed successfully");
 			 return new ResponseEntity<>(deisgnationList, HttpStatus.OK);
 		}catch (Exception e) {
@@ -148,14 +146,14 @@ public class DesignationController {
 	public ResponseEntity<Boolean> deleteAllDepartmentsByIds(@PathVariable List<Long> ids){
 		log.info("deleteAllDepartmentsByIds() is enetered");
 		log.info("deleteAllDepartmentsByIds() is under execution...");
-		if(ids == null || ids.size() == 0 || ids.equals((null))){
+		if(ids == null || ids.isEmpty()){
 			throw new EmptyInputException(ErrorCodeMessages.ERR_DESG_IDS_LIST_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_DESG_IDS_LIST_IS_EMPTY_MSG);
 		}
 		try {
 			designationService.deleteSelectedDesignationsByIds(ids);
 			log.info("deleteAllDepartmentsByIds() executed successfully");
-			return new ResponseEntity<>(true, HttpStatus.OK);
+			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (Exception e) {
 			log.error("deleteAllDepartmentsByIds() is exited with exception :"+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_CODE,

@@ -65,6 +65,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_EMP_DBENTITY_NOT_FOUND_CODE = "ERR_EMP_DBENTITY_NOT_FOUND_CODE-1009";
 	 public static final String ERR_EMP_DBENTITY_NOT_FOUND_MSG = "Employee not present in DB.";
 	 
+	 public static final String ERR_EMP_EMPORGID_NOT_FOUND_CODE = "ERR_EMP_EMPORGID_NOT_FOUND_CODE-1010";
+	 public static final String ERR_EMP_EMPORGID_NOT_FOUND_MSG = "Employee OrgId is empty.";
+	 
 	 //DESIGNATIONS
 	 public static final String ERR_DESG_IDS_LIST_IS_EMPTY_CODE = "ERR_DESG_IDS_LIST_IS_EMPTY_CODE-1001";
 	 public static final String ERR_DESG_IDS_LIST_IS_EMPTY_MSG = "Designation ids list is empty";

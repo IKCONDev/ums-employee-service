@@ -13,18 +13,11 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
-	//Employee findById(Integer id);
-	
-	//find and employee by username (email)
 	Optional<Employee> findByEmail(String email);
-	
-   //@Query("SELECT COUNT(*) FROM Employee WHERE email=:email")
-   //Integer searchEmployeeDetailsByMail(String email);
 	
 	@Query("SELECT COUNT(*) FROM Employee WHERE email=:employeeEmailId")
 	Integer checkIfEmployeeExists ( String employeeEmailId);
 	
-	//@Query("FROM Employee WHERE reportingManager=:emailId")
 	@Query(value = "WITH RECURSIVE RecursiveReportees AS (\r\n"
 			+ "    SELECT * FROM employee_tab WHERE reporting_manager = :emailId \r\n"
 			+ "    UNION\r\n"
