@@ -170,7 +170,7 @@ public class EmployeeController {
 			return new ResponseEntity<>(insertedUsersCount, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.info("saveAllAzureUserProfiles() is exited with Exception"+ e.getMessage(), e);
+			log.error("saveAllAzureUserProfiles() is exited with Exception"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
 		}
@@ -187,7 +187,7 @@ public class EmployeeController {
 		log.info("saveAzureUserProfile() ENTERED : userPrincipalName or emailId : " + emailId);
 		try {
 			// employeeService.searchEmployeeByEmail(userPrincipalName);
-			log.info("saveAzureUserProfile() ENTERED : userPrincipalName or emailId : ");
+			log.info("saveAzureUserProfile() is under execution...");
 			boolean checkIfAzureUserExists = employeeService.checkIfEmployeeExists(emailId);
 			if (!checkIfAzureUserExists) {
 				String message = employeeService.saveAzureUser(emailId);
