@@ -25,7 +25,7 @@ public class Employee {
 	// user login properties
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "emp_id")
+	@Column(name = "id")
 	private Integer id;
 	
 	@Column(name = "employeeOrgId", nullable = true, unique = true)
