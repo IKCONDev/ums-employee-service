@@ -34,4 +34,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findAllEmployeesByEmailList( List<String> emailList);
 
 	List<Employee> findByEmployeeOrgId (String employeeOrgId);
+
 }

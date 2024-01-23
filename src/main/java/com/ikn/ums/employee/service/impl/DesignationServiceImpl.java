@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ikn.ums.employee.dto.DesignationDto;
 import com.ikn.ums.employee.entity.Designation;
+import com.ikn.ums.employee.exception.DesignationInUsageException;
 import com.ikn.ums.employee.exception.DesignationNameExistsException;
 import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EmptyListException;
@@ -91,8 +92,13 @@ public class DesignationServiceImpl implements DesignationService {
 		}
 		log.info("deleteDesignationById() is under execution...");
 		Optional<Designation> optionalDbDesignation = designationRepository.findById(id);
-		Designation designationToBeDeleted = optionalDbDesignation.orElseThrow(() ->
-		new EntityNotFoundException());
+		Designation designationToBeDeleted = optionalDbDesignation.orElseThrow(() ->new EntityNotFoundException());
+		Integer count = designationRepository.getDesignationInUsageCount(id);
+		if(count > 0) {
+			log.info("deleteDesignationById() DesignationInUsageException : Designation trying to delete is already in usage.");
+			throw new DesignationInUsageException(ErrorCodeMessages.ERR_DESG_IS_IN_USAGE_CODE, 
+					ErrorCodeMessages.ERR_DESG_IS_IN_USAGE_MSG);
+		}
 		designationRepository.delete(designationToBeDeleted);
 		log.info("deleteDesignationById() executed sucessfully");
 	}
@@ -129,15 +135,21 @@ public class DesignationServiceImpl implements DesignationService {
 	@Override
 	public void deleteSelectedDesignationsByIds(List<Long> ids) {
 		log.info("deleteDesignationById() is entered with args: ids");
-		if(ids.size() <= 0) {
+		if(ids.isEmpty()) {
 			throw new EmptyListException(ErrorCodeMessages.ERR_DESG_IDS_LIST_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_DESG_IDS_LIST_IS_EMPTY_MSG);
 		}
 		log.info("deleteDesignationById() is under execution...");
 		List<Designation> designationList = designationRepository.findAllById(ids);
-		if(designationList.size() > 0) {
-			designationRepository.deleteAll(designationList);
-		}
+		designationList.forEach(entity -> {
+			Integer count = designationRepository.getDesignationInUsageCount(entity.getId());
+			if(count > 0) {
+				log.info("deleteDesignationById() DesignationInUsageException : Designation trying to delete is already in usage.");
+				throw new DesignationInUsageException(ErrorCodeMessages.ERR_DESG_IS_IN_USAGE_CODE, 
+						ErrorCodeMessages.ERR_DESG_IS_IN_USAGE_MSG);
+			}
+		});
+		designationRepository.deleteAll(designationList);
 		log.info("deleteDesignationById() executed sucessfully");
 	}
 	

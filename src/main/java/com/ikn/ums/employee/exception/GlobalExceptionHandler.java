@@ -90,7 +90,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(DesignationNameExistsException.class)
 	public ResponseEntity<String> handleDesignationNameExistsException(DesignationNameExistsException designationNameExistsException) {
-		log.info("GlobalExceptionHandler.handleDesignationNameExistsException() ENTERED" + designationNameExistsException.getMessage());
+		log.info("GlobalExceptionHandler.handleDesignationNameExistsException() ENTERED : " + designationNameExistsException.getMessage());
 		log.info("DesignationNameExistsException Occurred" + designationNameExistsException.getMessage());
 		return new ResponseEntity<String>(designationNameExistsException.getMessage(), HttpStatus.FOUND);
 	}
@@ -100,6 +100,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED" + ex.getMessage());
 		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(DesignationInUsageException.class)
+	public ResponseEntity<String> handleDesignationInUsageException(DesignationInUsageException designationInUsageException) {
+		log.info("GlobalExceptionHandler.handleDesignationInUsageException() ENTERED : " + designationInUsageException.getMessage());
+		log.info("DesignationInUsageException Occurred" + designationInUsageException.getMessage());
+		return new ResponseEntity<String>(designationInUsageException.getMessage(), HttpStatus.IM_USED);
 	}
 	
 

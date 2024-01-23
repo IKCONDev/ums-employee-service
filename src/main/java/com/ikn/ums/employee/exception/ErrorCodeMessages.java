@@ -93,6 +93,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_DESG_ID_IS_EMPTY_CODE = "ERR_DESG_ID_IS_EMPTY_CODE-1008";
 	 public static final String ERR_DESG_ID_IS_EMPTY_MSG = "Designation id is empty";
 	 
+	 public static final String ERR_DESG_IS_IN_USAGE_CODE = "ERR_DESG_IS_IN_USAGE_CODE-1009";
+	 public static final String ERR_DESG_IS_IN_USAGE_MSG = "Designation is already in usage! Cannot be deleted.";
+	 
 
 	 
 }

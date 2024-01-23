@@ -3,13 +3,13 @@ package com.ikn.ums.employee.exception;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmptyListException extends RuntimeException{
+public class DesignationInUsageException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	private String errorCode;
 	private String errorMessage;
 
@@ -33,13 +33,14 @@ public class EmptyListException extends RuntimeException{
 		return serialVersionUID;
 	}
 
-	public EmptyListException(String errorCode, String errorMessage) {
-		super(errorMessage, new Throwable(errorCode));
+	public DesignationInUsageException(String errorCode, String errorMessage) {
+		super(errorMessage , new Throwable(errorCode) );
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
 	
-	public EmptyListException() {
+	public DesignationInUsageException() {
 		
 	}
+
 }

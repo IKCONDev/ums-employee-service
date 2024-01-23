@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikn.ums.employee.dto.DesignationDto;
 import com.ikn.ums.employee.entity.Designation;
 import com.ikn.ums.employee.exception.ControllerException;
+import com.ikn.ums.employee.exception.DesignationInUsageException;
 import com.ikn.ums.employee.exception.DesignationNameExistsException;
 import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
@@ -70,7 +71,7 @@ public class DesignationController {
 			log.info("updateDesignation() is executed  successfully");
 			return new ResponseEntity<>(updatedDesignation, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException businesException) {
-			log.error("updateDesignation() exited with exception :Business Exception occured while updating designation."+businesException.getMessage(), businesException);
+			log.error("updateDesignation() exited with exception :Business Exception occured while updating designation. "+businesException.getMessage(), businesException);
 			throw businesException;
 		}
 		catch (Exception e) {
@@ -94,6 +95,9 @@ public class DesignationController {
 			designationService.deleteDesignationById(id);
 			log.info("deleteDesignation() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+		}catch (DesignationInUsageException businessException) {
+			log.error("deleteAllDepartmentsByIds() is exited with exception :"+ businessException.getMessage(),businessException);
+			throw businessException;
 		}catch (Exception e) {
 			log.error("deleteDesignationById() is exited with exception :"+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_CODE,
@@ -130,7 +134,7 @@ public class DesignationController {
 			 log.info("getDesignation() executed successfully");
 			 return new ResponseEntity<>(deisgnationList, HttpStatus.OK);
 		}catch (Exception e) {
-			log.error("getAllDesignations() is exited with exception :"+ e.getMessage(),e);
+			log.error("getAllDesignations() is exited with exception : "+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_DESG_DETAILS_GET_UNSUCESS_CODE,
 					ErrorCodeMessages.ERR_DESG_DETAILS_GET_UNSUCESS_MSG);
 		}
@@ -154,8 +158,12 @@ public class DesignationController {
 			designationService.deleteSelectedDesignationsByIds(ids);
 			log.info("deleteAllDepartmentsByIds() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
-		}catch (Exception e) {
-			log.error("deleteAllDepartmentsByIds() is exited with exception :"+ e.getMessage(),e);
+		}catch (DesignationInUsageException businessException) {
+			log.error("deleteAllDepartmentsByIds() is exited with exception : "+ businessException.getMessage(),businessException);
+			throw businessException;
+		}
+		catch (Exception e) {
+			log.error("deleteAllDepartmentsByIds() is exited with exception : "+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_MSG);
 		}

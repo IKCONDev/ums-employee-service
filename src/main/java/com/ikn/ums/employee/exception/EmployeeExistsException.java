@@ -31,7 +31,7 @@ public class EmployeeExistsException extends RuntimeException {
 	}
 
 	public EmployeeExistsException(String errorCode, String errorMessage) {
-		super();
+		super(errorMessage, new Throwable(errorCode));
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
