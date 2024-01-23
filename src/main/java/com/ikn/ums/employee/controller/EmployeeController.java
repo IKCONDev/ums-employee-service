@@ -62,7 +62,7 @@ public class EmployeeController {
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.error("saveEmployee() : Exception Occured !" + e.fillInStackTrace());
+			log.error("saveEmployee() : Exception Occured !" + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
 		}
@@ -143,8 +143,6 @@ public class EmployeeController {
 		try {
 			log.info("getEmployeeDetailsWithDepartment() is under execution...");
 			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
-			//System.out.println("getEmployeeDetailsWithDepartment() post retrieval" + employeeDto.getEmail());
-			//System.out.println(employeeDto);
 			log.info("getEmployeeDetailsWithDepartment() executed successfully");
 			return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 		} catch (Exception e) {
@@ -169,7 +167,6 @@ public class EmployeeController {
 			log.info("saveAllAzureUserProfiles() executed successfully");
 			return new ResponseEntity<>(insertedUsersCount, HttpStatus.CREATED);
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error("saveAllAzureUserProfiles() is exited with Exception"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
@@ -197,7 +194,6 @@ public class EmployeeController {
 						HttpStatus.NOT_ACCEPTABLE);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error("saveAzureUserProfile() is exited with exception:"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_SAVE_UNSUCCESS_MSG);
