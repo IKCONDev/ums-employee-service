@@ -147,7 +147,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	// fetch user details based on username (email)
 	@Override
 	public EmployeeVO fetchEmployeeDetailsWithDepartment(String email) {
-		if (email== null || email.equals("")) {
+		if (Strings.isNullOrEmpty(email)) {
 			log.info("fetchEmployeeDetailsWithDepartment(): employee email  is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);

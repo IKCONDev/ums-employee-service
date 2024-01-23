@@ -26,6 +26,7 @@ import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
 import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.service.EmployeeService;
+import com.netflix.servo.util.Strings;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,13 +73,12 @@ public class EmployeeController {
 	public ResponseEntity<EmployeeDto> updateEmployee(@RequestBody EmployeeDto employee) {
 		log.info("updateEmployee() ENTERED "+employee);
 		log.info("the epmployee from front is"+" "+ employee);
-		EmployeeDto updatedEmployee = new EmployeeDto();
 		if (employee == null)
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		try {
 			log.info("updateEmployee() is under execition...");
-			updatedEmployee = employeeService.updateEmployee(employee);
+			EmployeeDto updatedEmployee = employeeService.updateEmployee(employee);
 			log.info("updateEmployee() executed successfully");
 			return new ResponseEntity<EmployeeDto>(updatedEmployee, HttpStatus.CREATED);
 		}catch (EntityNotFoundException businesException) {
@@ -140,6 +140,11 @@ public class EmployeeController {
 	@GetMapping("/{email}")
 	public ResponseEntity<EmployeeVO> getEmployeeDetailsWithDepartment(@PathVariable String email) {
 		log.info("getEmployeeDetailsWithDepartment() ENTERED : email : " + email);
+		if(Strings.isNullOrEmpty(email)) {
+			log.info("getEmployeeDetailsWithDepartment() : employee email is null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
+		}
 		try {
 			log.info("getEmployeeDetailsWithDepartment() is under execution...");
 			EmployeeVO employeeDto = employeeService.fetchEmployeeDetailsWithDepartment(email);
@@ -182,6 +187,11 @@ public class EmployeeController {
 	@PostMapping("/save/{userPrincipalName}")
 	public ResponseEntity<String> saveAzureUserProfile(@PathVariable("userPrincipalName") String emailId) {
 		log.info("saveAzureUserProfile() ENTERED : userPrincipalName or emailId : " + emailId);
+		if(Strings.isNullOrEmpty(emailId)) {
+			log.info("saveAzureUserProfile() : employee email is null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
+		}
 		try {
 			// employeeService.searchEmployeeByEmail(userPrincipalName);
 			log.info("saveAzureUserProfile() is under execution...");
@@ -243,14 +253,14 @@ public class EmployeeController {
 	@DeleteMapping("/deleteAll/{ids}")
 	public ResponseEntity<Boolean> deleteAllEmployeesById(@PathVariable("ids") String employeeIds ){
 		log.info("deleteAllEmployeesById() ENTERED with employeeIds");
-		if(employeeIds == null || employeeIds.equals("")) {
+		if(Strings.isNullOrEmpty(employeeIds)){
 			log.info("deleteAllEmployeesById(): employeeIds is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_IDS_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_EMP_IDS_LIST_IS_EMPTY_MSG);
 			
 		}
 		List<Integer> idList = null;
-		if(employeeIds != "") {
+		if(employeeIds != "" ) {
 				String[] idFromUI = employeeIds.split(",");
 				List<String> list = Arrays.asList(idFromUI);
 				idList = list.stream()
@@ -294,7 +304,7 @@ public class EmployeeController {
 	}	
 	@PutMapping("/employeestatus-update/{email}")
 	public ResponseEntity<Boolean> updateEmployeeStatus(@PathVariable("email") String email){
-		if(email == null || email.equals("")) {
+		if(Strings.isNullOrEmpty(email)) {
 			log.info("updateEmployeeStatus() : employee email is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
@@ -316,7 +326,7 @@ public class EmployeeController {
 	@GetMapping("/{emailId}/reportees")
 	public ResponseEntity<List<Employee>> getEmployeeReportees(@PathVariable String emailId){
 		log.info("getEmployeeReportees() ENTERED with args :"+ emailId);
-		if(emailId == null || emailId.equals("")) {
+		if(Strings.isNullOrEmpty(emailId)) {
 			log.info("getEmployeeReportees() : employee email is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
@@ -338,7 +348,7 @@ public class EmployeeController {
 	@PutMapping("/status-update/{email}")
 	public ResponseEntity<Boolean> updateEmployeeStatustoFalse(@PathVariable("email") String email){
 		log.info("updateEmployeeStatustoFalse() ENTERED with args :"+ email);
-		if(email == null || email.equals("")) {
+		if(Strings.isNullOrEmpty(email)) {
 			log.info("updateEmployeeStatustoFalse() : employee email is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
@@ -359,7 +369,7 @@ public class EmployeeController {
 	@GetMapping("/attendees/{emailIds}")
 	public ResponseEntity<List<Employee>> getAllEmployeeByEmailIds(@PathVariable("emailIds") String emailIds){
 		log.info("getAllEmployeeByEmailIds() ENTERED with args:"+ emailIds);
-		if(emailIds == null || emailIds.equals("")) {
+		if(Strings.isNullOrEmpty(emailIds)) {
 			log.info("getAllEmployeeByEmailIds() : employee email Ids is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_IDS_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_EMP_IDS_LIST_IS_EMPTY_MSG);
