@@ -49,10 +49,11 @@ public class DesignationController {
 			return new ResponseEntity<>(savedDesignationDto, HttpStatus.CREATED);
 		}
 		catch (DesignationNameExistsException | EntityNotFoundException businessException) {
+			log.error("createDesignation() : Exception Occured !" + businessException.getMessage(),businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
-			log.error("DepartmentController.saveDepartment() : Exception Occured !" + e.fillInStackTrace(),e);
+			log.error("createDesignation() : Exception Occured !" + e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_DESG_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_DESG_CREATE_UNSUCCESS_MSG);
 		}
@@ -96,10 +97,10 @@ public class DesignationController {
 			log.info("deleteDesignation() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (DesignationInUsageException businessException) {
-			log.error("deleteAllDepartmentsByIds() is exited with exception :"+ businessException.getMessage(),businessException);
+			log.error("deleteDesignation() is exited with exception :"+ businessException.getMessage(),businessException);
 			throw businessException;
 		}catch (Exception e) {
-			log.error("deleteDesignationById() is exited with exception :"+ e.getMessage(),e);
+			log.error("deleteDesignation() is exited with exception :"+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_DESG_LIST_DELETE_UNSUCCESS_MSG);
 		}

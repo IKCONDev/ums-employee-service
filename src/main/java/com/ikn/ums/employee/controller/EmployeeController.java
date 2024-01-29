@@ -165,7 +165,7 @@ public class EmployeeController {
 	 */
 	@PostMapping("/save-all")
 	public ResponseEntity<Integer> saveAllAzureUserProfiles() {
-		log.info("EmployeeController.saveAllAzureUserProfiles() ENTERED ");
+		log.info("saveAllAzureUserProfiles() ENTERED ");
 		try {
 			log.info("saveAllAzureUserProfiles() is under execution...");
 			int insertedUsersCount = employeeService.saveAzureUsers();
@@ -278,7 +278,6 @@ public class EmployeeController {
 			throw businessException;
 		}
 		catch (Exception e) {
-			e.getMessage();
 			log.error("deleteAllEmployeesById() is exited with exception"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_DELETE_UNSUCCESS_MSG);
@@ -385,7 +384,7 @@ public class EmployeeController {
 		}
 		try {
 			List<Employee> employeeList = employeeService.getAllEmployeesByEmailIds(emailList);
-			log.info("EmployeeController.getAllEmployeeByEmailIds() executed successfully");
+			log.info("getAllEmployeeByEmailIds() executed successfully");
 			return new ResponseEntity<>(employeeList,HttpStatus.OK);
 		}catch (Exception e) {
 			log.error("getAllEmployeeByEmailIds is exited wit exception:" + e.getMessage(), e);
