@@ -109,5 +109,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<String>(designationInUsageException.getMessage(), HttpStatus.IM_USED);
 	}
 	
+	@ExceptionHandler(EmployeeIdExistsException.class)
+	public ResponseEntity<String> handleEmployeeIdExistsException(EmployeeIdExistsException employeeIdExistsException) {
+		log.info("GlobalExceptionHandler.handleEmployeeIdExistsException() ENTERED : " + employeeIdExistsException.getMessage());
+		log.info("EmployeeIdExistsException Occurred" + employeeIdExistsException.getMessage());
+		return new ResponseEntity<String>(employeeIdExistsException.getMessage(), HttpStatus.IM_USED);
+	}
 
 }

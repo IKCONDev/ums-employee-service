@@ -26,6 +26,7 @@ import com.ikn.ums.employee.dto.EmployeeDto;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.exception.BusinessException;
 import com.ikn.ums.employee.exception.EmployeeExistsException;
+import com.ikn.ums.employee.exception.EmployeeIdExistsException;
 import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EmptyListException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
@@ -73,6 +74,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
+		Integer count = employeeRepository.isEmployeeIDExists(employee.getEmployeeOrgId());
+		if(count > 0) {
+			log.info("saveEmployee() EmployeeIdExistsException : Employee Id already exists : "+employee.getEmployeeOrgId());
+			throw new EmployeeIdExistsException(ErrorCodeMessages.ERR_EMP_EMPORGID_EXISTS_CODE, 
+					ErrorCodeMessages.ERR_EMP_EMPORGID_EXISTS_MSG);
+		}
 		Employee savedEmployee = null;
 		EmployeeDto savedEmployeeDto = new EmployeeDto();
 		log.info("saveEmployee() is under execution...");
@@ -107,12 +114,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee updatedEmployee = null;
 		Optional<Employee> optEmployee = employeeRepository.findById(employee.getId());
 		if(!optEmployee.isPresent()) {
+			log.info("updateEmployee() EntityNotFoundException : employee object is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_NOT_FOUND_MSG);
 		}
 		if(optEmployee.isEmpty()) {
+			log.info("updateEmployee() EntityNotFoundException : DB employee is null with provided Id : "+employee.getEmployeeOrgId());
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_DBENTITY_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_DBENTITY_NOT_FOUND_MSG);
+		}
+		if(!employee.getEmployeeOrgId().equals(optEmployee.get().getEmployeeOrgId())) {
+			Integer count = employeeRepository.isEmployeeIDExists(employee.getEmployeeOrgId());
+			if(count > 0) {
+				log.info("updateEmployee() EmployeeIdExistsException : Employee Id already exists : "+employee.getId());
+				throw new EmployeeIdExistsException(ErrorCodeMessages.ERR_EMP_EMPORGID_EXISTS_CODE, 
+						ErrorCodeMessages.ERR_EMP_EMPORGID_EXISTS_MSG);
+			}
 		}
 		Employee e  = new Employee();
 		mapper.map(employee, e);

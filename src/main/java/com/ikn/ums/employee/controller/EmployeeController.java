@@ -22,6 +22,7 @@ import com.ikn.ums.employee.dto.EmployeeDto;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.exception.ControllerException;
 import com.ikn.ums.employee.exception.EmployeeExistsException;
+import com.ikn.ums.employee.exception.EmployeeIdExistsException;
 import com.ikn.ums.employee.exception.EmptyInputException;
 import com.ikn.ums.employee.exception.EntityNotFoundException;
 import com.ikn.ums.employee.exception.ErrorCodeMessages;
@@ -58,7 +59,7 @@ public class EmployeeController {
 			log.info("saveEmployee() : Post Employee method calling .... " + employeeSaved);
 			log.info("saveEmployee() executed successfully");
 			return new ResponseEntity<EmployeeDto>(employeeSaved, HttpStatus.CREATED);
-		}catch (EntityNotFoundException | EmployeeExistsException businessException) {
+		}catch (EntityNotFoundException | EmployeeExistsException | EmployeeIdExistsException businessException) {
 			log.error("saveEmployee() : Exception Occured !" + businessException.getMessage(), businessException);
 			throw businessException;
 		} 
@@ -81,7 +82,7 @@ public class EmployeeController {
 			EmployeeDto updatedEmployee = employeeService.updateEmployee(employee);
 			log.info("updateEmployee() executed successfully");
 			return new ResponseEntity<EmployeeDto>(updatedEmployee, HttpStatus.CREATED);
-		}catch (EntityNotFoundException businesException) {
+		}catch (EntityNotFoundException | EmployeeIdExistsException businesException) {
 			log.error("updateEmployee() exited with exception :Business Exception occured while updating employee. "+businesException.getMessage(), businesException);
 			throw businesException;
 		}

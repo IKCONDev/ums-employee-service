@@ -62,11 +62,14 @@ public class ErrorCodeMessages {
 	 public static final String ERR_EMP_ENTITY_NOT_FOUND_CODE = "ERR_EMP_ENTITY_NOT_FOUND_CODE-1020";
 	 public static final String ERR_EMP_ENTITY_NOT_FOUND_MSG = "Requested Employee entity is not present."; 
 	 
-	 public static final String ERR_EMP_DBENTITY_NOT_FOUND_CODE = "ERR_EMP_DBENTITY_NOT_FOUND_CODE-1009";
+	 public static final String ERR_EMP_DBENTITY_NOT_FOUND_CODE = "ERR_EMP_DBENTITY_NOT_FOUND_CODE-1021";
 	 public static final String ERR_EMP_DBENTITY_NOT_FOUND_MSG = "Employee not present in DB.";
 	 
-	 public static final String ERR_EMP_EMPORGID_NOT_FOUND_CODE = "ERR_EMP_EMPORGID_NOT_FOUND_CODE-1010";
+	 public static final String ERR_EMP_EMPORGID_NOT_FOUND_CODE = "ERR_EMP_EMPORGID_NOT_FOUND_CODE-1022";
 	 public static final String ERR_EMP_EMPORGID_NOT_FOUND_MSG = "Employee OrgId is empty.";
+	 
+	 public static final String ERR_EMP_EMPORGID_EXISTS_CODE = "ERR_EMP_EMPORGID_EXISTS_CODE-1023";
+	 public static final String ERR_EMP_EMPORGID_EXISTS_MSG = "Employee OrgId already assigned to an employee.";
 	 
 	 //DESIGNATIONS
 	 public static final String ERR_DESG_IDS_LIST_IS_EMPTY_CODE = "ERR_DESG_IDS_LIST_IS_EMPTY_CODE-1001";
