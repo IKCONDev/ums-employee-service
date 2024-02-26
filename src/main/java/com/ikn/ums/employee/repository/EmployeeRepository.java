@@ -36,6 +36,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	List<Employee> findByEmployeeOrgId (String employeeOrgId);
 	
 	@Query("SELECT COUNT(*) FROM Employee WHERE employeeOrgId=:employeeId")
-	Integer isEmployeeIDExists(String employeeId);
+	Integer isEmployeeIdExists(String employeeId);
 
 }

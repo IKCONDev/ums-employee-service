@@ -70,11 +70,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeDto saveEmployee(EmployeeDto employee) {
 		log.info("saveEmployee() ENTERED : " + employee);
 		if (employee == null) {
-			log.info("saveEmployee(): employee object is null");
+			log.info("saveEmployee() EntityNotFoundException : employee object is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
 		}
-		Integer count = employeeRepository.isEmployeeIDExists(employee.getEmployeeOrgId());
+		Integer count = employeeRepository.isEmployeeIdExists(employee.getEmployeeOrgId());
 		if(count > 0) {
 			log.info("saveEmployee() EmployeeIdExistsException : Employee Id already exists : "+employee.getEmployeeOrgId());
 			throw new EmployeeIdExistsException(ErrorCodeMessages.ERR_EMP_EMPORGID_EXISTS_CODE, 
@@ -124,7 +124,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 					ErrorCodeMessages.ERR_EMP_DBENTITY_NOT_FOUND_MSG);
 		}
 		if(!employee.getEmployeeOrgId().equals(optEmployee.get().getEmployeeOrgId())) {
-			Integer count = employeeRepository.isEmployeeIDExists(employee.getEmployeeOrgId());
+			Integer count = employeeRepository.isEmployeeIdExists(employee.getEmployeeOrgId());
 			if(count > 0) {
 				log.info("updateEmployee() EmployeeIdExistsException : Employee Id already exists : "+employee.getId());
 				throw new EmployeeIdExistsException(ErrorCodeMessages.ERR_EMP_EMPORGID_EXISTS_CODE, 
@@ -144,7 +144,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void deleteEmployee(Integer employeeId) {
 		log.info("EmployeeServiceImpl.deleteEmployee() ENTERED : employeeId : " + employeeId);
 		if (employeeId == 0 || employeeId < 0) {
-			log.info("deleteEmployee(): employee Id  is null");
+			log.info("deleteEmployee() EmptyInputException : employee Id  is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_ID_NOT_FOUND_MSG);
      	}
@@ -165,7 +165,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public EmployeeVO fetchEmployeeDetailsWithDepartment(String email) {
 		if (Strings.isNullOrEmpty(email)) {
-			log.info("fetchEmployeeDetailsWithDepartment(): employee email  is null");
+			log.info("fetchEmployeeDetailsWithDepartment() EmptyInputException : employee email  is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
 		}
@@ -427,7 +427,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeesList.forEach(employee -> {
 			try {
 				log.info("Calling Department Microservice !");
-					DepartmentVO department = restTemplate.getForObject(
+					restTemplate.getForObject(
 						this.departmentMicroservicerURL + employee.getDepartmentId(), DepartmentVO.class);
 					
 			} catch (RestClientException restClientException) {
