@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ikn.employee</groupId>
-	<artifactId>ums-Employee-service</artifactId>
-	<version>ALPHA-0.1</version>
-	<name>ums-Employee-service</name>
+	<artifactId>ums-employee-service</artifactId>
+	<version>ALPHA-0.2</version>
+	<name>ums-employee-service</name>
 	<description>UMS Employee-Service</description>
 	<properties>
 		<java.version>11</java.version>
