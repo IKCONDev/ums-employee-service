@@ -141,7 +141,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		EmployeeDto employeeDto = new EmployeeDto();
 		System.out.println("employee Status"+ updatedEmployee.getEmployeeStatus());
 		if(updatedEmployee.getEmployeeStatus().equals("Inactive")) {
-			System.out.println("call to User Micro service");
+			log.info("calling the user microservice to change the status to Inactive");
 			restTemplate.exchange(this.usersMicroservicerURL+"/set-status/"+updatedEmployee.getEmail(),HttpMethod.PUT, null, boolean.class);
 		}
 		mapper.map(updatedEmployee,employeeDto);
@@ -419,6 +419,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		});
 		employeeRepository.saveAll(employeeList);
 		HttpEntity<List<Employee>> hentity = new HttpEntity<List<Employee>>(employeeList);
+		log.info("calling the user microservice to change the status to Inactive");
 		ResponseEntity<Boolean> entity = restTemplate.exchange(this.usersMicroservicerURL+"/all-status", HttpMethod.PUT, hentity, Boolean.class);
 	    //employeeRepository.deleteAllById(employeeIds);
 		isDeleted = Boolean.TRUE;
