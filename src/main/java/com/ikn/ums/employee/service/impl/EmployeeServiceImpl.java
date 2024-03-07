@@ -140,7 +140,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		updatedEmployee = employeeRepository.save(e);
 		EmployeeDto employeeDto = new EmployeeDto();
 		System.out.println("employee Status"+ updatedEmployee.getEmployeeStatus());
-		if(updatedEmployee.getEmployeeStatus().equals("InActive")) {
+		if(updatedEmployee.getEmployeeStatus().equals("Inactive")) {
 			System.out.println("call to User Micro service");
 			restTemplate.exchange(this.usersMicroservicerURL+"/set-status/"+updatedEmployee.getEmail(),HttpMethod.PUT, null, boolean.class);
 		}
@@ -446,6 +446,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<Employee> employeesList = null;
 		log.info("getAllEmployeesWithUserStatus() is under execution...");
 		employeesList = employeeRepository.findAllEmployeesWithUserStatus(isUser);
+		List<Employee> employeesData = new  ArrayList<>();
+		employeesList.forEach(employee ->{
+			if(employee.getEmployeeStatus().equals("Active")) {
+				employeesData.add(employee);
+			}
+		});
 		employeesList.forEach(employee -> {
 			try {
 				log.info("Calling Department Microservice !");
@@ -459,7 +465,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			}
 		});
 		log.info("getAllEmployeesWithUserStatus() executed successfully");
-		return employeesList;
+		return employeesData;
 	}
 	
 	@Transactional
