@@ -58,6 +58,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private AccessToken acToken = new AccessToken(this.accessToken, OffsetDateTime.now());
 	
 	private String departmentMicroservicerURL = "http://UMS-DEPARTMENT-SERVICE/departments/";
+	
+	private String usersMicroservicerURL = "http://UMS-USERS-SERVICE/user/";
 
 	@Autowired
 	private InitializeMicrosoftGraph microsoftGraph;
@@ -137,7 +139,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		mapper.map(employee, e);
 		updatedEmployee = employeeRepository.save(e);
 		EmployeeDto employeeDto = new EmployeeDto();
+		System.out.println("employee Status"+ updatedEmployee.getEmployeeStatus());
+		if(updatedEmployee.getEmployeeStatus().equals("InActive")) {
+			System.out.println("call to User Micro service");
+			restTemplate.exchange(this.usersMicroservicerURL+"/set-status/"+updatedEmployee.getEmail(),HttpMethod.PUT, null, boolean.class);
+		}
 		mapper.map(updatedEmployee,employeeDto);
+		
 		log.info("updateEmployee() executed successfully");
 		return employeeDto; 
 	}
@@ -157,6 +165,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if (dbEmployee.isPresent()) {
 			//employeeRepository.deleteById(employeeId);
 			dbEmployee.get().setEmployeeStatus(AdminConstants.STATUS_IN_ACTIVE);
+			restTemplate.exchange(this.usersMicroservicerURL+"/set-status/"+dbEmployee.get().getEmail(),HttpMethod.PUT, null, boolean.class);
 			log.info("deleteEmployee() executed successfully");
 		} else {
 			log.info("An Exception occured while fetching the employee :");
@@ -409,6 +418,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			
 		});
 		employeeRepository.saveAll(employeeList);
+		HttpEntity<List<Employee>> hentity = new HttpEntity<List<Employee>>(employeeList);
+		ResponseEntity<Boolean> entity = restTemplate.exchange(this.usersMicroservicerURL+"/all-status", HttpMethod.PUT, hentity, Boolean.class);
 	    //employeeRepository.deleteAllById(employeeIds);
 		isDeleted = Boolean.TRUE;
 		log.info("deleteAllEmployeesById() executed successfully");
