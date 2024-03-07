@@ -83,5 +83,8 @@ public class Employee {
 	@Column(name="dateOfJoining")
 	private String dateOfJoining;
 	
+	@Column(name="employee_status")
+	private String employeeStatus;
+	
 }
 	

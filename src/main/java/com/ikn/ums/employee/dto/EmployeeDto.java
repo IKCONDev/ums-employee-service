@@ -49,6 +49,8 @@ public class EmployeeDto {
 	private String dateOfJoining;
 	
 	private String encryptedPassword;
+	
+	private String employeeStatus;
 
 
 

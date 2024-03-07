@@ -40,5 +40,8 @@ public class EmployeeVO {
 		private String dateOfJoining;
 		
 		private boolean isUser;
+		
+		private String employeeStatus;
+
 
 }

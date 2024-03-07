@@ -34,6 +34,7 @@ import com.ikn.ums.employee.exception.ErrorCodeMessages;
 import com.ikn.ums.employee.model.UserProfilesResponseWrapper;
 import com.ikn.ums.employee.repository.EmployeeRepository;
 import com.ikn.ums.employee.service.EmployeeService;
+import com.ikn.ums.employee.utils.AdminConstants;
 import com.ikn.ums.employee.utils.InitializeMicrosoftGraph;
 import com.netflix.servo.util.Strings;
 
@@ -88,6 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			LocalDateTime date = LocalDateTime.now();
 			employee.setCreatedDateTime(date);
 			employee.setUser(false);
+		    employee.setEmployeeStatus(AdminConstants.STATUS_ACTIVE);
 			Employee entity = new Employee();
 			mapper.map(employee, entity);
 			savedEmployee = employeeRepository.save(entity);
@@ -140,6 +142,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDto; 
 	}
 
+	@Transactional
 	@Override
 	public void deleteEmployee(Integer employeeId) {
 		log.info("EmployeeServiceImpl.deleteEmployee() ENTERED : employeeId : " + employeeId);
@@ -152,7 +155,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Optional<Employee> dbEmployee = null;
 		dbEmployee = employeeRepository.findById(employeeId);
 		if (dbEmployee.isPresent()) {
-			employeeRepository.deleteById(employeeId);
+			//employeeRepository.deleteById(employeeId);
+			dbEmployee.get().setEmployeeStatus(AdminConstants.STATUS_IN_ACTIVE);
 			log.info("deleteEmployee() executed successfully");
 		} else {
 			log.info("An Exception occured while fetching the employee :");
@@ -388,6 +392,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return checkifEmployeeExists;
 	}
 
+	@Transactional
 	@Override
 	public boolean deleteAllEmployeesById(List<Integer> employeeIds) {
 		if(employeeIds.isEmpty()) {
@@ -398,7 +403,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		log.info("EmployeeServiceImpl.deleteAllEmployeesById() ENTERED : employeeIds : ");
 		boolean isDeleted = Boolean.FALSE;
 		log.info("deleteAllEmployeesById() is under execution...");
-	    employeeRepository.deleteAllById(employeeIds);
+		List<Employee> employeeList = employeeRepository.findAllById(employeeIds);
+		employeeList.forEach(employee ->{
+			employee.setEmployeeStatus(AdminConstants.STATUS_IN_ACTIVE);
+			
+		});
+		employeeRepository.saveAll(employeeList);
+	    //employeeRepository.deleteAllById(employeeIds);
 		isDeleted = Boolean.TRUE;
 		log.info("deleteAllEmployeesById() executed successfully");
 		return isDeleted;
