@@ -222,7 +222,7 @@ public class EmployeeController {
 		log.info("getAllEmployees() is  ENTERED");	
 		try {
 			log.info("getAllEmployees()  is under execution...");
-			List<Employee> employeesDbList = employeeService.getAllEmployees();
+			List<Employee> employeesDbList = employeeService.getActiveEmployees();
 			EmployeeListVO empListVO = new EmployeeListVO();
 			empListVO.setEmployee(employeesDbList);
 			log.info("getAllEmployees() executed successfully");

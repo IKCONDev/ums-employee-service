@@ -543,5 +543,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		log.info("getEmployeesByEmployeeOrgId() executed successfully");
 		return employeeOrgIdstatus;
 	}
+
+	@Override
+	public List<Employee> getActiveEmployees() {
+		log.info("getEmployeesByStatus() entered with args : status");
+		log.info("getEmployeesByStatus() is under execution...");
+		List<Employee> activeEmployeesList = employeeRepository.findByEmployeeStatus(AdminConstants.STATUS_ACTIVE);
+		log.info("getEmployeesByStatus() executed successfully");
+		return activeEmployeesList;
+	}
 	
 }

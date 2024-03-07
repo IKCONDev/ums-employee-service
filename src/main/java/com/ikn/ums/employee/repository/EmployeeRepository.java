@@ -37,5 +37,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	@Query("SELECT COUNT(*) FROM Employee WHERE employeeOrgId=:employeeId")
 	Integer isEmployeeIdExists(String employeeId);
+	
+	List<Employee> findByEmployeeStatus(String employeeStatus);
 
 }
