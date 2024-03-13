@@ -71,6 +71,10 @@ public class ErrorCodeMessages {
 	 public static final String ERR_EMP_EMPORGID_EXISTS_CODE = "ERR_EMP_EMPORGID_EXISTS_CODE-1023";
 	 public static final String ERR_EMP_EMPORGID_EXISTS_MSG = "Employee OrgId already assigned to an employee.";
 	 
+	 public static final String ERR_EMP_EMAILID_IS_EMPTY_CODE = "ERR_EMP_EMAILID_IS_EMPTY_CODE-1024";
+	 public static final String ERR_EMP_EMAILID_IS_EMPTY_MSG = "Employee email id is null";
+	 
+	 
 	 //DESIGNATIONS
 	 public static final String ERR_DESG_IDS_LIST_IS_EMPTY_CODE = "ERR_DESG_IDS_LIST_IS_EMPTY_CODE-1001";
 	 public static final String ERR_DESG_IDS_LIST_IS_EMPTY_MSG = "Designation ids list is empty";
@@ -98,6 +102,9 @@ public class ErrorCodeMessages {
 	 
 	 public static final String ERR_DESG_IS_IN_USAGE_CODE = "ERR_DESG_IS_IN_USAGE_CODE-1009";
 	 public static final String ERR_DESG_IS_IN_USAGE_MSG = "Designation is already in usage! Cannot be deleted.";
+	 
+	 
+	
 	 
 
 	 

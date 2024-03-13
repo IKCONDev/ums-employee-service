@@ -395,6 +395,23 @@ public class EmployeeController {
 		}
 		
 	}
+	@GetMapping("/employee-head/{emailId}")
+	public ResponseEntity<List<Employee>> getAllEmployeeBasedOnTheDepartmentHead(@PathVariable("emailId") String emailId){
+		if(Strings.isNullOrEmpty(emailId)) {
+			log.info("getAllEmployeeBasedOnTheDepartmentHead() : employee email Id is null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_MSG);
+		}
+		try {
+		List<Employee> employeeList = employeeService.getAllSubordinateOfEmployee(emailId);
+		return new ResponseEntity<>(employeeList,HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("getAllEmployeeBasedOnTheDepartmentHead is exited wit exception:" + e.getMessage(), e);
+		    throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE, 
+		    		ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		    
+		}
+	}
 	
 
 }

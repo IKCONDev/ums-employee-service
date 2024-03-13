@@ -37,5 +37,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	@Query("SELECT COUNT(*) FROM Employee WHERE employeeOrgId=:employeeId")
 	Integer isEmployeeIdExists(String employeeId);
+	
+	@Query("FROM Employee e WHERE e.reportingManager=:emailId AND e.isUser=true")
+	List<Employee> getAllEmployeesUnderThisMail(String emailId);
+
+	List<Employee> getEmployeeByEmail(String emailId);
 
 }

@@ -543,5 +543,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		log.info("getEmployeesByEmployeeOrgId() executed successfully");
 		return employeeOrgIdstatus;
 	}
+
+	@Override
+	public List<Employee> getAllSubordinateOfEmployee(String emailId) {
+		if(Strings.isNullOrEmpty(emailId)) {
+			log.info("getAllSubordinateOfEmployee() : employee email Id is null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_MSG);
+		}
+		List<Employee> employeeList=employeeRepository.getAllEmployeesUnderThisMail(emailId);
+		employeeList.addAll(employeeRepository.getEmployeeByEmail(emailId));
+		return employeeList;
+	}
 	
 }
