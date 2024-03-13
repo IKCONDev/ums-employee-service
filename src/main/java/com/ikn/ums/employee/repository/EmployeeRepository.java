@@ -43,4 +43,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	List<Employee> getEmployeeByEmail(String emailId);
 
+	List<Employee> findByEmployeeStatus(String employeeStatus);
+
 }

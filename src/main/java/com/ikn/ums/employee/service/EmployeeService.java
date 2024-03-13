@@ -30,5 +30,6 @@ public interface EmployeeService {
 	List<Employee> getAllEmployeesByEmailIds(List<String> emailIds);
 	boolean getEmployeesByEmployeeOrgId(String employeeOrgId);
 	List<Employee> getAllSubordinateOfEmployee(String emailId);
+	List<Employee> getActiveEmployees();
 	
 }
