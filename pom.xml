@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.ikn.employee</groupId>
 	<artifactId>ums-employee-service</artifactId>
-	<version>ALPHA-0.2</version>
+	<version>ALPHA-0.3</version>
 	<name>ums-employee-service</name>
 	<description>UMS Employee-Service</description>
 	<properties>
