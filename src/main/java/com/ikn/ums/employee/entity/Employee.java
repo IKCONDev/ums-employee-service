@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -85,6 +86,12 @@ public class Employee {
 	
 	@Column(name="employee_status")
 	private String employeeStatus;
+	
+	@Column(name = "batchProcessStatus")
+	private String batchProcessStatus;
+	
+	@Transient
+	private boolean enableBatchProcessing;
 	
 }
 	

@@ -92,6 +92,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setCreatedDateTime(date);
 			employee.setUser(false);
 		    employee.setEmployeeStatus(AdminConstants.STATUS_ACTIVE);
+		    employee.setBatchProcessStatus("Enabled");
 			Employee entity = new Employee();
 			mapper.map(employee, entity);
 			savedEmployee = employeeRepository.save(entity);
@@ -135,6 +136,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 						ErrorCodeMessages.ERR_EMP_EMPORGID_EXISTS_MSG);
 			}
 		}
+		//disable batch process , if employee is inactive
+		if(!employee.getEmployeeStatus().equalsIgnoreCase("Active")) {
+			employee.setBatchProcessStatus("Disabled");
+		}
+		if(employee.isEnableBatchProcessing()) {
+	    	employee.setBatchProcessStatus("Enabled");
+	    }else {
+	    	employee.setBatchProcessStatus("Disabled");
+	    }
 		Employee e  = new Employee();
 		mapper.map(employee, e);
 		updatedEmployee = employeeRepository.save(e);
@@ -197,6 +207,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 					this.departmentMicroservicerURL+ employee.getDepartmentId(), DepartmentVO.class);
 			// set department to employee
 			// map entity to VO
+			if(employee.getBatchProcessStatus().equalsIgnoreCase("Enabled")) {
+				employee.setEnableBatchProcessing(true);
+			}else {
+				employee.setEnableBatchProcessing(false);
+			}
 			mapper.map(employee, employeeVO);
 			// set department to employee
 			employeeVO.setDepartment(department);
@@ -248,6 +263,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new BusinessException(ErrorCodeMessages.ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_MSG);
 		}
+		if(employee.getBatchProcessStatus().equalsIgnoreCase("Enabled")) {
+			employee.setEnableBatchProcessing(true);
+		}else {
+			employee.setEnableBatchProcessing(false);
+		}
 		// map entity to VO
 		mapper.map(employee, employeeVO);
 		// set department to employee
@@ -265,6 +285,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if (employeesList == null || employeesList.isEmpty())
 			throw new EmptyListException(ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_EMP_LIST_IS_EMPTY_MSG);
+		employeesList.forEach(employee -> {
+			if(employee.getBatchProcessStatus().equalsIgnoreCase("Enabled")) {
+				employee.setEnableBatchProcessing(true);
+			}else {
+				employee.setEnableBatchProcessing(false);
+			}
+		});
 		log.info("getAllEmployees() executed successfully");
 		return employeesList;
 	}
@@ -562,6 +589,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<Employee> activeEmployeesList = employeeRepository.findByEmployeeStatus(AdminConstants.STATUS_ACTIVE);
 		log.info("getEmployeesByStatus() executed successfully");
 		return activeEmployeesList;
+	}
+	
+	public TeamsUserProfileVO getAzureOrganizationalUser(String emailId){
+		if(Strings.isNullOrEmpty(emailId)) {
+			log.info("getAzureOrganizationalUser() : employee email Id is null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_MSG);
+		}
+		TeamsUserProfileVO teamsUserprofile = this.getAzureUser(emailId);
+		log.info("getAzureOrganizationalUser() executed successfully.");
+		return teamsUserprofile;
 	}
 	
 }

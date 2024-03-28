@@ -1,6 +1,7 @@
 package com.ikn.ums.employee.dto;
 
 import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,6 +53,8 @@ public class EmployeeDto {
 	
 	private String employeeStatus;
 
-
+	private boolean enableBatchProcessing;
+	
+	private String batchProcessStatus;
 
 }

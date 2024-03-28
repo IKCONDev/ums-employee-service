@@ -42,6 +42,10 @@ public class EmployeeVO {
 		private boolean isUser;
 		
 		private String employeeStatus;
+		
+		private String batchProcessStatus;
+
+		private boolean enableBatchProcessing;
 
 
 }

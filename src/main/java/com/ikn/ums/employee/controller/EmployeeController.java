@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.employee.VO.EmployeeListVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
+import com.ikn.ums.employee.VO.TeamsUserProfileVO;
 import com.ikn.ums.employee.dto.EmployeeDto;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.exception.ControllerException;
@@ -395,6 +396,7 @@ public class EmployeeController {
 		}
 		
 	}
+	
 	@GetMapping("/employee-head/{emailId}")
 	public ResponseEntity<List<Employee>> getAllEmployeeBasedOnTheDepartmentHead(@PathVariable("emailId") String emailId){
 		if(Strings.isNullOrEmpty(emailId)) {
@@ -407,6 +409,28 @@ public class EmployeeController {
 		return new ResponseEntity<>(employeeList,HttpStatus.OK);
 		}catch (Exception e) {
 			log.error("getAllEmployeeBasedOnTheDepartmentHead is exited wit exception:" + e.getMessage(), e);
+		    throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE, 
+		    		ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		    
+		}
+	}
+	
+	@GetMapping("/teamsProfile/{emailId}")
+	public ResponseEntity<TeamsUserProfileVO> getTeamsUserProfile(@PathVariable("emailId") String emailId){
+		if(Strings.isNullOrEmpty(emailId)) {
+			log.info("getTeamsUserProfile() : employee email Id is null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_MSG);
+		}
+		try {
+		TeamsUserProfileVO userProfile = employeeService.getAzureOrganizationalUser(emailId);
+		return new ResponseEntity<>(userProfile,HttpStatus.OK);
+		}catch (EmptyInputException businessException) {
+			log.error("getTeamsUserProfile() is exited with business exception:" + businessException.getMessage(), businessException);
+			throw businessException;
+		}
+		catch (Exception e) {
+			log.error("getTeamsUserProfile() is exited with exception:" + e.getMessage(), e);
 		    throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE, 
 		    		ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
 		    

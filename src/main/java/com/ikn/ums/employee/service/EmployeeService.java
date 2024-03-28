@@ -3,6 +3,7 @@ package com.ikn.ums.employee.service;
 import java.util.List;
 
 import com.ikn.ums.employee.VO.EmployeeVO;
+import com.ikn.ums.employee.VO.TeamsUserProfileVO;
 import com.ikn.ums.employee.dto.EmployeeDto;
 import com.ikn.ums.employee.entity.Employee;
 
@@ -31,5 +32,6 @@ public interface EmployeeService {
 	boolean getEmployeesByEmployeeOrgId(String employeeOrgId);
 	List<Employee> getAllSubordinateOfEmployee(String emailId);
 	List<Employee> getActiveEmployees();
+	TeamsUserProfileVO getAzureOrganizationalUser(String emailId);
 	
 }

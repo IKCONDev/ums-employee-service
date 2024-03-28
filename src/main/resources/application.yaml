@@ -21,7 +21,7 @@ spring:
     
 app:
    clientId: 1fae0a6f-23c3-4762-91c9-950f9921885e
-   clientSecret: jLI8Q~ZTnJP44o1w5Ugad0tzyrs5m3Nt5wFIEbyr
+   clientSecret: Up38Q~8Vt8KoQcVIojw_eFb0d0FCZmD.Kr4s0ccr
    tenantId: d467e766-3a5c-4382-b9ba-4f8bb30e9d3c
   #zipkin:
    # base-url: http://127.0.0.1:9411/   
