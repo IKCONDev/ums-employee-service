@@ -28,7 +28,7 @@ public interface EmployeeService {
 	List<Employee> getAllEmployeesWithUserStatus(boolean isUser);
 	void updateEmployeeStatus(String email);
 	void updateEmployeeStatustoFalse(String email);
-	List<Employee> getAllEmployeesByEmailIds(List<String> emailIds);
+	List<EmployeeDto> getAllEmployeesByEmailIds(List<String> emailIds);
 	boolean getEmployeesByEmployeeOrgId(String employeeOrgId);
 	List<Employee> getAllSubordinateOfEmployee(String emailId);
 	List<Employee> getActiveEmployees();

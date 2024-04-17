@@ -368,7 +368,7 @@ public class EmployeeController {
 		
 	}
 	@GetMapping("/attendees/{emailIds}")
-	public ResponseEntity<List<Employee>> getAllEmployeeByEmailIds(@PathVariable("emailIds") String emailIds){
+	public ResponseEntity<List<EmployeeDto>> getAllEmployeeByEmailIds(@PathVariable("emailIds") String emailIds){
 		log.info("getAllEmployeeByEmailIds() ENTERED with args:"+ emailIds);
 		if(Strings.isNullOrEmpty(emailIds)) {
 			log.info("getAllEmployeeByEmailIds() : employee email Ids is null");
@@ -385,7 +385,7 @@ public class EmployeeController {
 			emailList = Arrays.asList(emailIds);
 		}
 		try {
-			List<Employee> employeeList = employeeService.getAllEmployeesByEmailIds(emailList);
+			List<EmployeeDto> employeeList = employeeService.getAllEmployeesByEmailIds(emailList);
 			log.info("getAllEmployeeByEmailIds() executed successfully");
 			return new ResponseEntity<>(employeeList,HttpStatus.OK);
 		}catch (Exception e) {

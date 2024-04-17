@@ -22,6 +22,7 @@ import com.azure.core.credential.AccessToken;
 import com.ikn.ums.employee.VO.DepartmentVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
 import com.ikn.ums.employee.VO.TeamsUserProfileVO;
+import com.ikn.ums.employee.dto.DepartmentDto;
 import com.ikn.ums.employee.dto.EmployeeDto;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.exception.BusinessException;
@@ -535,7 +536,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> getAllEmployeesByEmailIds(List<String> emailIds) {
+	public List<EmployeeDto> getAllEmployeesByEmailIds(List<String> emailIds) {
 		/*emailIds.forEach(email ->{
 			email = email.replaceAll("[^\\p{Print}]", ""); 
 			System.out.println(email);
@@ -548,9 +549,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		log.info("getAllEmployeesByEmailIds() is under execution...");
 		List<Employee> employeeList = employeeRepository.findAllEmployeesByEmailList(emailIds);
+		List<EmployeeDto> employeeDtoList = new ArrayList<>();
+		employeeList.forEach(employee -> {
+			EmployeeDto empDto = new EmployeeDto();
+			DepartmentDto department = restTemplate.getForObject(
+					this.departmentMicroservicerURL+ employee.getDepartmentId(), DepartmentDto.class);
+			mapper.map(employee, empDto);
+			empDto.setDepartment(department);
+			employeeDtoList.add(empDto);
+		});
 		log.info("getAllEmployeesByEmailIds() executed successfully");
-		return  employeeList;
-		
+		return  employeeDtoList;
 	}
 
 	@Override

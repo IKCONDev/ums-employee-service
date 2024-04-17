@@ -56,5 +56,7 @@ public class EmployeeDto {
 	private boolean enableBatchProcessing;
 	
 	private String batchProcessStatus;
+	
+	private DepartmentDto department;
 
 }
