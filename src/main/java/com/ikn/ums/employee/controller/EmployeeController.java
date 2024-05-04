@@ -262,7 +262,8 @@ public class EmployeeController {
 			
 		}
 		List<Integer> idList = null;
-		if(employeeIds != "" ) {
+		//if(employeeIds != "" ) {
+		if(!employeeIds.isEmpty()) {	
 				String[] idFromUI = employeeIds.split(",");
 				List<String> list = Arrays.asList(idFromUI);
 				idList = list.stream()

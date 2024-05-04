@@ -68,24 +68,31 @@ public class DesignationServiceImpl implements DesignationService {
 		if(optionalDbDesignation.isPresent()) {
 			dbDesignation = optionalDbDesignation.get();
 		}
-		//map required properties to be updated
-		log.info("updateDesignation() is under execution...");
-		dbDesignation.setDesignationName(designation.getDesignationName());
-		dbDesignation.setModifiedBy(designation.getModifiedBy());
-		dbDesignation.setModifiedByEmailId(designation.getModifiedByEmailId());
-		dbDesignation.setModifiedDateTime(LocalDateTime.now());
-		mapper.map(designation, dbDesignation);
-		Designation updatedDesignation = designationRepository.save(dbDesignation);
-		DesignationDto updatedDesignationDto = new DesignationDto();
-		mapper.map(updatedDesignation,updatedDesignationDto);
-		log.info("updateDesignation() executed successfully");
-		return updatedDesignationDto;
+		//To handle Null Pointer exception. dbDesignation is assigned null, in case the optionalDbDesignation is not present, then method throws NPE. 
+		if (dbDesignation != null) {
+			//map required properties to be updated
+			log.info("updateDesignation() is under execution...");
+			dbDesignation.setDesignationName(designation.getDesignationName());
+			dbDesignation.setModifiedBy(designation.getModifiedBy());
+			dbDesignation.setModifiedByEmailId(designation.getModifiedByEmailId());
+			dbDesignation.setModifiedDateTime(LocalDateTime.now());
+			mapper.map(designation, dbDesignation);
+			Designation updatedDesignation = designationRepository.save(dbDesignation);
+			DesignationDto updatedDesignationDto = new DesignationDto();
+			mapper.map(updatedDesignation,updatedDesignationDto);
+			log.info("updateDesignation() executed successfully");
+			return updatedDesignationDto;
+		}else {
+			log.info("updateDesignation() dbDesignation is Null in else - exception");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_MSG);
+		}
 	}
 
 	@Override
 	public void deleteDesignationById(Long id) {
 		log.info("deleteDesignationById() is entered with args: id - "+ id);
-		if(id <= 0 || id == null) {
+		if( id == null || id <= 0) {
 			log.info("deleteDesignationById() : designation id is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_DEPT_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_DEPT_ID_NOT_FOUND_MSG);

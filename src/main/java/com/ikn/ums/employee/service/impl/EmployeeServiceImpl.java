@@ -512,8 +512,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if(optEmployee.isPresent()) {
 			dbUser = optEmployee.get();
 		}
-		dbUser.setUser(true);
-		log.info("updateEmployeeStatus() executed successfully");
+		if (dbUser !=null ) {
+			dbUser.setUser(true);
+			log.info("updateEmployeeStatus() executed successfully");
+		}else {
+			log.info("updateEmployeeStatus() Not executed");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_EMP_ENTITY_IS_NULL_MSG);
+		}
 	}
 	
 	@Transactional
