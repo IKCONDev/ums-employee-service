@@ -85,7 +85,7 @@ public class DesignationController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Boolean> deleteDesignation(@PathVariable Long id){
 		log.info("deleteDesignation() is enetered with departmentId:"+ id);
-		if(id <= 0 || id == null) {
+		if( id == null || id <= 0 ) {
 			log.info("deleteDesignation() EntityNotFoundException : designation id is null ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_DESG_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_DESG_ID_IS_EMPTY_MSG);
@@ -109,7 +109,7 @@ public class DesignationController {
 	@GetMapping("/get/{id}")
 	public ResponseEntity<Designation> getDesignation(@PathVariable Long id){
 		log.info("getDesignation() is enetered with departmentId:"+ id);
-		if(id <= 0 || id == null) {
+		if( id == null || id <= 0) {
 			log.info("getDesignation() EntityNotFoundException : designation id is null ");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_DESG_ENTITY_IS_NULL_MSG);
