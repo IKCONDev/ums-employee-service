@@ -535,9 +535,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee dbUser = null;
 		log.info("updateEmployeeStatustoFalse() is under execution...");
 		Optional<Employee> optEmployee = employeeRepository.findByEmail(email);
-		if(optEmployee.isPresent()) {
-			dbUser = optEmployee.get();
+		if(!optEmployee.isPresent()) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_DBENTITY_NOT_FOUND_CODE, 
+					ErrorCodeMessages.ERR_EMP_DBENTITY_NOT_FOUND_MSG);
 		}
+		dbUser = optEmployee.get();
 		dbUser.setUser(false);
 		log.info("updateEmployeeStatustoFalse() executed successfully");
 	}
