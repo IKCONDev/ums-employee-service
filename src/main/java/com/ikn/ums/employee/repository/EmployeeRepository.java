@@ -22,9 +22,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 			+ "    SELECT * FROM employee_tab WHERE reporting_manager = :emailId \r\n"
 			+ "    UNION\r\n"
 			+ "    SELECT e.* FROM employee_tab e\r\n"
-			+ "    JOIN RecursiveReportees r ON  e.reporting_manager = r.email\r\n"
+			+ "    JOIN RecursiveReportees r ON  e.reporting_manager = r.email AND e.is_user=true"
 			+ ")\r\n"
-			+ "SELECT * FROM RecursiveReportees;", nativeQuery = true)
+			+ "SELECT * FROM RecursiveReportees", nativeQuery = true)
 	List<Employee> findEmployeeReportees(String emailId);
 	
 	@Query("FROM Employee WHERE isUser=:userStatus")

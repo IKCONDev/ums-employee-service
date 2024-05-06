@@ -465,6 +465,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		log.info("getEmployeeReporteesData() is under execution...");
 		var employeeReporteesList = employeeRepository.findEmployeeReportees(emailId);
+		employeeReporteesList.addAll(employeeRepository.getEmployeeByEmail(emailId));
 		log.info("getEmployeeReporteesData() executed successfully");
 		return employeeReporteesList;
 	}
