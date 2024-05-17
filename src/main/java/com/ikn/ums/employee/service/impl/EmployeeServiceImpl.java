@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -618,6 +619,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		TeamsUserProfileVO teamsUserprofile = this.getAzureUser(emailId);
 		log.info("getAzureOrganizationalUser() executed successfully.");
 		return teamsUserprofile;
+	}
+
+	@Override
+	public List<EmployeeDto> getEmployeesOfDepartment(Long depatrmentId, boolean isUser) {
+		List<Employee> employeeList = this.employeeRepository.findEmployeesOfDepartment(depatrmentId, isUser);
+		List<EmployeeDto> employeeDtoList = employeeList.stream().map(employee -> mapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+		return employeeDtoList;
 	}
 	
 }

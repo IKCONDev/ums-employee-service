@@ -44,5 +44,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	List<Employee> getEmployeeByEmail(String emailId);
 
 	List<Employee> findByEmployeeStatus(String employeeStatus);
+	
+	@Query("FROM Employee WHERE departmentId =:departmentId AND isUser=:isUser")
+	List<Employee> findEmployeesOfDepartment(Long departmentId, boolean isUser);
 
 }

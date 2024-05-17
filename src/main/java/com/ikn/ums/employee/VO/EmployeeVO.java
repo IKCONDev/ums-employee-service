@@ -35,6 +35,8 @@ public class EmployeeVO {
 		
 		private Long departmentId;
 		
+		private Long teamId;
+		
 		private DepartmentVO department;
 		
 		private String dateOfJoining;

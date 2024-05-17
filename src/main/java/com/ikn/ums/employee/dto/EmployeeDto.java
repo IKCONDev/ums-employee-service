@@ -31,6 +31,10 @@ public class EmployeeDto {
 	
 	private Long departmentId;
 	
+	private Long teamId;
+	
+	private TeamDto team;
+	
 	private String gender;
 	
 	private LocalDateTime createdDateTime;

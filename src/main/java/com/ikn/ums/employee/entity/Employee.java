@@ -57,6 +57,9 @@ public class Employee {
 	@Column(name = "departmentId", nullable = false, unique = false)
 	private Long departmentId;
 	
+	@Column(name = "teamId", unique = false)
+	private Long teamId;
+	
 	@Column(name = "gender", nullable = false, unique = false)
 	private String gender;
 	
