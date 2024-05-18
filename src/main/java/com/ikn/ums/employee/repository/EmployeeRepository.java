@@ -47,5 +47,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	@Query("FROM Employee WHERE departmentId =:departmentId AND isUser=:isUser")
 	List<Employee> findEmployeesOfDepartment(Long departmentId, boolean isUser);
+	
+	@Query("FROM Employee WHERE teamId =:teamId AND isUser=:isUser")
+	List<Employee> findEmployeesOfTeamByTeamId(Long teamId, boolean isUser);
 
 }

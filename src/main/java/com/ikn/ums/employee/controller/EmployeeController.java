@@ -455,5 +455,22 @@ public class EmployeeController {
 	
 	}
 	
+	@GetMapping("/associatedEmployees/{teamId}/{isUser}")
+	public ResponseEntity<List<EmployeeDto>> getAllEmployeesOfTeam(@PathVariable() Long teamId,
+			@PathVariable() boolean isUser) {
+		log.info("getAllEmployeesOfDepartment() is  ENTERED");	
+		try {
+			log.info("getAllEmployeesOfDepartment()  is under execution...");
+			List<EmployeeDto> employeesOfDepartmentList = employeeService.getEmployeesByTeamId(teamId, isUser);
+			log.info("getAllEmployeesOfDepartment() executed successfully");
+			return new ResponseEntity<>(employeesOfDepartmentList, HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("getAllEmployeesOfDepartment() exited with exception:"+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		}
+	
+	}
+	
 
 }

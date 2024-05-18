@@ -627,5 +627,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<EmployeeDto> employeeDtoList = employeeList.stream().map(employee -> mapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
 		return employeeDtoList;
 	}
+
+	@Override
+	public List<EmployeeDto> getEmployeesByTeamId(Long teamId, boolean isUser) {
+		List<Employee> employeeList = employeeRepository.findEmployeesOfTeamByTeamId(teamId, isUser);
+		List<EmployeeDto> employeeDtoListofTeam = employeeList.stream().map(employee -> mapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+		return employeeDtoListofTeam;
+	}
 	
 }
