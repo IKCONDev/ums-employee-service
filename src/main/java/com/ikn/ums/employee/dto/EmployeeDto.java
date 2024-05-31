@@ -62,5 +62,7 @@ public class EmployeeDto {
 	private String batchProcessStatus;
 	
 	private DepartmentDto department;
+	
+	private String teamName;
 
 }

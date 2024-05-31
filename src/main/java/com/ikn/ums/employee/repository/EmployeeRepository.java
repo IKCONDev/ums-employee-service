@@ -50,5 +50,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	@Query("FROM Employee WHERE teamId =:teamId AND isUser=:isUser")
 	List<Employee> findEmployeesOfTeamByTeamId(Long teamId, boolean isUser);
+	
+	@Query(value ="SELECT * FROM employee_tab where is_user=true and team_id in (:teamIds)", nativeQuery = true)
+	List<Employee> findAllEmployeesByTeamIds(List<Integer> teamIds);
+	
+	
+	
 
 }

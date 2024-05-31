@@ -35,4 +35,6 @@ public interface EmployeeService {
 	TeamsUserProfileVO getAzureOrganizationalUser(String emailId);
 	List<EmployeeDto> getEmployeesOfDepartment(Long depatrmentId, boolean isUser);
 	List<EmployeeDto> getEmployeesByTeamId(Long teamId, boolean isUser);
+	public List<EmployeeDto> getAllEmployeesByTeamIds(List<Integer> teamIds);
+	public EmployeeDto getEmployeeTeamName(String emailId);
 }
