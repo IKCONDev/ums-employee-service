@@ -67,6 +67,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	private String usersMicroservicerURL = "http://UMS-USERS-SERVICE/user/";
 
+	private String teamMicroServiceURL = "http://UMS-DEPARTMENT-SERVICE//teams";
+	
 	@Autowired
 	private InitializeMicrosoftGraph microsoftGraph;
 
@@ -641,5 +643,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<EmployeeDto> employeeDtoListofTeam = employeeList.stream().map(employee -> mapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
 		return employeeDtoListofTeam;
 	}
+	
+	
+	@Override
+	public List<EmployeeDto> getAllEmployeesByTeamIds(List<Integer> teamIds) {
+		List<Employee> employeeList = employeeRepository.findAllEmployeesByTeamIds(teamIds);
+		List<EmployeeDto> employeeDtoListofTeam = employeeList.stream().map(employee -> mapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+		return employeeDtoListofTeam;
+	}
+	
+	public EmployeeDto getEmployeeTeamName(String emailId){
+		Employee employee = new Employee();
+		EmployeeDto employeeDto = new EmployeeDto();
+		Optional<Employee> OptEmployee = employeeRepository.findByEmail(emailId);
+		
+		if(OptEmployee.isPresent()) {
+			employee = OptEmployee.get();
+		}
+		
+        TeamDto teamDto = restTemplate.getForObject(this.teamMicroServiceURL+"/"+employee.getTeamId(),TeamDto.class);
+		mapper.map(employee,employeeDto);
+		employeeDto.setTeamName(teamDto.getTeamName());
+		return employeeDto;
+	
+	}
+	
 	
 }

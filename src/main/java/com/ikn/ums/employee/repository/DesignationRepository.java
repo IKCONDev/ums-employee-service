@@ -11,7 +11,9 @@ import com.ikn.ums.employee.entity.Designation;
 @Repository
 public interface DesignationRepository extends JpaRepository<Designation, Long> {
 	
-	Optional<Designation> findByDesignationName(String desgName);
+	
+	@Query("FROM Designation WHERE UPPER(designationName)=UPPER(:designationName)")
+	Optional<Designation> findByDesignationName(String designationName);
 	
 	@Query(value = "SELECT COUNT(*) FROM employee_tab WHERE designation_id=:designationId", nativeQuery = true)
 	Integer getDesignationInUsageCount(Long designationId);
