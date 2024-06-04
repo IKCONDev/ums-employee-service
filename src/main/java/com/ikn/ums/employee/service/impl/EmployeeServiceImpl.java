@@ -22,9 +22,11 @@ import org.springframework.web.client.RestTemplate;
 import com.azure.core.credential.AccessToken;
 import com.ikn.ums.employee.VO.DepartmentVO;
 import com.ikn.ums.employee.VO.EmployeeVO;
+import com.ikn.ums.employee.VO.TeamVO;
 import com.ikn.ums.employee.VO.TeamsUserProfileVO;
 import com.ikn.ums.employee.dto.DepartmentDto;
 import com.ikn.ums.employee.dto.EmployeeDto;
+import com.ikn.ums.employee.dto.TeamDto;
 import com.ikn.ums.employee.entity.Employee;
 import com.ikn.ums.employee.exception.BusinessException;
 import com.ikn.ums.employee.exception.EmployeeExistsException;
@@ -60,6 +62,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private AccessToken acToken = new AccessToken(this.accessToken, OffsetDateTime.now());
 	
 	private String departmentMicroservicerURL = "http://UMS-DEPARTMENT-SERVICE/departments/";
+	
+	private String deptTeamMicroserviceURL = "http://UMS-DEPARTMENT-SERVICE/teams/";
 	
 	private String usersMicroservicerURL = "http://UMS-USERS-SERVICE/user/";
 
@@ -207,6 +211,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			log.info("calling to Department Microservice");
 			DepartmentVO department = restTemplate.getForObject(
 					this.departmentMicroservicerURL+ employee.getDepartmentId(), DepartmentVO.class);
+			TeamVO team = restTemplate.getForObject(
+					this.deptTeamMicroserviceURL+ employee.getTeamId(), TeamVO.class);
 			// set department to employee
 			// map entity to VO
 			if(employee.getBatchProcessStatus().equalsIgnoreCase("Enabled")) {
@@ -217,6 +223,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			mapper.map(employee, employeeVO);
 			// set department to employee
 			employeeVO.setDepartment(department);
+			employeeVO.setTeam(team);
 		}
 		log.info("fetchEmployeeDetailsWithDepartment() executed successfully");
 		return employeeVO;
