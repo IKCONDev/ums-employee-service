@@ -100,7 +100,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setCreatedDateTime(date);
 			employee.setUser(false);
 		    employee.setEmployeeStatus(AdminConstants.STATUS_ACTIVE);
-		    employee.setBatchProcessStatus("Enabled");
+		    if(employee.isEnableBatchProcessing()) {
+		    	 employee.setBatchProcessStatus("Enabled");
+		    }else {
+		    	employee.setBatchProcessStatus("Disabled");
+		    }
 			Employee entity = new Employee();
 			mapper.map(employee, entity);
 			savedEmployee = employeeRepository.save(entity);
