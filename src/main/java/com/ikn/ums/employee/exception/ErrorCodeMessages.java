@@ -103,6 +103,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_DESG_IS_IN_USAGE_CODE = "ERR_DESG_IS_IN_USAGE_CODE-1009";
 	 public static final String ERR_DESG_IS_IN_USAGE_MSG = "Designation is already in usage! Cannot be deleted.";
 	 
+	 //team
+	 public static final String ERR_EMP_TEAM_NOT_FOUND_CODE = "ERR_EMP_TEAM_NOT_FOUND_CODE-1001";
+	 public static final String ERR_EMP_TEAM_NOT_FOUND_MSG = "Team not found under the team lead.";
 	 
 	
 	 

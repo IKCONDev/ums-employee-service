@@ -490,17 +490,37 @@ public class EmployeeController {
 	
 	@GetMapping("/teamofemployee/{emailId}")
 	public ResponseEntity<EmployeeDto> getAllEmployeeswithTeamName(@PathVariable() String emailId) {
-		log.info("getAllEmployeeswithTeamName() is  ENTERED");	
+		log.info("getAllEmployeeswithTeamName() is  ENTERED");
 		try {
 			log.info("getAllEmployeeswithTeamName()  is under execution...");
 			EmployeeDto employeeswithTeamName = employeeService.getEmployeeTeamName(emailId);
 			log.info("getAllEmployeeswithTeamName() executed successfully");
 			return new ResponseEntity<>(employeeswithTeamName, HttpStatus.OK);
-		}catch (Exception e) {
-			log.error("getAllEmployeeswithTeamName() exited with exception:"+ e.getMessage(), e);
+		} catch (Exception e) {
+			log.error("getAllEmployeeswithTeamName() exited with exception:" + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
-					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);	
+					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		}
+
 	}
+	
+	@GetMapping("/teamReportees/{emailId}")
+	public ResponseEntity<List<EmployeeDto>> getEmployeeByTeamLead(@PathVariable() String emailId) {
+		log.info("getEmployeeByTeamLead() is  ENTERED");
+		try {
+			log.info("getEmployeeByTeamLead()  is under execution...");
+			List<EmployeeDto> employeesOfteam = employeeService.getReporteesOfTeamLead(emailId);
+			log.info("getEmployeeByTeamLead() executed successfully");
+			return new ResponseEntity<>(employeesOfteam, HttpStatus.OK);
+		} 
+		catch (EntityNotFoundException e) {
+			log.error("getEmployeeByTeamLead() exited with exception:" + e.getMessage(), e);
+			throw e;
+		}catch (Exception e) {
+			log.error("getEmployeeByTeamLead() exited with exception:" + e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
+					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);
+		}
 
 	}
 	

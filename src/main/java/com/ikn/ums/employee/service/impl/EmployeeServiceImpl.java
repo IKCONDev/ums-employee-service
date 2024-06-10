@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -670,6 +671,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeDto.setTeamName(teamDto.getTeamName());
 		return employeeDto;
 	
+	}
+
+	@Override
+	public List<EmployeeDto> getReporteesOfTeamLead(String emailId) {
+		log.info("getReporteesOfTeamLead() entered");
+		if(Strings.isNullOrEmpty(emailId)) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_CODE, 
+					ErrorCodeMessages.ERR_EMP_EMAIL_ID_NOT_FOUND_MSG);
+		}
+		//first get team id of the team lead
+		log.info("getReporteesOfTeamLead() is under execution..");
+		ResponseEntity<TeamVO> teamVoRes = restTemplate.exchange("http://UMS-DEPARTMENT-SERVICE/teams/teamLead/"+emailId,
+				HttpMethod.GET,null, TeamVO.class);
+		TeamVO team = null;
+		if(teamVoRes.getStatusCode() == HttpStatus.OK) {
+			team = teamVoRes.getBody();
+		}else {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_EMP_TEAM_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_EMP_TEAM_NOT_FOUND_MSG);
+		}
+		List<EmployeeDto> employeeDtoList = this.getEmployeesByTeamId(team.getTeamId(), true);
+		log.info("getReporteesOfTeamLead() executed sucessfully.");
+		return employeeDtoList;
 	}
 	
 	

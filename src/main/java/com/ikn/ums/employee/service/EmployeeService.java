@@ -37,4 +37,5 @@ public interface EmployeeService {
 	List<EmployeeDto> getEmployeesByTeamId(Long teamId, boolean isUser);
 	public List<EmployeeDto> getAllEmployeesByTeamIds(List<Integer> teamIds);
 	public EmployeeDto getEmployeeTeamName(String emailId);
+	public List<EmployeeDto> getReporteesOfTeamLead(String emailId);
 }

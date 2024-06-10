@@ -17,6 +17,8 @@ public class TeamVO {
     private DepartmentVO department;
     private String teamHead;
     private String teamHeadFullName;
+    private String teamLead;
+    private String teamLeadFullName;
     private String active; // true: active, false: inactive
 	private String createdBy;
 	private String createdByEmailId;
