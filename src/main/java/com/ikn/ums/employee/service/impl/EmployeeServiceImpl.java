@@ -661,8 +661,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	public List<EmployeeDto> getAllEmployeesByTeamIds(List<Integer> teamIds) {
+		log.info("getAllEmployeesByTeamIds() entered");
+		if(teamIds.size() < 1) {
+			log.info("getAllEmployeesByTeamIds() : EmptyInputException - teamId is empty or null");
+			throw new EmployeeExistsException(ErrorCodeMessages.ERR_EMP_TEAMID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_EMP_TEAMID_EMPTY_MSG);
+		}
+		log.info("getAllEmployeesByTeamIds() is under execution...");
 		List<Employee> employeeList = employeeRepository.findAllEmployeesByTeamIds(teamIds);
 		List<EmployeeDto> employeeDtoListofTeam = employeeList.stream().map(employee -> mapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+		log.info("getAllEmployeesByTeamIds() executed successfully");
 		return employeeDtoListofTeam;
 	}
 	
