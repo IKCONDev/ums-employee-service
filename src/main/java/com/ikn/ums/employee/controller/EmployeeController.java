@@ -442,6 +442,11 @@ public class EmployeeController {
 	public ResponseEntity<List<EmployeeDto>> getAllEmployeesOfDepartment(@PathVariable() Long departmentId,
 			@PathVariable() boolean isUser) {
 		log.info("getAllEmployeesOfDepartment() is  ENTERED");	
+		if(departmentId < 1 || departmentId == null) {
+			log.info("getAllEmployeesOfDepartment() : EmptyInputException - departmentId is empty / null.");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_DEPT_ID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_DEPT_ID_EMPTY_MSG);
+		}
 		try {
 			log.info("getAllEmployeesOfDepartment()  is under execution...");
 			List<EmployeeDto> employeesOfDepartmentList = employeeService.getEmployeesOfDepartment(departmentId,isUser);
@@ -459,12 +464,21 @@ public class EmployeeController {
 	public ResponseEntity<List<EmployeeDto>> getAllEmployeesOfTeam(@PathVariable() Long teamId,
 			@PathVariable() boolean isUser) {
 		log.info("getAllEmployeesOfDepartment() is  ENTERED");	
+		if(teamId < 1 || teamId == null) {
+			log.info("getAllEmployeesOfDepartment() EmptyInputException - teamid is empty / null.");	
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_TEAMID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_EMP_TEAMID_EMPTY_MSG);
+		}
 		try {
 			log.info("getAllEmployeesOfDepartment()  is under execution...");
 			List<EmployeeDto> employeesOfDepartmentList = employeeService.getEmployeesByTeamId(teamId, isUser);
 			log.info("getAllEmployeesOfDepartment() executed successfully");
 			return new ResponseEntity<>(employeesOfDepartmentList, HttpStatus.OK);
-		}catch (Exception e) {
+		}catch (EmptyInputException e) {
+			log.error("getAllEmployeesOfDepartment() exited with Business exception:"+ e.getMessage(), e);
+			throw e;
+		}
+		catch (Exception e) {
 			log.error("getAllEmployeesOfDepartment() exited with exception:"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_CODE,
 					ErrorCodeMessages.ERR_EMP_DETAILS_GET_UNSUCESS_MSG);

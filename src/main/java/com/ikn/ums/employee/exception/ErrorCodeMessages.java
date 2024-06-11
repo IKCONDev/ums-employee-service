@@ -16,6 +16,9 @@ public class ErrorCodeMessages {
 	 
 	 public static final String ERR_DEPT_ID_NOT_FOUND_CODE = "DEPARTMENT-ID-NOT-FOUND-1005";
 	 public static final String ERR_DEPT_ID_NOT_FOUND_MSG = "Requested Department Id is not present."; 
+	 
+	 public static final String ERR_DEPT_ID_EMPTY_CODE = "DEPARTMENT-ID-NOT-FOUND-1005";
+	 public static final String ERR_DEPT_ID_EMPTY_MSG = "Department Id is empty / null."; 
 
 	 public static final String ERR_EMP_ID_ALREADY_EXISTS_CODE = "EMPLOYEE-ID-ALREADY-EXISTS-1006";
 	 public static final String ERR_EMP_ID_ALREADY_EXISTS_MSG = "Employee Id Already Exists."; 
@@ -106,6 +109,9 @@ public class ErrorCodeMessages {
 	 //team
 	 public static final String ERR_EMP_TEAM_NOT_FOUND_CODE = "ERR_EMP_TEAM_NOT_FOUND_CODE-1001";
 	 public static final String ERR_EMP_TEAM_NOT_FOUND_MSG = "Team not found under the team lead.";
+	 
+	 public static final String ERR_EMP_TEAMID_EMPTY_CODE = "ERR_EMP_TEAM_NOT_FOUND_CODE-1001";
+	 public static final String ERR_EMP_TEAMID_EMPTY_MSG = "Team id is empty or null.";
 	 
 	
 	 

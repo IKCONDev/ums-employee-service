@@ -644,8 +644,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<EmployeeDto> getEmployeesByTeamId(Long teamId, boolean isUser) {
-		List<Employee> employeeList = employeeRepository.findEmployeesOfTeamByTeamId(teamId, isUser);
+		List<Employee> employeeList = null;
+		log.info("getEmployeesByTeamId() entered");
+		log.info("getEmployeesByTeamId() is under execution...");
+		if(teamId < 1 || teamId == null ) {
+			log.info("getEmployeesByTeamId() : EmptyInputException - teamId is empty or null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_TEAMID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_EMP_TEAMID_EMPTY_MSG);
+		}
+		employeeList = employeeRepository.findEmployeesOfTeamByTeamId(teamId, isUser);
 		List<EmployeeDto> employeeDtoListofTeam = employeeList.stream().map(employee -> mapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+		log.info("getEmployeesByTeamId() executed successfully.");
 		return employeeDtoListofTeam;
 	}
 	
@@ -658,6 +667,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	public EmployeeDto getEmployeeTeamName(String emailId){
+		log.info("getEmployeeTeamName() entered");
+		if(Strings.isNullOrEmpty(emailId)) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_EMP_EMAILID_IS_EMPTY_MSG);
+		}
+		log.info("getEmployeeTeamName()  is under execution...");
 		Employee employee = new Employee();
 		EmployeeDto employeeDto = new EmployeeDto();
 		Optional<Employee> OptEmployee = employeeRepository.findByEmail(emailId);
@@ -669,6 +684,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         TeamDto teamDto = restTemplate.getForObject(this.teamMicroServiceURL+"/"+employee.getTeamId(),TeamDto.class);
 		mapper.map(employee,employeeDto);
 		employeeDto.setTeamName(teamDto.getTeamName());
+		log.info("getEmployeeTeamName() executed successfully.");
 		return employeeDto;
 	
 	}
